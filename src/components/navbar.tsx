@@ -23,24 +23,47 @@ export const NavBar = () => {
   ];
 
   return (
-    <div className="relative">
-      <div className="flex justify-between items-center p-4 md:px-18  z-50">
+    <div className="relative w-full z-50">
+      {/* Header bar */}
+      <div className="flex justify-between items-center p-4 md:px-18 bg-white shadow-md">
         <h3 className="text-xl font-semibold">Siddharth Jain</h3>
+
+        {/* ✅ Desktop menu list */}
+        <div className="hidden md:flex gap-6">
+          {navItems.map((item) => (
+            <button
+              key={item.path}
+              onClick={() => handleRoute(item.path)}
+              className={`text-base font-medium cursor-pointer transition ${
+                pathname === item.path
+                  ? "text-orange-600 underline underline-offset-4"
+                  : "text-gray-800 hover:text-orange-600"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        {/* ✅ Mobile hamburger only */}
         <button
-          className="text-3xl font-bold text-black md:text-white cursor-pointer"
+          className="text-3xl font-bold text-black cursor-pointer md:hidden"
           onClick={() => setMenuOpen(true)}
         >
           &#9776;
         </button>
       </div>
+
+      {/* 🔘 Overlay on menu open */}
       {menuOpen && (
         <div
           className="fixed top-0 left-0 w-full h-full bg-black/40 backdrop-blur-sm z-40"
           onClick={() => setMenuOpen(false)}
         />
       )}
+
       <div
-        className={`fixed top-0 left-0 h-full w-64 md:bg-black bg-white z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full w-64 bg-white z-50 transform transition-transform duration-300 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -58,7 +81,7 @@ export const NavBar = () => {
             <button
               key={item.path}
               onClick={() => handleRoute(item.path)}
-              className={`text-base font-medium transition cursor-pointer ${
+              className={`text-base font-medium transition ${
                 pathname === item.path
                   ? "text-orange-600 underline underline-offset-4"
                   : "text-gray-700 hover:text-orange-600"

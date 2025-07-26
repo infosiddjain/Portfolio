@@ -2,7 +2,7 @@
 
 import { MainLayout } from "@/layouts";
 import Image from "next/image";
-import Logo from "../../public/logo.svg";
+import Logo from "../../public/logo.png";
 import {
   FaFacebookF,
   FaInstagram,
@@ -17,17 +17,6 @@ export default function Home() {
   return (
     <MainLayout>
       <div className="relative min-h-screen w-full">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/bg.webp"
-            alt="background"
-            fill
-            className="object-cover opacity-20"
-            priority
-          />
-          <div className="absolute inset-0 " />
-        </div>
-
         <div className="relative z-10 flex flex-col-reverse md:flex-row items-center justify-center px-6 md:px-20 py-20">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -70,6 +59,8 @@ export default function Home() {
             <Image
               src={Logo}
               alt="logo"
+              width={500}
+              height={500}
               className="object-contain drop-shadow-xl"
               priority
             />
