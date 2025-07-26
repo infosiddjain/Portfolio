@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
 
 export const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,7 +28,9 @@ export const NavBar = () => {
     <div className="relative w-full z-50">
       {/* Header bar */}
       <div className="flex justify-between items-center p-6 md:px-18  shadow-md">
-        <h3 className="text-xl font-semibold lg:ml-2">Siddharth Jain</h3>
+        <Link href="/">
+          <h3 className="text-xl font-semibold lg:ml-2">Siddharth Jain</h3>
+        </Link>
 
         {/* ✅ Desktop menu list */}
         <div className="hidden md:flex gap-6">
