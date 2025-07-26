@@ -27,28 +27,23 @@ export const NavBar = () => {
       <div className="flex justify-between items-center p-4 md:px-18  z-50">
         <h3 className="text-xl font-semibold">Siddharth Jain</h3>
         <button
-          className="text-3xl font-bold text-white cursor-pointer"
+          className="text-3xl font-bold text-black md:text-white cursor-pointer"
           onClick={() => setMenuOpen(true)}
         >
           &#9776;
         </button>
       </div>
-
-      {/* Blur Overlay */}
       {menuOpen && (
         <div
           className="fixed top-0 left-0 w-full h-full bg-black/40 backdrop-blur-sm z-40"
           onClick={() => setMenuOpen(false)}
         />
       )}
-
-      {/* Slide-in Sidebar Menu */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full w-64 md:bg-black bg-white z-50 transform transition-transform duration-300 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Close Button */}
         <div className="flex justify-end p-4">
           <button
             className="text-2xl font-bold cursor-pointer"
@@ -58,7 +53,6 @@ export const NavBar = () => {
           </button>
         </div>
 
-        {/* Menu Items */}
         <div className="flex flex-col items-start px-6 space-y-4">
           {navItems.map((item) => (
             <button
