@@ -3,6 +3,7 @@
 import { MainLayout } from "@/layouts";
 import Image from "next/image";
 import Logo from "../../public/logo.png";
+import { motion } from "framer-motion";
 import {
   FaFacebookF,
   FaInstagram,
@@ -10,8 +11,53 @@ import {
   FaXTwitter,
   FaWhatsapp,
   FaEnvelope,
+  FaGithub,
 } from "react-icons/fa6";
-import { motion } from "framer-motion";
+
+const socialLinks = [
+  {
+    icon: FaFacebookF,
+    href: "https://www.facebook.com/infosiddjain",
+    color: "hover:text-blue-600",
+    label: "Facebook",
+  },
+  {
+    icon: FaInstagram,
+    href: "https://www.instagram.com/infosiddjain/",
+    color: "hover:text-pink-500",
+    label: "Instagram",
+  },
+  {
+    icon: FaLinkedinIn,
+    href: "https://www.linkedin.com/in/infosiddjain/",
+    color: "hover:text-blue-700",
+    label: "LinkedIn",
+  },
+  {
+    icon: FaXTwitter,
+    href: "https://x.com/infosiddjain",
+    color: "hover:text-black",
+    label: "Twitter / X",
+  },
+  {
+    icon: FaGithub,
+    href: "https://github.com/infosiddjain",
+    color: "hover:text-gray-800",
+    label: "GitHub",
+  },
+  {
+    icon: FaWhatsapp,
+    href: "https://wa.me/919259457900",
+    color: "hover:text-green-600",
+    label: "WhatsApp",
+  },
+  {
+    icon: FaEnvelope,
+    href: "mailto:infosiddjain@gmail.com",
+    color: "hover:text-red-600",
+    label: "Email",
+  },
+];
 
 export default function Home() {
   return (
@@ -22,7 +68,7 @@ export default function Home() {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="w-full md:w-1/2 text-center md:text-left space-y-6  backdrop-blur-md p-6 rounded-xl"
+            className="w-full md:w-1/2 text-center md:text-left space-y-6  backdrop-blur-md  rounded-xl"
           >
             <div className="flex flex-col gap-5">
               <h1 className="text-3xl md:text-5xl font-bold text-gray-800 font-montaga drop-shadow-md">
@@ -40,13 +86,19 @@ export default function Home() {
                 with business goals, optimizing workflows, and driving
                 innovation in fast-paced environments.
               </p>
-              <div className="flex justify-center md:justify-start gap-4 mt-4 text-black-600 text-xl">
-                <FaFacebookF className="hover:text-blue-600 cursor-pointer transition" />
-                <FaInstagram className="hover:text-pink-500 cursor-pointer transition" />
-                <FaLinkedinIn className="hover:text-blue-700 cursor-pointer transition" />
-                <FaXTwitter className="hover:text-black cursor-pointer transition" />
-                <FaWhatsapp className="hover:text-green-600 cursor-pointer transition" />
-                <FaEnvelope className="hover:text-red-600 cursor-pointer transition" />
+              <div className="flex justify-center md:justify-start gap-4 mt-4 text-black text-xl">
+                {socialLinks.map(({ icon: Icon, href, color, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className={`transition ${color}`}
+                  >
+                    <Icon />
+                  </a>
+                ))}
               </div>
             </div>
           </motion.div>

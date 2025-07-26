@@ -14,8 +14,40 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Your Site",
-  description: "Site description",
+  title: "Siddharth Jain Portfolio",
+  description:
+    "Explore Siddharth Jain's professional portfolio — including skills, projects, education, and certifications.",
+  keywords: [
+    "Siddharth Jain",
+    "portfolio",
+    "web developer",
+    "full-stack developer",
+    "projects",
+    "skills",
+    "resume",
+  ],
+  authors: [{ name: "Siddharth Jain", url: "https://www.infosiddjain.com" }],
+  creator: "Siddharth Jain",
+  metadataBase: new URL("https://www.infosiddjain.com"),
+  openGraph: {
+    title: "Siddharth Jain Portfolio",
+    description: "Explore Siddharth Jain's projects, skills, and achievements.",
+    url: "https://www.infosiddjain.com",
+    siteName: "Siddharth Jain Portfolio",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Siddharth Jain Portfolio",
+    description: "Explore Siddharth Jain's skills, projects, resume, and more.",
+    creator: "@infosiddjain",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({

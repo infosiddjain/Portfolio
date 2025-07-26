@@ -26,8 +26,8 @@ export const NavBar = () => {
   return (
     <div className="relative w-full z-50">
       {/* Header bar */}
-      <div className="flex justify-between items-center p-4 md:px-18 bg-white shadow-md">
-        <h3 className="text-xl font-semibold">Siddharth Jain</h3>
+      <div className="flex justify-between items-center p-6 md:px-18  shadow-md">
+        <h3 className="text-xl font-semibold lg:ml-2">Siddharth Jain</h3>
 
         {/* ✅ Desktop menu list */}
         <div className="hidden md:flex gap-6">
