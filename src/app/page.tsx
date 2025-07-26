@@ -70,11 +70,11 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="w-full md:w-1/2 text-center md:text-left space-y-6  backdrop-blur-md  rounded-xl"
           >
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5" style={{ padding: "1rem" }}>
               <h1 className="text-3xl md:text-5xl font-bold text-gray-800 font-montaga drop-shadow-md">
                 Software Engineer
               </h1>
-              <p className="text-gray-700 text-sm md:text-base leading-relaxed font-poppins">
+              <p className="text-black-700 text-sm md:text-base leading-relaxed font-poppins">
                 Full Stack Developer and current Software Engineer with over 3+
                 years of hands-on experience building scalable web and mobile
                 applications using React.js, React Native, Node.js, and MongoDB.
