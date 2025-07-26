@@ -20,6 +20,7 @@ export const NavBar = () => {
     { label: "Experience", path: "/experience" },
     { label: "Projects", path: "/projects" },
     { label: "Certificates", path: "/certificates" },
+    { label: "Resume", path: "/resume" },
   ];
 
   return (
