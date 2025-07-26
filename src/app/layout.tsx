@@ -26,13 +26,18 @@ export const metadata = {
     "skills",
     "resume",
   ],
-  authors: [{ name: "Siddharth Jain", url: "https://www.infosiddjain.com" }],
+  authors: [
+    {
+      name: "Siddharth Jain",
+      url: "https://portfolio-five-brown-mafnjkhjpf.vercel.app/",
+    },
+  ],
   creator: "Siddharth Jain",
-  metadataBase: new URL("https://www.infosiddjain.com"),
+  metadataBase: new URL("https://portfolio-five-brown-mafnjkhjpf.vercel.app/"),
   openGraph: {
     title: "Siddharth Jain Portfolio",
     description: "Explore Siddharth Jain's projects, skills, and achievements.",
-    url: "https://www.infosiddjain.com",
+    url: "https://portfolio-five-brown-mafnjkhjpf.vercel.app/",
     siteName: "Siddharth Jain Portfolio",
     locale: "en_US",
     type: "website",
