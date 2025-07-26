@@ -14,6 +14,7 @@ export const NavBar = () => {
   };
 
   const navItems = [
+    { label: "Home", path: "/" },
     { label: "Skills", path: "/skills" },
     { label: "Education", path: "/education" },
     { label: "Experience", path: "/experience" },
