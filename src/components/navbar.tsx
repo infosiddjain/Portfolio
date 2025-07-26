@@ -29,7 +29,7 @@ export const NavBar = () => {
       {/* Header bar */}
       <div className="flex justify-between items-center p-6 md:px-18  shadow-md">
         <Link href="/">
-          <h3 className="text-xl font-semibold lg:ml-2">Siddharth Jain</h3>
+          <h3 className="text-xl font-semibold lg:ml-4">Siddharth Jain</h3>
         </Link>
 
         {/* ✅ Desktop menu list */}
