@@ -18,6 +18,7 @@ export const NavBar = () => {
     { label: "Skills", path: "/skills" },
     { label: "Education", path: "/education" },
     { label: "Experience", path: "/experience" },
+    { label: "Projects", path: "/projects" },
     { label: "Certificates", path: "/certificates" },
   ];
 
