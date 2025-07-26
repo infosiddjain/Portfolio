@@ -14,42 +14,48 @@ export const NavBar = () => {
   };
 
   const navItems = [
+    { label: "Home", path: "/" },
     { label: "Skills", path: "/skills" },
     { label: "Education", path: "/education" },
     { label: "Experience", path: "/experience" },
+    { label: "Projects", path: "/projects" },
     { label: "Certificates", path: "/certificates" },
+    { label: "Resume", path: "/resume" },
   ];
-  return (
-    <div className="relative">
-      {/* Header */}
-      <div className="flex justify-between items-center p-4 bg-white shadow-md md:px-10">
-        <h3 className="text-xl font-semibold">Siddharth Jain</h3>
-        <button
-          className="text-3xl font-bold md:hidden"
-          onClick={() => setMenuOpen(true)}
-        >
-          &#9776;
-        </button>
 
-        {/* Desktop Nav */}
+  return (
+    <div className="relative w-full z-50">
+      {/* Header bar */}
+      <div className="flex justify-between items-center p-6 md:px-18  shadow-md">
+        <h3 className="text-xl font-semibold lg:ml-2">Siddharth Jain</h3>
+
+        {/* ✅ Desktop menu list */}
         <div className="hidden md:flex gap-6">
           {navItems.map((item) => (
             <button
               key={item.path}
               onClick={() => handleRoute(item.path)}
-              className={`text-base font-medium transition ${
+              className={`text-base font-medium cursor-pointer transition ${
                 pathname === item.path
                   ? "text-orange-600 underline underline-offset-4"
-                  : "text-gray-700 hover:text-orange-600"
+                  : "text-gray-800 hover:text-orange-600"
               }`}
             >
               {item.label}
             </button>
           ))}
         </div>
+
+        {/* ✅ Mobile hamburger only */}
+        <button
+          className="text-3xl font-bold text-black cursor-pointer md:hidden"
+          onClick={() => setMenuOpen(true)}
+        >
+          &#9776;
+        </button>
       </div>
 
-      {/* Overlay Blur */}
+      {/* 🔘 Overlay on menu open */}
       {menuOpen && (
         <div
           className="fixed top-0 left-0 w-full h-full bg-black/40 backdrop-blur-sm z-40"
@@ -57,23 +63,20 @@ export const NavBar = () => {
         />
       )}
 
-      {/* Slide-in Sidebar (Mobile Only) */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white z-50 transform transition-transform duration-300 md:hidden ${
+        className={`fixed top-0 left-0 h-full w-64 bg-white z-50 transform transition-transform duration-300 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Close Button */}
         <div className="flex justify-end p-4">
           <button
-            className="text-2xl font-bold"
+            className="text-2xl font-bold cursor-pointer"
             onClick={() => setMenuOpen(false)}
           >
             &times;
           </button>
         </div>
 
-        {/* Menu Items */}
         <div className="flex flex-col items-start px-6 space-y-4">
           {navItems.map((item) => (
             <button
