@@ -40,7 +40,7 @@ export const NavBar = () => {
               onClick={() => handleRoute(item.path)}
               className={`text-base font-medium cursor-pointer transition ${
                 pathname === item.path
-                  ? "text-orange-600 underline underline-offset-4"
+                  ? "text-orange-600 bg-white rounded-md p-2"
                   : "text-gray-800 hover:text-orange-600"
               }`}
             >

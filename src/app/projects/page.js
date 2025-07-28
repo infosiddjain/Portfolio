@@ -3,41 +3,7 @@ import React from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { MainLayout } from "@/layouts";
-
-const projects = [
-  {
-    name: "Meta Blogger",
-    url: "https://www.metablogger.in/",
-  },
-  {
-    name: "Dil ki Bhakti",
-    url: "https://www.dilkibhakti.in/",
-  },
-  {
-    name: "Learn Refill",
-    url: "https://www.learnrefill.com/",
-  },
-  {
-    name: "Image Convertor",
-    url: "https://www.imageconvertor.xyz/",
-  },
-  {
-    name: "Wintej Gaming Platform",
-    url: "https://www.wintej.com/",
-  },
-  {
-    name: "Dank Social App (Play Store)",
-    url: "https://play.google.com/store/apps/details?id=com.joindank.dankapp&pcampaignid=web_share",
-  },
-  {
-    name: "Dhanu Web",
-    url: "https://dhanucoin.in/",
-  },
-  {
-    name: "Sahej Health App (iOS)",
-    url: "https://apps.apple.com/in/app/sahej-health-app/id6469026236",
-  },
-];
+import { projects } from "@/constants";
 
 const ProjectsPage = () => {
   return (
