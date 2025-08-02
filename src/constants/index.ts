@@ -4,6 +4,10 @@ export const projects = [
     url: "https://www.metablogger.in/",
   },
   {
+    name: "Travel Transport Web",
+    url: "https://www.krishnatransportpackersandmovers.com",
+  },
+  {
     name: "Dil ki Bhakti Web",
     url: "https://www.dilkibhakti.in/",
   },
