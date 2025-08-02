@@ -4,7 +4,7 @@ const ResumePage = () => {
   return (
     <div className="w-full min-h-screen">
       <iframe
-        src="https://drive.google.com/file/d/18SQx4rl7QcWq5_FQHbblpO-okVaS9XoJ/preview"
+        src="https://drive.google.com/file/d/1HUp7EvqVUtj4TuaxjBU2GEuv6qBEwd0Y/preview"
         className="w-full min-h-screen"
         title="Siddharth Jain Resume"
         frameBorder="0"
