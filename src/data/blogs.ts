@@ -6,79 +6,140 @@ export interface Blog {
   readonly readTime: string;
   readonly likes: number;
   readonly comments?: number;
-  readonly imageSrc: string;
   readonly href: string;
+  readonly imageSrc?: string;
 }
 
 export const blogs: Blog[] = [
   {
-    id: "popover-react",
-    title: "How to create a Popover using React and Tailwind CSS",
+    id: "my-learning-journey",
+    title: "My Learning Journey in Tech",
     excerpt:
-      "Popover is a common UI element in web applications, providing a way to display additional information...",
-    timeAgo: "1 years ago",
-    readTime: "2 Min Read",
-    likes: 22,
-    comments: 2,
-    imageSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/52.webp",
-    href: "https://dev.to/said7388/how-to-create-a-popover-using-tailwind-css-13kj",
-  },
-  {
-    id: "developer-habits",
-    title: "Highly Effective 7 Habits for Developers",
-    excerpt:
-      "As a software developer, success doesn't just come from luck or chance. It is the result of years of...",
-    timeAgo: "2 years ago",
-    readTime: "3 Min Read",
-    likes: 18,
+      "From starting with basic HTML/CSS to building full-stack projects, here’s how my coding journey evolved.",
+    timeAgo: "2 weeks ago",
+    readTime: "6 Min Read",
+    likes: 30,
     comments: 5,
-    imageSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/50.webp",
-    href: "https://dev.to/said7388/highly-effective-7-habits-for-developers-50c2",
+    href: "#",
+    imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
+      Math.random() * 1000
+    )}`,
   },
   {
-    id: "react-interview",
-    title: "Top 10 React js interview questions.",
+    id: "life-as-developer",
+    title: "Life as a Developer",
     excerpt:
-      "As a React developer, it is important to have a solid understanding of the framework's key concepts...",
-    timeAgo: "2 years ago",
+      "Balancing deadlines, debugging late-night errors, and the joy of solving problems—this is what my daily routine looks like.",
+    timeAgo: "1 month ago",
+    readTime: "4 Min Read",
+    likes: 22,
+    href: "#",
+    imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
+      Math.random() * 1000
+    )}`,
+  },
+  {
+    id: "favorite-tools",
+    title: "My Favorite Tools & Frameworks",
+    excerpt:
+      "React, Next.js, MongoDB, and TailwindCSS are my go-to stack. Here's why I love using them in my projects.",
+    timeAgo: "3 weeks ago",
     readTime: "5 Min Read",
-    likes: 60,
-    comments: 1,
-    imageSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/54.webp",
-    href: "https://dev.to/said7388/top-10-react-js-interview-questions-48dc",
+    likes: 18,
+    href: "#",
+    imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
+      Math.random() * 1000
+    )}`,
   },
   {
-    id: "async-javascript",
-    title: "Asynchronous programming in Javascript",
+    id: "open-source",
+    title: "Why I Contribute to Open Source",
     excerpt:
-      "JavaScript, being a single-threaded language, can only process one task at a time. This can result in...",
-    timeAgo: "2 years ago",
+      "Open-source projects help me learn, collaborate, and give back to the developer community.",
+    timeAgo: "2 months ago",
+    readTime: "5 Min Read",
+    likes: 15,
+    href: "#",
+    imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
+      Math.random() * 1000
+    )}`,
+  },
+  {
+    id: "beyond-coding",
+    title: "Beyond Coding: My Other Interests",
+    excerpt:
+      "Apart from coding, I enjoy reading, traveling, and exploring new cultures that help me stay creative.",
+    timeAgo: "1 month ago",
+    readTime: "3 Min Read",
+    likes: 20,
+    href: "#",
+    imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
+      Math.random() * 1000
+    )}`,
+  },
+  {
+    id: "future-goals",
+    title: "My Future Goals",
+    excerpt:
+      "I aim to master advanced full-stack development, contribute more to open-source, and build products that make an impact.",
+    timeAgo: "1 week ago",
+    readTime: "4 Min Read",
+    likes: 28,
+    comments: 2,
+    href: "#",
+    imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
+      Math.random() * 1000
+    )}`,
+  },
+  {
+    id: "expense-tracker-app",
+    title: "Expense Tracker App",
+    excerpt:
+      "Keep track of your daily expenses with this intuitive React-based tracker.",
+    timeAgo: "6 months ago",
+    readTime: "4 Min Read",
+    likes: 12,
+    comments: 3,
+    href: "https://github.com/infosiddjain/the-expense-tracker-app",
+  },
+  {
+    id: "portfolio",
+    title: "Personal Portfolio Website",
+    excerpt:
+      "A sleek, responsive portfolio showcasing projects and skills built with React.",
+    timeAgo: "8 months ago",
     readTime: "3 Min Read",
     likes: 8,
-    imageSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/51.webp",
-    href: "https://dev.to/said7388/asynchronous-programming-in-javascript-4mep",
+    href: "https://github.com/infosiddjain/Portfolio",
   },
   {
-    id: "github-deployment",
-    title: "GitHub and EC2 manual deployment with Deploy keys",
+    id: "text-to-speech",
+    title: "Text-to-Speech App",
     excerpt:
-      "For those looking to quickly deploy a project, whether it's a prototype or a solo endeavor, manual...",
-    timeAgo: "1 years ago",
-    readTime: "2 Min Read",
-    likes: 19,
+      "Convert written text into voice using this TypeScript-powered TTS app.",
+    timeAgo: "4 months ago",
+    readTime: "5 Min Read",
+    likes: 15,
     comments: 2,
-    imageSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/55.webp",
-    href: "https://dev.to/said7388/github-and-ec2-manual-deployment-with-deploy-keys-397d",
+    href: "https://github.com/infosiddjain/text-to-speech",
   },
   {
-    id: "javascript-scope",
-    title: "Scop in Javascript.",
-    excerpt:
-      "JavaScript, renowned for its versatility, stands as a pivotal language in the realm of web...",
-    timeAgo: "1 years ago",
+    id: "dicegame-web",
+    title: "Dice Game Web",
+    excerpt: "Try your luck with this fun and simple browser-based dice game.",
+    timeAgo: "1 year ago",
     readTime: "2 Min Read",
-    likes: 6,
-    imageSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/53.webp",
-    href: "https://dev.to/said7388/scop-in-javascript-1fjc",
+    likes: 5,
+    href: "https://github.com/infosiddjain/dicegame-web",
+  },
+  {
+    id: "beans-app",
+    title: "Beans App (APK)",
+    excerpt:
+      "A downloadable APK project built with TypeScript—beans-themed fun!",
+    timeAgo: "5 months ago",
+    readTime: "3 Min Read",
+    likes: 10,
+    href: "https://github.com/infosiddjain/beans-app",
   },
 ] as const;

@@ -1,5 +1,5 @@
 import React from "react";
-import { blogs } from "../data/blogs";
+import { blogs } from "@/data/blogs";
 
 export function BlogsSection() {
   return (
@@ -20,7 +20,7 @@ export function BlogsSection() {
         </div>
       </div>
       <div className="box-border gap-x-3 grid grid-cols-[repeat(1,minmax(0px,1fr))] gap-y-3 md:gap-x-10 md:grid-cols-[repeat(3,minmax(0px,1fr))] md:gap-y-10">
-        {blogs.map((blog) => (
+        {blogs.slice(0, 6).map((blog) => (
           <div
             key={blog.id}
             className="relative bg-slate-800 box-border border border-slate-800 rounded-lg border-solid"
