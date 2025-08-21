@@ -1,5 +1,5 @@
 import React from "react";
-import { Project } from "../data/projects";
+import { Project } from "@/data/projects";
 
 interface ProjectCodeBlockProps {
   project: Project;
