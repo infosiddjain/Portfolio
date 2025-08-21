@@ -2,3 +2,19 @@
 body {
   font-family: var(--font-poppins), sans-serif;
 }
+.animate-marquee-left {
+  display: flex;
+  animation: marquee-left 40s linear infinite;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
