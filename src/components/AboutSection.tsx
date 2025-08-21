@@ -1,4 +1,17 @@
 import React from "react";
+import ChromaGrid from "./ChromaCard";
+
+const items = [
+  {
+    image: "./logo.jpg",
+    title: "Siddharth Jain",
+    subtitle: "Frontend Developer",
+    handle: "@infosiddjain",
+    borderColor: "#3B82F6",
+    gradient: "linear-gradient(145deg, #3B82F6, #000)",
+    url: "https://www.linkedin.com/in/infosiddjain/",
+  },
+];
 
 export function AboutSection() {
   return (
@@ -28,11 +41,15 @@ export function AboutSection() {
           </p>
         </div>
         <div className="box-border flex justify-center order-1 md:order-2">
-          <img
-            alt="Siddharth Jain"
-            src="logo.jpg"
-            className="text-transparent aspect-[auto_280_/_280] box-border grayscale-[1] max-w-full w-[380px] rounded-lg object-contain"
-          />
+          <div style={{ position: "relative" }}>
+            <ChromaGrid
+              items={items}
+              radius={300}
+              damping={0.45}
+              fadeOut={0.6}
+              ease="power3.out"
+            />
+          </div>
         </div>
       </div>
     </div>
