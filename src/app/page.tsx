@@ -2,7 +2,7 @@ import { AboutSection } from "@/components/AboutSection";
 import { BlogsSection } from "@/components/BlogsSection";
 import { ContactSection } from "@/components/ContactSection";
 import { EducationSection } from "@/components/EducationSection";
-import { ExperienceSection } from "@/components/ExperienceSection";
+import ExperienceSection from "@/components/ExperienceSection";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
