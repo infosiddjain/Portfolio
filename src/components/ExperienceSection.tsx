@@ -1,5 +1,9 @@
+"use client";
+
 import React from "react";
 import { experiences } from "@/data/experiences";
+import Lottie from "lottie-react";
+import animationData from "../../public/laptop.json";
 
 export function ExperienceSection() {
   return (
@@ -23,10 +27,10 @@ export function ExperienceSection() {
           <div className="items-start box-border flex justify-center">
             <div className="box-border h-full w-full">
               <div className="box-border w-[95%]">
-                <img
-                  src="https://c.animaapp.com/mek409lvoDLlSz/assets/icon-8.svg"
-                  alt="Icon"
-                  className="box-border h-full w-full"
+                <Lottie
+                  animationData={animationData}
+                  loop={true}
+                  className="h-full w-full"
                 />
               </div>
             </div>
