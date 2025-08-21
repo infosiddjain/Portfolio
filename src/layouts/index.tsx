@@ -1,4 +1,4 @@
-import { NavBar } from "@/components/navbar";
+import Navbar from "@/components/navbar";
 import React, { ReactNode } from "react";
 
 type MainLayoutType = {
@@ -8,7 +8,7 @@ type MainLayoutType = {
 export const MainLayout = ({ children }: MainLayoutType) => {
   return (
     <div className="min-h-screen bg-[url('/bg.svg')] bg-cover bg-center bg-no-repeat">
-      <NavBar />
+      <Navbar />
       {children}
     </div>
   );
