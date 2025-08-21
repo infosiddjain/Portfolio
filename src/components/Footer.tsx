@@ -14,12 +14,12 @@ export function Footer() {
               href="https://www.linkedin.com/in/abu-said-bd/"
               className="text-teal-400 box-border"
             >
-              Abu Said
+              Siddharth Jain
             </a>
           </p>
           <div className="items-center box-border gap-x-5 flex gap-y-5">
             <a
-              href="https://github.com/said7388/developer-portfolio"
+              href="https://github.com/infosiddjain"
               className="items-center box-border gap-x-2 flex gap-y-2 uppercase"
             >
               <img
@@ -30,7 +30,7 @@ export function Footer() {
               <span className="box-border block">Star</span>
             </a>
             <a
-              href="https://github.com/said7388/developer-portfolio/fork"
+              href="https://github.com/infosiddjain/Portfolio"
               className="items-center box-border gap-x-2 flex gap-y-2 uppercase"
             >
               <img

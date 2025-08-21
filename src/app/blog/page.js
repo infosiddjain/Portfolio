@@ -1,6 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { blogs } from "@/data/blogs";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 export default function BlogPage() {
   const router = useRouter();
@@ -8,16 +10,17 @@ export default function BlogPage() {
   return (
     <div className="text-black text-base not-italic normal-nums font-normal accent-auto bg-gray-900 box-border block tracking-[normal] leading-6 list-outside list-disc text-start indent-[0px] normal-case visible border-separate font-inter">
       <main className="relative text-white box-border max-w-none min-h-[1000px] mx-auto px-6 md:max-w-[1216px] md:px-12">
-        <div className="py-4">
+        <Header />
+        <div className="">
           <button
             onClick={() => router.back()}
-            className="bg-[#1a1443] text-white px-4 py-2 rounded-md hover:bg-[#2a1f63] transition-colors duration-300"
+            className="bg-[#1a1443] text-white px-4 py-2 rounded-md hover:bg-[#2a1f63] transition-colors duration-300 cursor-pointer"
           >
             ← Back
           </button>
         </div>
 
-        <div className="py-8">
+        <div className="">
           <div className="flex justify-center my-5 lg:py-8">
             <div className="flex items-center">
               <span className="w-24 h-[2px] bg-[#1a1443]"></span>
@@ -81,14 +84,16 @@ export default function BlogPage() {
                     </div>
 
                     {/* Read More Button */}
-                    <a
-                      href={blog.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-indigo-600 font-medium hover:underline"
-                    >
-                      Read More →
-                    </a>
+                    {blog.href && (
+                      <a
+                        href={blog.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-indigo-600 font-medium hover:underline"
+                      >
+                        Read More →
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -96,6 +101,8 @@ export default function BlogPage() {
           </div>
         </div>
       </main>
+      <Footer />
+      <div className="absolute box-border block"></div>
     </div>
   );
 }

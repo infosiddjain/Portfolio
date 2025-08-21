@@ -6,7 +6,7 @@ export interface Blog {
   readonly readTime: string;
   readonly likes: number;
   readonly comments?: number;
-  readonly href: string;
+  readonly href?: string;
   readonly imageSrc?: string;
 }
 
@@ -20,7 +20,7 @@ export const blogs: Blog[] = [
     readTime: "6 Min Read",
     likes: 30,
     comments: 5,
-    href: "#",
+
     imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
       Math.random() * 1000
     )}`,
@@ -33,7 +33,7 @@ export const blogs: Blog[] = [
     timeAgo: "1 month ago",
     readTime: "4 Min Read",
     likes: 22,
-    href: "#",
+
     imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
       Math.random() * 1000
     )}`,
@@ -46,7 +46,7 @@ export const blogs: Blog[] = [
     timeAgo: "3 weeks ago",
     readTime: "5 Min Read",
     likes: 18,
-    href: "#",
+
     imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
       Math.random() * 1000
     )}`,
@@ -59,7 +59,7 @@ export const blogs: Blog[] = [
     timeAgo: "2 months ago",
     readTime: "5 Min Read",
     likes: 15,
-    href: "#",
+
     imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
       Math.random() * 1000
     )}`,
@@ -72,7 +72,7 @@ export const blogs: Blog[] = [
     timeAgo: "1 month ago",
     readTime: "3 Min Read",
     likes: 20,
-    href: "#",
+
     imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
       Math.random() * 1000
     )}`,
@@ -86,7 +86,7 @@ export const blogs: Blog[] = [
     readTime: "4 Min Read",
     likes: 28,
     comments: 2,
-    href: "#",
+
     imageSrc: `https://picsum.photos/600/400?random=${Math.floor(
       Math.random() * 1000
     )}`,
