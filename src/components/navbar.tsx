@@ -1,101 +1,83 @@
-"use client";
-
-import { useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
-export const NavBar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const handleRoute = (path: string) => {
-    setMenuOpen(false);
-    router.push(path);
-  };
-
-  const navItems = [
-    { label: "Home", path: "/" },
-    { label: "Skills", path: "/skills" },
-    { label: "Education", path: "/education" },
-    { label: "Experience", path: "/experience" },
-    { label: "Projects", path: "/projects" },
-    { label: "Certificates", path: "/certificates" },
-    { label: "Resume", path: "/resume" },
-  ];
-
+function Navbar() {
   return (
-    <div className="relative w-full z-50">
-      {/* Header bar */}
-      <div className="flex justify-between items-center p-6 md:px-18  shadow-md">
-        <Link href="/">
-          <h3 className="text-xl font-semibold lg:ml-4">Siddharth Jain</h3>
-        </Link>
-
-        {/* ✅ Desktop menu list */}
-        <div className="hidden md:flex gap-6">
-          {navItems.map((item) => (
-            <button
-              key={item.path}
-              onClick={() => handleRoute(item.path)}
-              className={`text-base font-medium cursor-pointer transition ${
-                pathname === item.path
-                  ? "text-orange-600 bg-white rounded-md p-2"
-                  : "text-gray-800 hover:text-orange-600"
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
+    <nav className="bg-transparent">
+      <div className="flex items-center justify-between py-5">
+        <div className="flex flex-shrink-0 items-center">
+          <Link href="/" className=" text-[#16f2b3] text-3xl font-bold">
+            SIDDHARTH JAIN
+          </Link>
         </div>
 
-        {/* ✅ Mobile hamburger only */}
-        <button
-          className="text-3xl font-bold text-black cursor-pointer md:hidden"
-          onClick={() => setMenuOpen(true)}
+        <ul
+          className="mt-4 flex h-screen max-h-0 w-full flex-col items-start text-sm opacity-0 md:mt-0 md:h-auto md:max-h-screen md:w-auto md:flex-row md:space-x-1 md:border-0 md:opacity-100"
+          id="navbar-default"
         >
-          &#9776;
-        </button>
-      </div>
-
-      {/* 🔘 Overlay on menu open */}
-      {menuOpen && (
-        <div
-          className="fixed top-0 left-0 w-full h-full bg-black/40 backdrop-blur-sm z-40"
-          onClick={() => setMenuOpen(false)}
-        />
-      )}
-
-      <div
-        className={`fixed top-0 left-0 h-full w-64 bg-white z-50 transform transition-transform duration-300 ${
-          menuOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="flex justify-end p-4">
-          <button
-            className="text-2xl font-bold cursor-pointer"
-            onClick={() => setMenuOpen(false)}
-          >
-            &times;
-          </button>
-        </div>
-
-        <div className="flex flex-col items-start px-6 space-y-4">
-          {navItems.map((item) => (
-            <button
-              key={item.path}
-              onClick={() => handleRoute(item.path)}
-              className={`text-base font-medium transition ${
-                pathname === item.path
-                  ? "text-orange-600 underline underline-offset-4"
-                  : "text-gray-700 hover:text-orange-600"
-              }`}
+          <li>
+            <Link
+              className="block px-4 py-2 no-underline outline-none hover:no-underline"
+              href="/#about"
             >
-              {item.label}
-            </button>
-          ))}
-        </div>
+              <div className="text-sm text-white transition-colors duration-300 hover:text-pink-600">
+                ABOUT
+              </div>
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="block px-4 py-2 no-underline outline-none hover:no-underline"
+              href="/#experience"
+            >
+              <div className="text-sm text-white transition-colors duration-300 hover:text-pink-600">
+                EXPERIENCE
+              </div>
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="block px-4 py-2 no-underline outline-none hover:no-underline"
+              href="/#skills"
+            >
+              <div className="text-sm text-white transition-colors duration-300 hover:text-pink-600">
+                SKILLS
+              </div>
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="block px-4 py-2 no-underline outline-none hover:no-underline"
+              href="/#education"
+            >
+              <div className="text-sm text-white transition-colors duration-300 hover:text-pink-600">
+                EDUCATION
+              </div>
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="block px-4 py-2 no-underline outline-none hover:no-underline"
+              href="/blog"
+            >
+              <div className="text-sm text-white transition-colors duration-300 hover:text-pink-600">
+                BLOGS
+              </div>
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="block px-4 py-2 no-underline outline-none hover:no-underline"
+              href="/#projects"
+            >
+              <div className="text-sm text-white transition-colors duration-300 hover:text-pink-600">
+                PROJECTS
+              </div>
+            </Link>
+          </li>
+        </ul>
       </div>
-    </div>
+    </nav>
   );
-};
+}
+
+export default Navbar;

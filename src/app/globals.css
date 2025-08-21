@@ -6,6 +6,9 @@ body {
   display: flex;
   animation: marquee-left 40s linear infinite;
 }
+html {
+  scroll-behavior: smooth;
+}
 
 @keyframes marquee-left {
   0% {

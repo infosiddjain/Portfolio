@@ -45,7 +45,7 @@ export function HeroSection() {
               href="#contact"
               className="bg-[linear-gradient(to_right,rgb(124,58,237),rgb(236,72,153))] box-border block p-px rounded-full"
             >
-              <button className="text-xs font-medium items-center bg-gray-900 gap-x-1 flex tracking-[0.6px] leading-4 gap-y-1 text-center uppercase p-3 rounded-full md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5 md:px-8 md:py-4">
+              <button className="text-xs font-medium items-center bg-gray-900 gap-x-1 flex tracking-[0.6px] leading-4 gap-y-1 text-center uppercase p-3 rounded-full md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5 md:px-8 md:py-4 cursor-pointer">
                 <span className="text-xs font-medium box-border block tracking-[0.6px] leading-4 md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5">
                   Contact me
                 </span>

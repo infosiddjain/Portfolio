@@ -19,14 +19,28 @@ export default function Home() {
         <Header />
         <div className="box-border">
           <HeroSection />
-          <AboutSection />
-          <ExperienceSection />
-          <SkillsSection />
-          <ProjectsSection />
-          <EducationSection />
+          <section id="about">
+            <AboutSection />
+          </section>
+
+          <section id="experience">
+            <ExperienceSection />
+          </section>
+
+          <section id="skills">
+            <SkillsSection />
+          </section>
+          <section id="projects">
+            <ProjectsSection />
+          </section>
+          <section id="education">
+            <EducationSection />
+          </section>
           <CertificatesSection />
           <BlogsSection />
-          <ContactSection />
+          <section id="contact">
+            <ContactSection />
+          </section>
         </div>
         <ScrollToTopButton />
       </main>

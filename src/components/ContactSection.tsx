@@ -16,10 +16,26 @@ export function ContactSection() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("Message sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        alert("Failed to send message. Please try again.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong!");
+    }
   };
 
   return (
@@ -51,6 +67,7 @@ export function ContactSection() {
                   type="text"
                   name="name"
                   value={formData.name}
+                  placeholder="Enter your name"
                   onChange={handleInputChange}
                   className="bg-slate-900 shadow-[rgb(255,255,255)_0px_0px_0px_0px,rgba(59,130,246,0.5)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px] box-border block w-full border border-gray-700 px-3 py-2 rounded-md border-solid"
                 />
@@ -62,6 +79,7 @@ export function ContactSection() {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
+                  placeholder="Enter your email"
                   className="bg-slate-900 shadow-[rgb(255,255,255)_0px_0px_0px_0px,rgba(59,130,246,0.5)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px] box-border block w-full border border-gray-700 px-3 py-2 rounded-md border-solid"
                 />
               </div>
@@ -70,6 +88,7 @@ export function ContactSection() {
                 <textarea
                   name="message"
                   value={formData.message}
+                  placeholder="Enter your message"
                   onChange={handleInputChange}
                   className="bg-slate-900 shadow-[rgb(255,255,255)_0px_0px_0px_0px,rgba(59,130,246,0.5)_0px_0px_0px_0px,rgba(0,0,0,0)_0px_0px_0px_0px] box-border block resize-y w-full border-gray-700 px-3 py-2 rounded-md"
                 ></textarea>
@@ -77,7 +96,7 @@ export function ContactSection() {
               <div className="items-center box-border gap-x-3 flex flex-col gap-y-3">
                 <button
                   type="submit"
-                  className="text-xs font-medium items-center bg-transparent bg-[linear-gradient(to_right,rgb(236,72,153),rgb(124,58,237))] gap-x-1 flex tracking-[0.6px] leading-4 gap-y-1 text-center uppercase px-5 py-2.5 rounded-full md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5 md:px-12 md:py-3"
+                  className="text-xs font-medium items-center bg-transparent bg-[linear-gradient(to_right,rgb(236,72,153),rgb(124,58,237))] gap-x-1 flex tracking-[0.6px] leading-4 gap-y-1 text-center uppercase px-5 py-2.5 rounded-full md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5 md:px-12 md:py-3 cursor-pointer"
                 >
                   <span className="text-xs font-medium items-center box-border gap-x-1 flex tracking-[0.6px] leading-4 gap-y-1 md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5">
                     Send Message
@@ -104,7 +123,7 @@ export function ContactSection() {
                   alt="Icon"
                   className="text-gray-800 text-sm bg-gray-400 box-border h-9 leading-5 w-9 p-2 rounded-full md:text-xl md:leading-7"
                 />
-                <span className="text-sm box-border block leading-5 md:text-xl md:leading-7">
+                <span className="text-sm box-border block leading-5  bg-gray-400 md:text-xl md:leading-7">
                   {info.text}
                 </span>
               </p>
