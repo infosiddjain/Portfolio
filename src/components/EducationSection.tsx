@@ -1,5 +1,9 @@
+"use client";
+
 import React from "react";
-import { educations } from "../data/educations";
+import { educations } from "@/data/educations";
+import Lottie from "lottie-react";
+import animationData from "../../public/education.json";
 
 export function EducationSection() {
   return (
@@ -28,10 +32,10 @@ export function EducationSection() {
           <div className="items-start box-border flex justify-center">
             <div className="box-border h-3/4 w-9/12">
               <div className="box-border w-[95%]">
-                <img
-                  src="https://c.animaapp.com/mek409lvoDLlSz/assets/icon-10.svg"
-                  alt="Icon"
-                  className="box-border h-full w-full"
+                <Lottie
+                  animationData={animationData}
+                  loop={true}
+                  className="h-full w-full"
                 />
               </div>
             </div>
