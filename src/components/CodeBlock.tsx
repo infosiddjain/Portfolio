@@ -76,6 +76,12 @@ export function CodeBlock() {
             ', '
           </span>
           <span className="text-amber-300 text-xs box-border leading-4 md:text-base md:leading-6">
+            JavaScript
+          </span>
+          <span className="text-gray-400 text-xs box-border leading-4 md:text-base md:leading-6">
+            ', '
+          </span>
+          <span className="text-amber-300 text-xs box-border leading-4 md:text-base md:leading-6">
             MongoDB
           </span>
           <span className="text-gray-400 text-xs box-border leading-4 md:text-base md:leading-6">
@@ -83,6 +89,18 @@ export function CodeBlock() {
           </span>
           <span className="text-amber-300 text-xs box-border leading-4 md:text-base md:leading-6">
             MongoDB
+          </span>
+          <span className="text-gray-400 text-xs box-border leading-4 md:text-base md:leading-6">
+            ', '
+          </span>
+          <span className="text-amber-300 text-xs box-border leading-4 md:text-base md:leading-6">
+            CSS
+          </span>
+          <span className="text-gray-400 text-xs box-border leading-4 md:text-base md:leading-6">
+            ', '
+          </span>
+          <span className="text-amber-300 text-xs box-border leading-4 md:text-base md:leading-6">
+            HTML5
           </span>
           <span className="text-gray-400 text-xs box-border leading-4 md:text-base md:leading-6">
             ', '
