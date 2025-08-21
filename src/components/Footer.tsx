@@ -11,7 +11,7 @@ export function Footer() {
           <p className="text-sm box-border leading-5">
             © Developer Portfolio by{" "}
             <a
-              href="https://www.linkedin.com/in/abu-said-bd/"
+              href="https://www.linkedin.com/in/infosiddjain/"
               className="text-teal-400 box-border"
             >
               Siddharth Jain
