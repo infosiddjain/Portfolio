@@ -8,6 +8,14 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "learnz",
+    name: "Learnz Connect Web",
+    tools: ["React", "Tailwind CSS", "TypeScript", "Vercel"],
+    role: "Frontend Developer",
+    description:
+      "Learnz Connect represents an innovative educational platform designed to foster continuous learning and knowledge sharing within a collaborative community environment. This digital learning ecosystem serves as a bridge between learners, educators, and industry professionals, creating meaningful connections that enhance the educational experience. (https://learnzconnect.com/)",
+  },
+  {
     id: "meta-blogger",
     name: "Meta Blogger Web",
     tools: ["Mdx", "NextJS", "Tailwind CSS", "TypeScript", "Vercel"],
