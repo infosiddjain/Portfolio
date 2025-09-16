@@ -8,6 +8,22 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "dilkibhakti",
+    name: "Dil Ki Bhakti App",
+    tools: ["React Native", "Play Store"],
+    role: "App Creator",
+    description:
+      "Dil Ki Bhakti is a devotional mobile application designed to bring daily spiritual content to users, including bhajans, aarti, chalisa, and inspirational quotes. The app focuses on providing a clean, distraction-free experience for devotees seeking positivity and peace in their day-to-day lives. (https://play.google.com/store/apps/details?id=com.dilkibhaktiapp)",
+  },
+  {
+    id: "learnz",
+    name: "Learnz Connect Web",
+    tools: ["React", "Tailwind CSS", "TypeScript", "Vercel"],
+    role: "Frontend Developer",
+    description:
+      "Learnz Connect represents an innovative educational platform designed to foster continuous learning and knowledge sharing within a collaborative community environment. This digital learning ecosystem serves as a bridge between learners, educators, and industry professionals, creating meaningful connections that enhance the educational experience. (https://learnzconnect.com/)",
+  },
+  {
     id: "learnz",
     name: "Learnz Connect Web",
     tools: ["React", "Tailwind CSS", "TypeScript", "Vercel"],
