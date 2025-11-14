@@ -8,6 +8,14 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "cpukit",
+    name: "Cpu Kit App",
+    tools: ["React Native", "Play Store"],
+    role: "App Creator",
+    description:
+      "CPUKit is a utility app designed to provide users with detailed information about their Android device, such as CPU, GPU, battery, system, sensors, display, memory, and network data. This privacy policy explains how we handle data and permissions. (https://play.google.com/store/apps/details?id=com.cpukit)",
+  },
+  {
     id: "dilkibhakti",
     name: "Dil Ki Bhakti App",
     tools: ["React Native", "Play Store"],
