@@ -77,6 +77,19 @@ export function ProjectCodeBlock({ project }: ProjectCodeBlockProps) {
         </div>
         <div className="text-xs box-border leading-4 ml-4 mr-2 md:text-base md:leading-6 md:ml-8">
           <span className="text-xs box-border leading-4 md:text-base md:leading-6">
+            View Project:
+          </span>
+          <a
+            href={project.link}
+            target="_blank"
+            className="text-cyan-400 text-xs box-border leading-4 md:text-base md:leading-6"
+          >
+            {" "}
+            Click Me
+          </a>
+        </div>
+        <div className="text-xs box-border leading-4 ml-4 mr-2 md:text-base md:leading-6 md:ml-8">
+          <span className="text-xs box-border leading-4 md:text-base md:leading-6">
             Description:
           </span>
           <span className="text-cyan-400 text-xs box-border leading-4 md:text-base md:leading-6">
