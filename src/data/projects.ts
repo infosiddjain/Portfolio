@@ -9,6 +9,15 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "calculators_zip",
+    name: "Calculators Zip",
+    tools: ["React Native cli", "Play Store"],
+    role: "App Creator",
+    link: "https://play.google.com/store/apps/details?id=com.calculatorzip",
+    description:
+      "Calculator Zip is a powerful and easy-to-use multi-utility calculator designed to simplify everyday calculations. Whether you’re planning a trip, managing your expenses, calculating GST, estimating bills, or working out loan interest — all your essential tools are available in one clean, intuitive app",
+  },
+  {
     id: "math_adventure",
     name: "Math Adventure Game",
     tools: ["React Native cli", "Play Store"],
