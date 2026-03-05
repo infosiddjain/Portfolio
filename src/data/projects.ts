@@ -9,6 +9,15 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "silent_reminder",
+    name: "Silent Reminder",
+    tools: ["React Native cli", "Play Store"],
+    role: "App Creator",
+    link: "https://play.google.com/store/apps/details?id=com.silentreminder",
+    description:
+      "Stay organised with smart reminders for events, medicines, trips, and daily tasks — all in one place.",
+  },
+  {
     id: "calculators_zip",
     name: "Calculators Zip",
     tools: ["React Native cli", "Play Store"],
