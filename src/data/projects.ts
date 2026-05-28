@@ -9,6 +9,15 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "pickup_vibelines",
+    name: "Pickup VibeLines",
+    tools: ["React Native cli", "Play Store"],
+    role: "App Creator",
+    link: "https://play.google.com/store/apps/details?id=com.pickupline",
+    description:
+      "Express your feelings, thoughts, and creativity by designing your own lines with stylish backgrounds and fonts. Whether you want to create meaningful messages, personal notes, or creative text designs, VibeLines makes it simple and fun.",
+  },
+  {
     id: "silent_reminder",
     name: "Silent Reminder",
     tools: ["React Native cli", "Play Store"],
