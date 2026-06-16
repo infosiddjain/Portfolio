@@ -25,7 +25,7 @@ export function ProjectCodeBlock({ project }: ProjectCodeBlockProps) {
         </div>
         <div className="text-xs box-border leading-4 md:text-base md:leading-6">
           <span className="text-xs box-border leading-4 ml-4 mr-2 md:text-base md:leading-6 md:ml-8">
-            name:
+            Name:
           </span>
           <span className="text-gray-400 text-xs box-border leading-4 md:text-base md:leading-6">
             '
@@ -39,7 +39,7 @@ export function ProjectCodeBlock({ project }: ProjectCodeBlockProps) {
         </div>
         <div className="text-xs box-border leading-4 ml-4 mr-2 md:text-base md:leading-6 md:ml-8">
           <span className="text-xs box-border leading-4 md:text-base md:leading-6">
-            tools:
+            Tools:
           </span>
           <span className="text-gray-400 text-xs box-border leading-4 md:text-base md:leading-6">
             {" "}
@@ -66,7 +66,7 @@ export function ProjectCodeBlock({ project }: ProjectCodeBlockProps) {
         </div>
         <div className="text-xs box-border leading-4 md:text-base md:leading-6">
           <span className="text-xs box-border leading-4 ml-4 mr-2 md:text-base md:leading-6 md:ml-8">
-            myRole:
+            MyRole:
           </span>
           <span className="text-orange-400 text-xs box-border leading-4 md:text-base md:leading-6">
             {project.role}

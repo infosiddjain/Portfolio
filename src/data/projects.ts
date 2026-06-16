@@ -9,6 +9,15 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "hot_job",
+    name: "Hot Job",
+    tools: ["React Native cli", "Play Store"],
+    role: "App Creator",
+    link: "https://play.google.com/store/apps/details?id=com.hotjob",
+    description:
+      "Looking for remote jobs or work-from-home opportunities? HotJob helps you discover the latest remote job openings from top companies worldwide — all in one place.",
+  },
+  {
     id: "pickup_vibelines",
     name: "Pickup VibeLines",
     tools: ["React Native cli", "Play Store"],
