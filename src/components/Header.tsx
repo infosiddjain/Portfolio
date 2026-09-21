@@ -1,36 +1,46 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { navigationItems } from "@/data/navigation";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Always open on the hero + navbar, not on a browser-restored scroll position.
+  useEffect(() => {
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    if (!window.location.hash) window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <nav className="box-border">
-      <div className="items-center box-border flex justify-between py-5">
-        <div className="items-center box-border flex shrink-0">
-          <a
-            href="/"
-            className="text-teal-400 text-3xl font-bold box-border block leading-9"
-          >
-            SIDDHARTH JAIN
-          </a>
-        </div>
-        <ul className="text-sm items-start box-border flex flex-col h-[1000px] leading-5 list-none max-h-0 opacity-0 w-full mt-4 pl-0 md:flex-row md:h-auto md:max-h-[1000px] md:opacity-100 md:w-auto md:mt-0">
+    <nav className="sticky top-0 z-50 -mx-6 box-border border-b border-white/5 bg-[#05060d]/60 px-6 backdrop-blur-xl md:-mx-12 md:px-12">
+      <div className="items-center box-border flex flex-wrap justify-between py-4">
+        <a
+          href="/"
+          className="gold-text font-[family-name:var(--font-montaga)] text-2xl leading-9 md:text-3xl"
+        >
+          SIDDHARTH JAIN
+        </a>
+        <button
+          aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
+          onClick={() => setIsMobileMenuOpen((o) => !o)}
+          className="text-2xl text-white md:hidden"
+        >
+          {isMobileMenuOpen ? "✕" : "☰"}
+        </button>
+        <ul
+          className={`text-sm w-full flex-col leading-5 list-none pl-0 md:flex md:w-auto md:flex-row ${
+            isMobileMenuOpen ? "mt-4 flex" : "hidden"
+          }`}
+        >
           {navigationItems.map((item) => (
-            <li
-              key={item.id}
-              className={
-                item.id === "about"
-                  ? "box-border text-left"
-                  : "box-border text-left ml-0 md:ml-1"
-              }
-            >
+            <li key={item.id} className="box-border text-left md:ml-1">
               <a
                 href={item.href}
-                className="box-border block outline-transparent outline-offset-2 outline outline-2 px-4 py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-4 py-2 tracking-widest text-neutral-300 transition-colors hover:text-amber-300"
               >
-                <div className="box-border">{item.label}</div>
+                {item.label}
               </a>
             </li>
           ))}

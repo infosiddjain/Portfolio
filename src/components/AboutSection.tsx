@@ -1,5 +1,6 @@
 import React from "react";
 import ChromaGrid from "./ChromaCard";
+import { YearsOfExperience } from "./YearsOfExperience";
 
 const items = [
   {
@@ -28,8 +29,8 @@ export function AboutSection() {
             Who I am?
           </p>
           <p className="text-gray-200 text-sm box-border leading-5 md:text-lg md:leading-7">
-            Full Stack Developer and current Software Engineer with over 4+
-            years of hands-on experience building scalable web and mobile
+            Full Stack Developer and current Software Engineer with over{" "}
+            <YearsOfExperience /> years of hands-on experience building scalable web and mobile
             applications using React.js, React Native, Node.js, and MongoDB.
             Proven track record of delivering high-performance, user-friendly
             products across full-time, freelance, and remote roles. Skilled in
