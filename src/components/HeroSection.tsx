@@ -1,3 +1,5 @@
+"use client";
+import { motion } from "framer-motion";
 import React from "react";
 import { socialLinks } from "@/data/socialLinks";
 import { CodeBlock } from "./CodeBlock";
@@ -5,26 +7,45 @@ import { CodeBlock } from "./CodeBlock";
 export function HeroSection() {
   return (
     <section className="relative items-center box-border flex flex-col justify-between py-4 md:py-12">
-      <img
-        alt="Hero"
-        src="https://c.animaapp.com/mek409lvoDLlSz/assets/hero.svg"
-        className="absolute text-transparent aspect-[auto_1572_/_795] box-border max-w-full top-[-98px] w-[1572px] -z-10"
-      />
       <div className="items-start box-border gap-x-[normal] grid grid-cols-[repeat(1,minmax(0px,1fr))] gap-y-8 md:gap-x-12 md:grid-cols-[repeat(2,minmax(0px,1fr))] md:gap-y-12">
         <div className="items-start box-border flex flex-col justify-center order-2 pt-2 pb-20 px-2 md:order-1 md:py-10">
-          <h1 className="text-3xl font-bold box-border leading-10 md:text-[41.6px] md:font-extrabold md:leading-[56px]">
-            Hello,{" "}
-            <br className="text-3xl font-bold box-border leading-10 md:text-[41.6px] md:font-extrabold md:leading-[56px]" />
-            This is{" "}
-            <span className="text-pink-500 text-3xl font-bold box-border leading-10 md:text-[41.6px] md:font-extrabold md:leading-[56px]">
-              SIDDHARTH JAIN
-            </span>
-            , I'm a Professional{" "}
-            <span className="text-teal-400 text-3xl font-bold box-border leading-10 md:text-[41.6px] md:font-extrabold md:leading-[56px]">
-              Software Developer
-            </span>
-            .
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.6, duration: 1 }}
+            className="mb-5 text-[11px] uppercase tracking-[0.5em] text-amber-200/70"
+          >
+            Software Engineer · Full-stack · Mobile
+          </motion.p>
+          <h1 className="font-[family-name:var(--font-montaga)] text-4xl leading-[1.15] md:text-[64px]">
+            {[
+              ["Crafting", ""],
+              ["digital", ""],
+              ["experiences", "gold-text"],
+              ["that", ""],
+              ["feel", ""],
+              ["alive.", "gold-text"],
+            ].map(([w, c], i) => (
+              <span key={i} className="mr-3 inline-block overflow-hidden align-bottom">
+                <motion.span
+                  className={`inline-block ${c}`}
+                  initial={{ y: "110%", rotate: 4 }}
+                  animate={{ y: 0, rotate: 0 }}
+                  transition={{ delay: 2.7 + i * 0.12, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {w}
+                </motion.span>
+              </span>
+            ))}
           </h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 3.6, duration: 1 }}
+            className="mt-6 max-w-md text-sm text-neutral-400"
+          >
+            Hi, I&apos;m <span className="text-white">Siddharth Jain</span> — building fast, elegant web and mobile products.
+          </motion.p>
           <div className="items-center box-border gap-x-5 flex gap-y-5 my-12">
             {socialLinks.map((link) => (
               <a
@@ -72,7 +93,7 @@ export function HeroSection() {
             </a>
           </div>
         </div>
-        <div className="relative bg-[linear-gradient(to_right,rgb(13,18,36),rgb(10,13,55))] box-border order-1 border border-blue-950/60 rounded-lg border-solid md:order-2">
+        <div className="relative glass box-border order-1 border border-blue-950/60 rounded-lg border-solid md:order-2">
           <div className="box-border flex">
             <div className="bg-[linear-gradient(to_right,rgba(0,0,0,0),rgb(236,72,153),rgb(124,58,237))] box-border h-px w-full"></div>
             <div className="bg-[linear-gradient(to_right,rgb(124,58,237),rgba(0,0,0,0))] box-border h-px w-full"></div>

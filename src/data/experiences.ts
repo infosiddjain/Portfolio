@@ -2,18 +2,58 @@ export interface Experience {
   readonly id: string;
   readonly title: string;
   readonly company: string;
-  readonly period: string;
+  /** ISO start date (yyyy-mm-dd). */
+  readonly start: string;
+  /** ISO end date, or null when the role is current. */
+  readonly end: string | null;
   readonly location: string;
   readonly description: string[];
 }
 
+/** Start of career: 06 Sep 2021. */
+export const CAREER_START = "2021-09-06";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+const monthDiff = (from: Date, to: Date) =>
+  (to.getFullYear() - from.getFullYear()) * 12 + (to.getMonth() - from.getMonth()) + 1;
+
+const fmt = (d: Date) => `${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+
+export function formatDuration(months: number): string {
+  const y = Math.floor(months / 12);
+  const m = months % 12;
+  return [y && `${y} yr${y > 1 ? "s" : ""}`, m && `${m} mo${m > 1 ? "s" : ""}`]
+    .filter(Boolean)
+    .join(" ");
+}
+
+/** e.g. "Mar 2024 - Present · 2 yrs 7 mos" — "Present" always uses today's date. */
+export function formatPeriod(exp: Experience, now = new Date()): string {
+  const start = new Date(exp.start);
+  const end = exp.end ? new Date(exp.end) : now;
+  return `${fmt(start)} - ${exp.end ? fmt(end) : "Present"} · ${formatDuration(monthDiff(start, end))}`;
+}
+
+/** Whole years of total experience since CAREER_START. */
+export function totalYears(now = new Date()): number {
+  const start = new Date(CAREER_START);
+  let years = now.getFullYear() - start.getFullYear();
+  const beforeAnniversary =
+    now.getMonth() < start.getMonth() ||
+    (now.getMonth() === start.getMonth() && now.getDate() < start.getDate());
+  if (beforeAnniversary) years -= 1;
+  return years;
+}
+
 export const experiences: Experience[] = [
   {
-    id: "Trioford Technosys Pvt. Ltd",
+    id: "revoluza",
     title: "Software Engineer",
-    company: "Trioford Technosys Pvt. Ltd.",
-    period: "March 2024 - Present",
-    location: "Full-time | Remote",
+    company: "Revoluza Technologies · Full-time",
+    start: "2024-03-01",
+    end: null,
+    location: "India · Remote",
     description: [
       "Leading full-stack development using React.js, React Native, Next.js, Node.js, Express.js, and MongoDB.",
       "Designed and developed the Learnz landing page, travel & transport website, student portal, and admin dashboard.",
@@ -22,35 +62,25 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    id: "CompletumHealth Pvt Ltd.",
-    title: "Frontend Developer",
-    company: "CompletumHealth Pvt Ltd.",
-    period: "Aug 2023 - Feb 2024",
-    location: "Full-time | Remote",
+    id: "completum",
+    title: "Frontend Developer (React & React Native)",
+    company: "Completum Health · Full-time",
+    start: "2023-08-01",
+    end: "2024-02-01",
+    location: "United States · Remote",
     description: [
-      "Developed Sahej App, a health management platform for diabetic patients using React Native",
+      "Developed Sahej App, a health management platform for diabetic patients using React Native.",
       "Created full UI designs in Figma for mobile and web.",
-      "Implemented user onboarding, health tracking dashboards, and notification system",
+      "Implemented user onboarding, health tracking dashboards, and notification system.",
     ],
   },
   {
-    id: "Dank Pvt Ltd.",
-    title: "Frontend Developer",
-    company: "Dank Pvt Ltd.",
-    period: "Feb 2023 - Aug 2023",
-    location: "Full-time | Remote",
-    description: [
-      "Built a LinkedIn-like social platform (web + mobile) with profiles, feeds, messaging, and search features",
-      "Developed clean, scalable architecture for both mobile and web using React Native & React.js.",
-      "Focused on UI/UX consistency and internationalization.",
-    ],
-  },
-  {
-    id: "Aara Technology Pvt Ltd.",
-    title: "Frontend Developer",
-    company: "Aara Technology Pvt Ltd.",
-    period: "Aug 2022 - Feb 2023",
-    location: "Full-time | Remote",
+    id: "aara",
+    title: "Frontend Developer (React & React Native)",
+    company: "Aara Groups · Full-time",
+    start: "2022-04-01",
+    end: "2023-08-01",
+    location: "Lucknow, Uttar Pradesh, India · Remote",
     description: [
       "Developed an e-commerce website, admin portal, and mobile application (My Pocket App) using React and React Native.",
       "Worked on Reward Dragon loyalty program platform using React.js.",
@@ -58,51 +88,16 @@ export const experiences: Experience[] = [
     ],
   },
   {
-    id: "Qwerty Code Pvt Ltd.",
-    title: "React Native Developer",
-    company: "Qwerty Code Pvt Ltd.",
-    period: "May 2022 - Jul 2022",
-    location: "Full-time | On Site",
-    description: [
-      "Built a crypto trading application (BAAP Network) from scratch in React Native.",
-      "Integrated real-time crypto APIs, charts, and wallet features",
-      "Focused on performance, security, and onboarding flows.",
-    ],
-  },
-  {
-    id: "Wonder Pillars Technology",
-    title: "React Developer",
-    company: "Wonder Pillars Technology",
-    period: "Sep 2021 - Apr 2022",
-    location: "Full-time | Remote",
+    id: "wonder-pillars",
+    title: "Frontend Developer (React.js)",
+    company: "Wonder Pillars Technology Pvt. Ltd. · Full-time",
+    start: "2021-09-06",
+    end: "2022-04-01",
+    location: "Noida, Uttar Pradesh, India · Remote",
     description: [
       "Contributed to React.js development for Vantana Taxi App, Stock Market Dashboard, and Fexicel Platform.",
-      "Designed and integrated interactive UI components with API integration",
+      "Designed and integrated interactive UI components with API integration.",
       "Optimized frontend performance and cross-browser compatibility.",
     ],
   },
-  {
-    id: "Wintej Pvt Ltd.",
-    title: "Frontend Developer",
-    company: "Wintej Pvt Ltd.",
-    period: "Aug 2023 - Oct 2023",
-    location: "Freelance | Remote",
-    description: [
-      "Built a fantasy gaming platform (similar to Dream11) and games like Ludo, Tambola, and Snake using React Native and React.js.",
-      "Developed both web and mobile versions with live match tracking and betting logic.",
-      "Focused on real-time user data flow, wallet integration, and secure gameplay",
-    ],
-  },
-  {
-    id: "Binovative Pvt Ltd.",
-    title: "Frontend Developer",
-    company: "Binovative Pvt Ltd.",
-    period: "Aug 2023 - Nov 2023",
-    location: "Freelance | Remote",
-    description: [
-      "Developed Wow Mom e-commerce web and mobile app using React.js and React Native.",
-      "Integrated payment systems, product listings, cart, and order management.",
-      "Ensured cross-platform performance, security, and user-friendly interfaces.",
-    ],
-  },
-] as const;
+];
