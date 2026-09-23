@@ -34,7 +34,7 @@ export default function Home() {
             <Reveal><SkillsSection /></Reveal>
           </section>
           <section id="projects">
-            <Reveal><ProjectsSection /></Reveal>
+            <ProjectsSection />
           </section>
           <section id="education">
             <Reveal><EducationSection /></Reveal>

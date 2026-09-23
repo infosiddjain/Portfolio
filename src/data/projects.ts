@@ -1,196 +1,350 @@
+export type ProjectCategory = "client" | "product";
+
+export interface ProjectLinks {
+  readonly web?: string;
+  readonly playStore?: string;
+  readonly appStore?: string;
+}
+
 export interface Project {
   readonly id: string;
   readonly name: string;
-  readonly tools: readonly string[];
-  readonly role: string;
+  /** One-line hook shown under the title. */
+  readonly tagline: string;
   readonly description: string;
-  readonly link: string;
+  readonly category: ProjectCategory;
+  /** Client / brand name for company work. */
+  readonly client?: string;
+  readonly role: string;
+  readonly tools: readonly string[];
+  readonly links: ProjectLinks;
+  /** Homepage screenshot in /public/projects. */
+  readonly image?: string;
+  /** App icon in /public/projects/icons. */
+  readonly icon?: string;
+  /** Accent used for glows when a project has no screenshot. */
+  readonly accent?: string;
+  readonly featured?: boolean;
 }
 
-export const projects: Project[] = [
+export const projects: readonly Project[] = [
+  // ───────────── Client work ─────────────
   {
-    id: "hot_job",
-    name: "Hot Job",
-    tools: ["React Native cli", "Play Store"],
-    role: "App Creator",
-    link: "https://play.google.com/store/apps/details?id=com.hotjob",
+    id: "gamerun",
+    name: "GameRun",
+    client: "GameRun Inc.",
+    tagline: "AI that turns game film into player intelligence.",
     description:
-      "Looking for remote jobs or work-from-home opportunities? HotJob helps you discover the latest remote job openings from top companies worldwide — all in one place.",
+      "Athletes upload game video and get a pro-level performance report — what to train and how to fix it. Trusted by USA Baseball scouts and 40+ organisations including Duke and Stanford coaches.",
+    category: "client",
+    role: "Frontend & Mobile Developer",
+    tools: ["React Native", "Next.js", "TypeScript", "AI Video Analysis"],
+    links: {
+      web: "https://gamerun.ai/",
+      playStore: "https://play.google.com/store/apps/details?id=com.gamerun.app",
+    },
+    image: "/projects/gamerun.jpg",
+    icon: "/projects/icons/gamerun.png",
+    featured: true,
   },
   {
-    id: "pickup_vibelines",
-    name: "Pickup VibeLines",
-    tools: ["React Native cli", "Play Store"],
-    role: "App Creator",
-    link: "https://play.google.com/store/apps/details?id=com.pickupline",
+    id: "sahej-health",
+    name: "Sahej Health",
+    client: "Sahej",
+    tagline: "A holistic companion for managing Type 2 diabetes.",
     description:
-      "Express your feelings, thoughts, and creativity by designing your own lines with stylish backgrounds and fonts. Whether you want to create meaningful messages, personal notes, or creative text designs, VibeLines makes it simple and fun.",
+      "Evidence-backed care that blends traditional medicine, psychological insight, lifestyle interventions and advanced monitoring to help people take control of their health.",
+    category: "client",
+    role: "Frontend Developer",
+    tools: ["React Native", "Redux", "React Native Paper", "TypeScript"],
+    links: {
+      appStore: "https://apps.apple.com/in/app/sahej-health-app/id6469026236",
+    },
+    icon: "/projects/icons/sahej.png",
+    accent: "#9f1d45",
+    featured: true,
   },
   {
-    id: "silent_reminder",
-    name: "Silent Reminder",
-    tools: ["React Native cli", "Play Store"],
-    role: "App Creator",
-    link: "https://play.google.com/store/apps/details?id=com.silentreminder",
+    id: "wow-momo",
+    name: "Wow! Momo",
+    client: "Wow! Momo Foods",
+    tagline: "Web presence for one of India's fastest-growing QSR chains.",
     description:
-      "Stay organised with smart reminders for events, medicines, trips, and daily tasks — all in one place.",
+      "Brand website covering menus, campaigns, franchise enquiries, bulk orders and HORECA services for a national quick-service restaurant brand.",
+    category: "client",
+    role: "Frontend Developer",
+    tools: ["React", "TypeScript", "Responsive UI"],
+    links: { web: "https://www.wowmomo.com/" },
+    image: "/projects/wowmomo.jpg",
   },
   {
-    id: "calculators_zip",
-    name: "Calculators Zip",
-    tools: ["React Native cli", "Play Store"],
-    role: "App Creator",
-    link: "https://play.google.com/store/apps/details?id=com.calculatorzip",
+    id: "krishna-transport",
+    name: "Krishna Transport",
+    client: "Krishna Transport Packers & Movers",
+    tagline: "Lead-generating site for a Noida relocation company.",
     description:
-      "Calculator Zip is a powerful and easy-to-use multi-utility calculator designed to simplify everyday calculations. Whether you’re planning a trip, managing your expenses, calculating GST, estimating bills, or working out loan interest — all your essential tools are available in one clean, intuitive app",
+      "Household and commercial relocation across Noida and Delhi NCR — services, gallery and instant WhatsApp enquiries, built to rank locally.",
+    category: "client",
+    role: "Frontend Developer",
+    tools: ["Next.js", "Tailwind CSS", "TypeScript", "HubSpot"],
+    links: { web: "https://www.krishnatransportpackersandmovers.com/" },
+    image: "/projects/krishna-transport.jpg",
   },
   {
-    id: "math_adventure",
-    name: "Math Adventure Game",
-    tools: ["React Native cli", "Play Store"],
-    role: "App Creator",
-    link: "https://play.google.com/store/apps/details?id=com.mathadvancer",
+    id: "divansh-transport",
+    name: "Divansh Transport",
+    client: "Divansh Transport Service",
+    tagline: "Logistics, import-export and moving — across India.",
     description:
-      "Math Adventure Game A fun and interactive mobile game built with React Native that transforms basic mathematics into an engaging adventure for children. Players embark on a journey of arithmetic mastery—covering addition, subtraction, multiplication and division—through vibrant mini-games, puzzles and level-based progression.",
+      "A bold, cinematic website for a logistics company offering transport, delivery, import-export and packers & movers services nationwide.",
+    category: "client",
+    role: "Frontend Developer",
+    tools: ["Next.js", "Tailwind CSS", "TypeScript"],
+    links: { web: "https://www.divanshtransportservice.in/" },
+    image: "/projects/divansh-transport.jpg",
+  },
+
+  // ───────────── Products — web + store apps ─────────────
+  {
+    id: "dil-ki-bhakti",
+    name: "Dil Ki Bhakti",
+    tagline: "Daily aarti, bhajans, mantras and quotes — in Hindi.",
+    description:
+      "A devotional platform with a deity for every day of the week, a Hindi blog and a companion Android app for a calm, distraction-free experience.",
+    category: "product",
+    role: "Full Stack Developer",
+    tools: ["Next.js", "MongoDB", "React Native", "TypeScript"],
+    links: {
+      web: "https://www.dilkibhakti.online/",
+      playStore: "https://play.google.com/store/apps/details?id=com.dilkibhaktiapp",
+    },
+    image: "/projects/dilkibhakti.jpg",
+    icon: "/projects/icons/dilkibhakti.png",
+    featured: true,
+  },
+  {
+    id: "hot-job",
+    name: "HotJob",
+    tagline: "2,400+ remote jobs from top companies, in one feed.",
+    description:
+      "Aggregates remote openings from multiple job boards with search, saved jobs and daily updates — on the web and Android.",
+    category: "product",
+    role: "App Creator",
+    tools: ["React Native", "Next.js", "TypeScript"],
+    links: {
+      web: "https://hot-job-web.vercel.app/",
+      playStore: "https://play.google.com/store/apps/details?id=com.hotjob",
+    },
+    image: "/projects/hotjob.jpg",
+    icon: "/projects/icons/hotjob.png",
   },
   {
     id: "cpukit",
-    name: "Cpu Kit App",
-    tools: ["React Native", "Play Store"],
-    role: "App Creator",
-    link: "https://play.google.com/store/apps/details?id=com.cpukit",
+    name: "CPUKit",
+    tagline: "Know your device, inside out.",
     description:
-      "CPUKit is a utility app designed to provide users with detailed information about their Android device, such as CPU, GPU, battery, system, sensors, display, memory, and network data. This privacy policy explains how we handle data and permissions.",
+      "A fast, private Android app showing CPU, GPU, battery, memory, display, sensors, network and camera details — with a live web lab.",
+    category: "product",
+    role: "App Creator",
+    tools: ["React Native", "Next.js", "TypeScript"],
+    links: {
+      web: "https://cpu-kit-web.vercel.app/",
+      playStore: "https://play.google.com/store/apps/details?id=com.cpukit",
+    },
+    image: "/projects/cpukit.jpg",
+    icon: "/projects/icons/cpukit.png",
   },
   {
-    id: "dilkibhakti",
-    name: "Dil Ki Bhakti App",
-    tools: ["React Native", "Play Store"],
-    role: "App Creator",
-    link: "https://play.google.com/store/apps/details?id=com.dilkibhaktiapp",
+    id: "qr-vault",
+    name: "QR Vault",
+    tagline: "Create, organise and password-protect your QR codes.",
     description:
-      "Dil Ki Bhakti is a devotional mobile application designed to bring daily spiritual content to users, including bhajans, aarti, chalisa, and inspirational quotes. The app focuses on providing a clean, distraction-free experience for devotees seeking positivity and peace in their day-to-day lives.",
+      "Generate QR codes for contacts, Wi-Fi, notes and more, and lock the private ones behind a password. Everything stays on-device.",
+    category: "product",
+    role: "App Creator",
+    tools: ["React Native", "Next.js", "TypeScript"],
+    links: {
+      web: "https://qrvault-web.vercel.app/",
+      playStore: "https://play.google.com/store/apps/details?id=com.qrvault.com",
+    },
+    image: "/projects/qrvault.jpg",
+    icon: "/projects/icons/qrvault.png",
+  },
+  {
+    id: "silent-reminder",
+    name: "Silent Reminder",
+    tagline: "Quiet reminders that respect your focus.",
+    description:
+      "A calm, distraction-free reminder app for events, medicine, trips, water, work and more.",
+    category: "product",
+    role: "App Creator",
+    tools: ["React Native", "Next.js", "TypeScript"],
+    links: {
+      web: "https://silent-reminder-web.vercel.app/",
+      playStore: "https://play.google.com/store/apps/details?id=com.silentreminder",
+    },
+    image: "/projects/silent-reminder.jpg",
+    icon: "/projects/icons/silent-reminder.png",
+  },
+  {
+    id: "math-adventure",
+    name: "Math Adventure",
+    tagline: "Turning arithmetic into a game kids love.",
+    description:
+      "Counting, tables, puzzles and problem-solving through vibrant mini-games and level-based progression.",
+    category: "product",
+    role: "App Creator",
+    tools: ["React Native", "Next.js", "TypeScript"],
+    links: {
+      web: "https://math-adventure-web.vercel.app/",
+      playStore: "https://play.google.com/store/apps/details?id=com.mathadvancer",
+    },
+    image: "/projects/math-adventure.jpg",
+    icon: "/projects/icons/math-adventure.png",
+  },
+  {
+    id: "vibelines",
+    name: "VibeLines",
+    tagline: "Design and share beautiful line cards.",
+    description:
+      "Romantic lines, flirty texts and love messages in English, Hindi and Bhojpuri — styled with custom backgrounds and fonts, shared instantly.",
+    category: "product",
+    role: "App Creator",
+    tools: ["React Native", "Next.js", "TypeScript"],
+    links: {
+      web: "https://vibe-lines-web.vercel.app/",
+      playStore: "https://play.google.com/store/apps/details?id=com.pickupline",
+    },
+    image: "/projects/vibelines.jpg",
+    icon: "/projects/icons/vibelines.png",
+  },
+
+  // ───────────── Products — more launches ─────────────
+  {
+    id: "timeatlas",
+    name: "TimeAtlas",
+    tagline: "World clock & timezone planner for global teams.",
+    description:
+      "An interactive time scrubber, group-meeting overlap finder, daylight map and seven custom themes — everything calculated offline.",
+    category: "product",
+    role: "Product Engineer",
+    tools: ["React", "TypeScript", "Tailwind CSS"],
+    links: { web: "https://timeatlas-web.vercel.app/" },
+    image: "/projects/timeatlas.jpg",
+    featured: true,
+  },
+  {
+    id: "expense",
+    name: "Expense",
+    tagline: "Offline-first money tracker with multi-dashboards.",
+    description:
+      "Track every expense, run separate budget dashboards and analyse spending — with strict on-device privacy, no ads and no trackers.",
+    category: "product",
+    role: "Product Engineer",
+    tools: ["React Native", "Next.js", "TypeScript"],
+    links: { web: "https://expense-web-orpin.vercel.app/" },
+    image: "/projects/expense.jpg",
+  },
+  {
+    id: "ludo-masti",
+    name: "Ludo Masti",
+    tagline: "Classic Ludo, reimagined — vs AI or live multiplayer.",
+    description:
+      "Play against a smart AI or friends in real-time 2–4 player matches, with dice sounds, music and smooth animations. No download needed.",
+    category: "product",
+    role: "Game Developer",
+    tools: ["React", "WebSockets", "TypeScript"],
+    links: { web: "https://ludo-web-snowy.vercel.app/" },
+    image: "/projects/ludo-masti.jpg",
+  },
+  {
+    id: "english-offline",
+    name: "English Offline",
+    tagline: "10,000+ grammar & vocabulary lessons, fully offline.",
+    description:
+      "Grammar, daily spoken phrases and high-frequency vocabulary with 100% local privacy — zero ads, zero tracking.",
+    category: "product",
+    role: "Product Engineer",
+    tools: ["React Native", "Next.js", "TypeScript"],
+    links: { web: "https://english-offline-web.vercel.app/" },
+    image: "/projects/english-offline.jpg",
+  },
+  {
+    id: "calculator-zip",
+    name: "Calculator Zip",
+    tagline: "Every everyday calculator in one clean app.",
+    description:
+      "Trip planning, expenses, GST, bill estimates and loan interest — a multi-utility calculator with a simple, intuitive interface.",
+    category: "product",
+    role: "App Creator",
+    tools: ["React Native", "TypeScript"],
+    links: {
+      playStore: "https://play.google.com/store/apps/details?id=com.calculatorzip",
+    },
+    icon: "/projects/icons/calculator-zip.png",
+    accent: "#2563eb",
+  },
+  {
+    id: "learn-refill",
+    name: "LearnReFill",
+    tagline: "Coding courses with 100+ projects and internships.",
+    description:
+      "A live training platform offering coding classes, internships and certifications in web development, React and Next.js.",
+    category: "product",
+    role: "Full Stack Developer",
+    tools: ["Next.js", "Redux", "MongoDB", "TypeScript"],
+    links: { web: "https://www.learnrefill.com/" },
+    image: "/projects/learnrefill.jpg",
+  },
+  {
+    id: "uniform-b2b",
+    name: "Uniform B2B",
+    tagline: "Web, mobile & mentorship studio.",
+    description:
+      "A studio site for website and mobile app development, SEO and project-based programming tuition.",
+    category: "product",
+    role: "Full Stack Developer",
+    tools: ["Next.js", "Tailwind CSS", "TypeScript"],
+    links: { web: "https://uniform-b2b-web.vercel.app/" },
+    image: "/projects/uniform-b2b.jpg",
+  },
+  {
+    id: "image-convertor",
+    name: "Image Convertor",
+    tagline: "Convert, resize and compress images in the browser.",
+    description:
+      "Free, sign-up-free tools for JPG, PNG, WebP, ICO and more — plus passport photos and favicon generation.",
+    category: "product",
+    role: "Full Stack Developer",
+    tools: ["Next.js", "Tailwind CSS", "TypeScript"],
+    links: { web: "https://image-convertor-nine.vercel.app/" },
+    image: "/projects/image-convertor.jpg",
   },
   {
     id: "meta-blogger",
-    name: "Meta Blogger Web",
-    tools: ["Mdx", "NextJS", "Tailwind CSS", "TypeScript", "Vercel"],
+    name: "Meta Blogger",
+    tagline: "Practical tech tutorials for creators and developers.",
+    description:
+      "An MDX-powered blog on web development, dev tools, productivity and more — fast, clean and SEO-friendly.",
+    category: "product",
     role: "Frontend Developer",
-    link: "https://www.metablogger.in",
-    description:
-      "MetaBlogger.in is your go-to platform for insightful, practical content that empowers creators, developers, and lifelong learners. With a clean and user-friendly design, the blog delivers fresh, digestible articles spanning topics such as web development, content strategy, digital tools, recipes, language learning, and cultural traditions. Whether you're exploring VS Code tips or discovering how to transfer files seamlessly between devices, MetaBlogger.in makes complex subjects accessible—so you can learn, grow, and create with confidence.",
+    tools: ["Next.js", "MDX", "Tailwind CSS", "TypeScript"],
+    links: { web: "https://meta-blogger.vercel.app/" },
+    image: "/projects/meta-blogger.jpg",
   },
   {
-    id: "travel-transport",
-    name: "Travel Transport Web",
-    tools: ["NextJS", "Tailwind CSS", "TypeScript", "Vercel", "Hub spot"],
+    id: "nextgen-coders",
+    name: "NexGen Coders Program",
+    tagline: "Bootcamp for web, Android and iOS development.",
+    description:
+      "Landing site for a comprehensive coding bootcamp — curriculum, project opportunities and enrolment.",
+    category: "product",
     role: "Frontend Developer",
-    link: "https://www.krishnatransportpackersandmovers.com",
-    description:
-      "Krishna Transport Packers And Movers (a unit of Singh Roadways) delivers reliable and timely commercial and household relocation services in Noida and Greater Noida. Staffed by skilled professionals, the company specializes in packing, loading, unloading, warehousing, and transportation—tailoring materials (reusable or cardboard) and handling techniques to protect every item with care, including double-quilted furniture padding Krishna Transport Packers and Movers.",
+    tools: ["React", "JavaScript", "CSS"],
+    links: { web: "https://next-gen-coders-program-web.vercel.app/" },
+    image: "/projects/nextgen-coders.jpg",
   },
-  {
-    id: "sahej-Health",
-    name: "Sahej Health App",
-    tools: ["React native", "Redux", "React native paper", "TypeScript"],
-    role: "Frontend Developer",
-    link: "https://apps.apple.com/in/app/sahej-health-app/id6469026236",
-    description:
-      "Sahej Health App is a holistic, tech-enabled companion for individuals managing Type 2 diabetes. Its evidence-backed approach blends traditional medicine, psychological insights, lifestyle interventions, and advanced monitoring to empower users toward better health outcomes",
-  },
-  {
-    id: "dil-ki-bhakti",
-    name: "Dil ki Bhakti web",
-    tools: [
-      "NextJs",
-      "MongoDB",
-      "Tailwind CSS",
-      "TypeScript",
-      "Vercel",
-      "Hub spot",
-    ],
-    role: "Full Stack Developer",
-    link: "https://www.dilkibhakti.in",
-    description:
-      "दिल की भक्ति is a heartfelt, digital devotional platform crafted to bring the essence of bhakti—daily aartis, bhajans, mantras, and spiritual quotes—into your everyday life in Hindi. Its core mission is to provide followers with accessible and authentic devotional content, available anytime and anywhere Dil ki Bhakti.",
-  },
-  {
-    id: "learn-ReFill",
-    name: "LearnReFill Web",
-    tools: [
-      "NextJS",
-      "Redux",
-      "MongoDB",
-      "Tailwind CSS",
-      "TypeScript",
-      "Vercel",
-    ],
-    role: "Full Stack Developer",
-    link: "https://www.learnrefill.com",
-    description:
-      "LearnReFill is an online education platform offering expert-led classes—from multi-subject academic tutoring to coding bootcamps—delivered directly to students via laptop, ensuring flexible and accessible learning anywhere.",
-  },
-  {
-    id: "image-Convertor",
-    name: "ImageConvertor Web",
-    tools: ["NextJS", "Tailwind CSS", "TypeScript", "Vercel"],
-    role: "Full Stack Developer",
-    link: "https://www.imageconvertor.xyz",
-    description:
-      "ImageConvertor.xyz is a free, browser-based image conversion platform—offering fast, seamless, and secure tools for converting, resizing, compressing, and optimizing images. With no downloads or sign-ups required, it supports formats like JPG, PNG, WebP, BMP, TIFF, ICO, and more. Users can easily resize photos for social media or documents while maintaining high quality; compress images to reduce file size without visible loss; generate passport photos compliant with guidelines; convert images to favicon format for branding; and leverage modern formats like WebP for faster web performance. Privacy is prioritized—uploaded files are automatically deleted after processing—making it a reliable, universal solution for students, bloggers, designers, and professionals alike",
-  },
-  {
-    id: "Wintej",
-    name: "Wintej Web",
-    tools: ["ReactJs", "Redux", "Material UI", "TypeScript"],
-    role: "Frontend Developer",
-    link: "https://www.wintej.com",
-    description:
-      "Wintej is a gaming app built for enthusiasts of classic games—offering a seamless and nostalgic experience where vintage titles help players achieve quick wins. It delivers fast-paced, retro-style gameplay designed to captivate both new gamers and nostalgia-driven audiences",
-  },
-  {
-    id: "dhanu-Coin",
-    name: "Dhanu Coin Web",
-    tools: ["ReactJS", "Redux", "TypeScript"],
-    role: "Frontend Developer",
-    link: "https://dhanucoin.in",
-    description:
-      "Dhanu Coin is a forward-looking cryptocurrency tailored for seamless integration into everyday life, offering secure, transparent, and efficient solutions for payments and rewards. With a growing community of over 10,000 members and a strong client retention rate of 95%, it underscores its commitment to reliability and user trust. The platform envisions bridging digital assets with real-world applications, supported by utility partnerships (such as Pro EFX and upcoming ventures in diamond jewelry, cosmetics, and gaming). The brand is also anticipating the launch of “Dhanu 2.0,” signaling ongoing innovation and growth.",
-  },
-  {
-    id: "eco-charger",
-    name: "Eco Charger App",
-    tools: ["React Native", "Redux", "React Native Paper", "TypeScript"],
-    role: "Frontend Developer",
-    link: "https://mega.nz/file/N7ZRiS6I#ovrUdYNSLZOSPnhS2zh1k-YxYX3YCujz39Tf6jgOOkc",
-    description:
-      "Eco Charger is a smart battery health companion that notifies you when your phone reaches 75% charge, reminding you to unplug the charger. By preventing overcharging, the app helps extend battery lifespan, improve performance, and promote eco-friendly energy use.",
-  },
-  {
-    id: "goal-app",
-    name: "Goal App",
-    tools: ["React Native", "Javascript"],
-    role: "Frontend Developer",
-    link: "https://mega.nz/file/4iYlUCBa#1Zcoj5fT7PNJx-TZDclbNCLit0fzD5v8QrCzsmmefpY",
-    description:
-      "Goal App helps you set, track, and achieve your personal or professional goals with ease. Whether it’s daily habits, fitness milestones, study targets, or career objectives, the app keeps you motivated through reminders, progress tracking, and simple visualization tools—so you stay consistent and reach your goals faster.",
-  },
-  {
-    id: "panorama-app",
-    name: "Panorama App",
-    tools: ["React Native", "Javascript"],
-    role: "Frontend Developer",
-    link: "https://mega.nz/file/QvQE2IrA#rACkZysEv7LUA426zokUW77OD6w4SKxAWsxGQChFwsU",
-    description:
-      "Panorama App is your all-in-one lifestyle companion—bringing together everyday tools and information in one place. From exploring baby names, recipes, and inspirational quotes to checking weather updates, plant and dog info, exercise tips, and more—it’s designed to make life simpler. The app also includes practical utilities like calculators, mortgage tools, and even a logo finder with download support. With Panorama, you get knowledge, convenience, and daily essentials all inside one app.",
-  },
-  {
-    id: "beans-app",
-    name: "Beans App",
-    tools: ["React Native", "Javascript"],
-    role: "Frontend Developer",
-    link: "https://mega.nz/file/R6oyFYxL#bEmPbYoaZFpZjVnWMdcDMQvc1koqTDG2yMDYZPc33CI",
-    description:
-      "Beans App is a multi-utility lifestyle hub packed with knowledge, fun, and smart tools—all in one place. From practical calculators like mortgage and interest rate tools to everyday helpers such as a dictionary, password generator, weather updates, and air quality checks, Beans makes life easier. Explore a wide range of topics including crypto prices, bikes, cars, animals, plants, dogs, exercise, recipes, cocktails, calories burned, random images, stars, celebrities, history events, and even helicopters and railways. Plus, enjoy lighthearted content like jokes, fun facts, and inspiring quotes. Whether you’re curious, learning, or just passing time, Beans App has something for everyone.",
-  },
-] as const;
+];
+
+export const isMobile = (p: Project) =>
+  Boolean(p.links.playStore || p.links.appStore);

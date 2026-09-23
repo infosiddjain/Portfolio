@@ -21,7 +21,7 @@ export function CinematicLayer() {
   const y = useMotionValue(-400);
 
   useEffect(() => {
-    const t = setTimeout(() => setIntro(false), 2600);
+    const t = setTimeout(() => setIntro(false), 1500);
     const move = (e: PointerEvent) => {
       x.set(e.clientX - 200);
       y.set(e.clientY - 200);
@@ -67,13 +67,13 @@ export function CinematicLayer() {
             key="intro"
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black"
             exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
+            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
             initial={{ clipPath: "inset(0 0 0% 0)" }}
           >
             <motion.p
               initial={{ opacity: 0, letterSpacing: "0.1em" }}
               animate={{ opacity: 1, letterSpacing: "0.6em" }}
-              transition={{ duration: 1.8, ease: "easeOut" }}
+              transition={{ duration: 1.1, ease: "easeOut" }}
               className="text-[10px] uppercase text-amber-200/70 md:text-xs"
             >
               A portfolio film by
@@ -81,7 +81,7 @@ export function CinematicLayer() {
             <motion.h1
               initial={{ opacity: 0, y: 30, filter: "blur(12px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ delay: 0.5, duration: 1.2 }}
+              transition={{ delay: 0.25, duration: 0.8 }}
               className="mt-5 font-[family-name:var(--font-montaga)] text-4xl text-white md:text-7xl"
             >
               Siddharth Jain
@@ -89,7 +89,7 @@ export function CinematicLayer() {
             <motion.span
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={{ delay: 0.9, duration: 1.4, ease: "easeInOut" }}
+              transition={{ delay: 0.5, duration: 0.9, ease: "easeInOut" }}
               className="mt-8 block h-px w-48 origin-left bg-gradient-to-r from-amber-300 to-transparent"
             />
           </motion.div>

@@ -12,7 +12,7 @@ export function HeroSection() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2.6, duration: 1 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
             className="mb-5 text-[11px] uppercase tracking-[0.5em] text-amber-200/70"
           >
             Software Engineer · Full-stack · Mobile
@@ -31,7 +31,7 @@ export function HeroSection() {
                   className={`inline-block ${c}`}
                   initial={{ y: "110%", rotate: 4 }}
                   animate={{ y: 0, rotate: 0 }}
-                  transition={{ delay: 2.7 + i * 0.12, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ delay: 1.55 + i * 0.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {w}
                 </motion.span>
@@ -41,7 +41,7 @@ export function HeroSection() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 3.6, duration: 1 }}
+            transition={{ delay: 2.2, duration: 0.8 }}
             className="mt-6 max-w-md text-sm text-neutral-400"
           >
             Hi, I&apos;m <span className="text-white">Siddharth Jain</span> — building fast, elegant web and mobile products.

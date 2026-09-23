@@ -8,7 +8,7 @@ export const navigationItems: NavigationItem[] = [
   { id: "about", label: "ABOUT", href: "/#about" },
   { id: "experience", label: "EXPERIENCE", href: "/#experience" },
   { id: "skills", label: "SKILLS", href: "/#skills" },
+  { id: "projects", label: "PROJECTS", href: "/#projects" },
   { id: "education", label: "EDUCATION", href: "/#education" },
   { id: "blogs", label: "BLOGS", href: "/blog" },
-  { id: "projects", label: "PROJECTS", href: "/#projects" },
 ] as const;
