@@ -88,7 +88,7 @@ export function CodeBlock() {
             ', '
           </span>
           <span className="text-amber-300 text-xs box-border leading-4 md:text-base md:leading-6">
-            MongoDB
+            Python
           </span>
           <span className="text-gray-400 text-xs box-border leading-4 md:text-base md:leading-6">
             ', '
