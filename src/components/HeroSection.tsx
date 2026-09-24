@@ -87,7 +87,9 @@ export function HeroSection() {
             </a>
             <a
               role="button"
-              href="https://drive.google.com/drive/folders/1udICl3vMp07pcEBCNcVDhXMMkHbUhuqO"
+              href="/cv/Siddharth_Jain_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-xs font-medium items-center bg-[linear-gradient(to_right,rgb(236,72,153),rgb(124,58,237))] box-border gap-x-1 flex tracking-[0.6px] leading-4 gap-y-1 text-center uppercase p-3 rounded-full md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5 md:px-8 md:py-4"
             >
               <span className="text-xs font-medium box-border block tracking-[0.6px] leading-4 md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5">
