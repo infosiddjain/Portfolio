@@ -26,12 +26,19 @@ export function HeroSection() {
               ["feel", ""],
               ["alive.", "gold-text"],
             ].map(([w, c], i) => (
-              <span key={i} className="mr-3 inline-block overflow-hidden align-bottom">
+              <span
+                key={i}
+                className="mr-3 inline-block overflow-hidden align-bottom"
+              >
                 <motion.span
                   className={`inline-block ${c}`}
                   initial={{ y: "110%", rotate: 4 }}
                   animate={{ y: 0, rotate: 0 }}
-                  transition={{ delay: 1.55 + i * 0.1, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{
+                    delay: 1.55 + i * 0.1,
+                    duration: 0.9,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
                 >
                   {w}
                 </motion.span>
@@ -44,7 +51,8 @@ export function HeroSection() {
             transition={{ delay: 2.2, duration: 0.8 }}
             className="mt-6 max-w-md text-sm text-neutral-400"
           >
-            Hi, I&apos;m <span className="text-white">Siddharth Jain</span> — building fast, elegant web and mobile products.
+            Hi, I&apos;m <span className="text-white">Siddharth Jain</span> —
+            building fast, elegant web and mobile products.
           </motion.p>
           <div className="items-center box-border gap-x-5 flex gap-y-5 my-12">
             {socialLinks.map((link) => (
@@ -79,7 +87,7 @@ export function HeroSection() {
             </a>
             <a
               role="button"
-              href="https://drive.google.com/file/d/1slzP4UZvHQEXvyMbcvq07TzgCDQEr7qf/preview"
+              href="https://drive.google.com/drive/folders/1udICl3vMp07pcEBCNcVDhXMMkHbUhuqO"
               className="text-xs font-medium items-center bg-[linear-gradient(to_right,rgb(236,72,153),rgb(124,58,237))] box-border gap-x-1 flex tracking-[0.6px] leading-4 gap-y-1 text-center uppercase p-3 rounded-full md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5 md:px-8 md:py-4"
             >
               <span className="text-xs font-medium box-border block tracking-[0.6px] leading-4 md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5">
