@@ -1,8 +1,10 @@
 "use server";
 
-import { type ContactErrors, validateContact } from "@/lib/contactValidation";
+import { type ContactErrors, type ContactField, validateContact } from "@/lib/contactValidation";
 
 const CONTACT_FORM_ENDPOINT = "https://hub-form.vercel.app/api/f/ASLiajwxMe9e";
+
+const CONTACT_FIELDS: ContactField[] = ["name", "email", "message"];
 
 export type ContactPayload = {
   name: string;
@@ -51,6 +53,16 @@ export async function sendContact(
     if (res.ok && data?.ok === true) return { ok: true };
 
     console.error("hub-form rejected the message", res.status, data);
+
+    // Show hub-form's own message whenever it sends one.
+    if (typeof data?.error === "string" && data.error.trim()) {
+      const field = CONTACT_FIELDS.find((f) => f === data.field);
+      return {
+        ok: false,
+        error: data.error,
+        fieldErrors: field ? { [field]: data.error } : undefined,
+      };
+    }
     return { ok: false, error: "Couldn't send your message. Please try again." };
   } catch (err) {
     console.error(err);
