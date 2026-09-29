@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Montaga, Poppins } from "next/font/google";
+import { Toaster } from "@/components/Toaster";
 
 const montaga = Montaga({
   subsets: ["latin"],
@@ -64,6 +65,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montaga.variable} ${poppins.variable} antialiased`}>
         {children}
+        <Toaster />
       </body>
     </html>
   );

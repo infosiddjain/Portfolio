@@ -11,4 +11,5 @@ export const navigationItems: NavigationItem[] = [
   { id: "projects", label: "PROJECTS", href: "/#projects" },
   { id: "education", label: "EDUCATION", href: "/#education" },
   { id: "blogs", label: "BLOGS", href: "/blog" },
+  { id: "contact", label: "CONTACT", href: "/#contact" },
 ] as const;

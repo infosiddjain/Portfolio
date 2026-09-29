@@ -1,45 +1,118 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { contactInfo, socialLinksLarge } from "@/data/contact";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { sendContact } from "@/app/actions/contact";
+import {
+  CONTACT_LIMITS,
+  type ContactErrors,
+  type ContactField,
+  validateContact,
+  validateContactField,
+} from "@/lib/contactValidation";
+
+const EMPTY_FORM = { name: "", email: "", message: "", _gotcha: "" };
+const FIELD_ORDER: ContactField[] = ["name", "email", "message"];
+
+const inputClass = (hasError: boolean) =>
+  `bg-slate-900 border px-3 py-2 rounded-md outline-none transition-colors focus:border-purple-500 ${
+    hasError ? "border-red-500" : "border-gray-700"
+  }`;
+
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+  return (
+    <p id={id} role="alert" className="text-xs text-red-400">
+      {message}
+    </p>
+  );
+}
 
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [errors, setErrors] = useState<ContactErrors>({});
+  const [touched, setTouched] = useState<Partial<Record<ContactField, boolean>>>({});
   const [loading, setLoading] = useState(false);
+  const fieldRefs = useRef<
+    Partial<Record<ContactField, HTMLInputElement | HTMLTextAreaElement | null>>
+  >({});
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Once a field has been visited, re-check it as the user types.
+    if (touched[name as ContactField]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: validateContactField(name as ContactField, value),
+      }));
+    }
+  };
+
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const field = e.target.name as ContactField;
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    setErrors((prev) => ({
+      ...prev,
+      [field]: validateContactField(field, e.target.value),
+    }));
+  };
+
+  const showErrors = (fieldErrors: ContactErrors) => {
+    setErrors(fieldErrors);
+    setTouched({ name: true, email: true, message: true });
+    const firstInvalid = FIELD_ORDER.find((f) => fieldErrors[f]);
+    if (firstInvalid) fieldRefs.current[firstInvalid]?.focus();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (loading) return;
+
+    const fieldErrors = validateContact(formData);
+    if (Object.keys(fieldErrors).length > 0) {
+      showErrors(fieldErrors);
+      toast.error("Please fix the highlighted fields.", { toastId: "contact-invalid" });
+      return;
+    }
+
     setLoading(true);
+    const toastId = toast.loading("Sending your message…");
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      if (data.success) {
-        toast.success("Message sent successfully! 🚀");
-        setFormData({ name: "", email: "", message: "" });
+      const result = await sendContact(formData);
+      if (result.ok) {
+        toast.update(toastId, {
+          render: "Thanks! Your message has been sent. I'll get back to you soon.",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+        });
+        setFormData(EMPTY_FORM);
+        setErrors({});
+        setTouched({});
       } else {
-        toast.error("Failed to send message. Please try again.");
+        if (result.fieldErrors) showErrors(result.fieldErrors);
+        toast.update(toastId, {
+          render: result.error,
+          type: "error",
+          isLoading: false,
+          autoClose: 5000,
+        });
       }
     } catch (err) {
       console.error(err);
-      toast.error("Something went wrong!");
+      toast.update(toastId, {
+        render: "Something went wrong. Please try again.",
+        type: "error",
+        isLoading: false,
+        autoClose: 5000,
+      });
     } finally {
       setLoading(false);
     }
@@ -47,9 +120,6 @@ export function ContactSection() {
 
   return (
     <div className="relative box-border mt-24 mb-12 md:my-16">
-      {/* Toast container */}
-      <ToastContainer position="top-right" autoClose={3000} />
-
       <div className="absolute items-center box-border hidden flex-col -right-8 top-24 md:flex">
         <span className="text-xl bg-indigo-950 box-border inline leading-7 w-fit px-5 py-2 rounded-md md:rotate-90">
           CONTACT
@@ -72,51 +142,97 @@ export function ContactSection() {
             {/* Form */}
             <form
               onSubmit={handleSubmit}
+              noValidate
               className="flex flex-col gap-y-4 mt-6"
             >
               <div className="flex flex-col gap-y-2">
-                <label>Your Name: </label>
+                <label htmlFor="contact-name">Your Name: </label>
                 <input
+                  ref={(el) => {
+                    fieldRefs.current.name = el;
+                  }}
+                  id="contact-name"
                   type="text"
                   name="name"
+                  autoComplete="name"
                   value={formData.name}
                   placeholder="Enter your name"
                   onChange={handleInputChange}
-                  required
-                  className="bg-slate-900 border border-gray-700 px-3 py-2 rounded-md"
+                  onBlur={handleBlur}
+                  maxLength={CONTACT_LIMITS.name.max}
+                  aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? "contact-name-error" : undefined}
+                  className={inputClass(!!errors.name)}
                 />
+                <FieldError id="contact-name-error" message={errors.name} />
               </div>
 
               <div className="flex flex-col gap-y-2">
-                <label>Your Email: </label>
+                <label htmlFor="contact-email">Your Email: </label>
                 <input
+                  ref={(el) => {
+                    fieldRefs.current.email = el;
+                  }}
+                  id="contact-email"
                   type="email"
                   name="email"
+                  autoComplete="email"
                   value={formData.email}
                   placeholder="Enter your email"
                   onChange={handleInputChange}
-                  required
-                  className="bg-slate-900 border border-gray-700 px-3 py-2 rounded-md"
+                  onBlur={handleBlur}
+                  maxLength={CONTACT_LIMITS.email.max}
+                  aria-invalid={!!errors.email}
+                  aria-describedby={errors.email ? "contact-email-error" : undefined}
+                  className={inputClass(!!errors.email)}
                 />
+                <FieldError id="contact-email-error" message={errors.email} />
               </div>
 
               <div className="flex flex-col gap-y-2">
-                <label>Your Message: </label>
+                <label htmlFor="contact-message">Your Message: </label>
                 <textarea
+                  ref={(el) => {
+                    fieldRefs.current.message = el;
+                  }}
+                  id="contact-message"
                   name="message"
+                  rows={5}
                   value={formData.message}
                   placeholder="Enter your message"
                   onChange={handleInputChange}
-                  required
-                  className="bg-slate-900 border border-gray-700 px-3 py-2 rounded-md resize-y"
+                  onBlur={handleBlur}
+                  maxLength={CONTACT_LIMITS.message.max}
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? "contact-message-error" : undefined}
+                  className={`${inputClass(!!errors.message)} resize-y`}
                 ></textarea>
+                <div className="flex items-start justify-between gap-x-3">
+                  <FieldError id="contact-message-error" message={errors.message} />
+                  <span className="ml-auto text-xs text-slate-500">
+                    {formData.message.trim().length}/{CONTACT_LIMITS.message.max}
+                  </span>
+                </div>
               </div>
+
+              {/* Spam trap: hidden from people, bots fill it */}
+              <input
+                type="text"
+                name="_gotcha"
+                value={formData._gotcha}
+                onChange={handleInputChange}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ display: "none" }}
+              />
 
               {/* Submit button */}
               <div className="flex flex-col items-center gap-y-3">
                 <button
                   type="submit"
                   disabled={loading}
+                  aria-busy={loading}
                   className={`text-xs font-medium flex items-center justify-center gap-x-2 uppercase px-5 py-2.5 rounded-full md:text-sm md:font-semibold md:px-12 md:py-3 transition cursor-pointer ${
                     loading
                       ? "bg-gray-500 cursor-not-allowed"
