@@ -40,11 +40,11 @@ export function CertificatesSection() {
     <section className="relative my-16">
       <div className="box-border flex justify-center my-5 py-0 md:py-8">
         <div className="items-center box-border flex">
-          <span className="bg-indigo-950 box-border block h-0.5 w-24"></span>
+          <span className="bg-indigo-950 box-border block h-0.5 w-10 shrink sm:w-24"></span>
           <span className="text-xl bg-indigo-950 box-border block leading-7 w-fit px-5 py-2 rounded-md">
             Certificates
           </span>
-          <span className="bg-indigo-950 box-border block h-0.5 w-24"></span>
+          <span className="bg-indigo-950 box-border block h-0.5 w-10 shrink sm:w-24"></span>
         </div>
       </div>
 

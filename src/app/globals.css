@@ -13,8 +13,16 @@ html {
   scroll-padding-top: 5rem; /* keep anchored sections clear of the sticky header */
   -webkit-tap-highlight-color: transparent;
 }
+/* Guard on both html and body: iOS Safari ignores body-only overflow for
+   touch panning. `clip` (unlike `hidden`) keeps the sticky header working;
+   `hidden` on html is the fallback for older Safari. */
+html {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
 body {
   overflow-x: clip;
+  max-width: 100%;
 }
 
 @keyframes marquee-left {

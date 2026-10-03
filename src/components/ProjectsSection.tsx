@@ -297,7 +297,7 @@ export function ProjectsSection() {
 
       {/* Filters */}
       <div className="mb-10 flex justify-center">
-        <div className="glass flex max-w-full gap-1 overflow-x-auto rounded-full p-1 [scrollbar-width:none]">
+        <div className="glass flex max-w-full flex-wrap justify-center gap-1 rounded-2xl p-1 sm:flex-nowrap sm:overflow-x-auto sm:rounded-full [scrollbar-width:none]">
           {FILTERS.map((f) => {
             const active = filter === f.id;
             return (
