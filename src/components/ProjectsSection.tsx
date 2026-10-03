@@ -145,12 +145,12 @@ function ProjectCard({ project, column }: { project: Project; column: number }) 
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 48 }}
+      initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -8% 0px" }}
       exit={{ opacity: 0, scale: 0.97 }}
       // stagger left → right across each grid row
-      transition={{ duration: 0.8, delay: column * 0.09, ease: EASE }}
+      transition={{ duration: 0.6, delay: column * 0.07, ease: EASE }}
       onMouseMove={onMove}
       className={`project-card group relative flex flex-col overflow-hidden rounded-3xl p-4 transition-[border-color,transform] duration-500 hover:-translate-y-1.5 hover:border-amber-200/30 md:p-5 ${
         large ? "md:col-span-2 lg:col-span-3 lg:flex-row lg:items-center lg:gap-10 lg:p-8" : ""

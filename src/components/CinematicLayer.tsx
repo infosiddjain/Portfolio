@@ -8,6 +8,9 @@ import {
   useMotionValue,
 } from "framer-motion";
 
+/** How long the opening title card stays up; the hero times its entrance off this. */
+export const INTRO_MS = 900;
+
 /**
  * Site-wide "film" layer: opening title sequence, drifting aurora light,
  * film grain, letterbox vignette, scroll progress and a cursor light.
@@ -21,12 +24,14 @@ export function CinematicLayer() {
   const y = useMotionValue(-400);
 
   useEffect(() => {
-    const t = setTimeout(() => setIntro(false), 1500);
+    const t = setTimeout(() => setIntro(false), INTRO_MS);
+    // Cursor light only makes sense for a real mouse — skip the listener on touch.
+    if (!window.matchMedia("(pointer: fine)").matches) return () => clearTimeout(t);
     const move = (e: PointerEvent) => {
       x.set(e.clientX - 200);
       y.set(e.clientY - 200);
     };
-    window.addEventListener("pointermove", move);
+    window.addEventListener("pointermove", move, { passive: true });
     return () => {
       clearTimeout(t);
       window.removeEventListener("pointermove", move);
@@ -44,7 +49,7 @@ export function CinematicLayer() {
       </div>
 
       {/* Film grain */}
-      <div aria-hidden className="film-grain pointer-events-none fixed inset-0 z-[60] opacity-[0.07] mix-blend-overlay" />
+      <div aria-hidden className="film-grain pointer-events-none fixed inset-0 z-[60] hidden opacity-[0.07] mix-blend-overlay md:block" />
 
       {/* Cursor light */}
       <motion.div
@@ -67,21 +72,21 @@ export function CinematicLayer() {
             key="intro"
             className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black"
             exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
             initial={{ clipPath: "inset(0 0 0% 0)" }}
           >
             <motion.p
-              initial={{ opacity: 0, letterSpacing: "0.1em" }}
-              animate={{ opacity: 1, letterSpacing: "0.6em" }}
-              transition={{ duration: 1.1, ease: "easeOut" }}
-              className="text-[10px] uppercase text-amber-200/70 md:text-xs"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="text-[10px] uppercase tracking-[0.6em] text-amber-200/70 md:text-xs"
             >
               A portfolio film by
             </motion.p>
             <motion.h1
-              initial={{ opacity: 0, y: 30, filter: "blur(12px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ delay: 0.25, duration: 0.8 }}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="mt-5 font-[family-name:var(--font-montaga)] text-4xl text-white md:text-7xl"
             >
               Siddharth Jain
@@ -89,7 +94,7 @@ export function CinematicLayer() {
             <motion.span
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={{ delay: 0.5, duration: 0.9, ease: "easeInOut" }}
+              transition={{ delay: 0.25, duration: 0.6, ease: "easeInOut" }}
               className="mt-8 block h-px w-48 origin-left bg-gradient-to-r from-amber-300 to-transparent"
             />
           </motion.div>

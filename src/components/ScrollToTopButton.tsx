@@ -6,15 +6,11 @@ export function ScrollToTopButton() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
+    // setState bails out when the value is unchanged, so this stays cheap per scroll tick.
+    const toggleVisibility = () => setIsVisible(window.scrollY > 300);
 
-    window.addEventListener("scroll", toggleVisibility);
+    toggleVisibility();
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
@@ -28,7 +24,8 @@ export function ScrollToTopButton() {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed items-center bg-transparent bg-[linear-gradient(to_right,rgb(236,72,153),rgb(124,58,237))] hidden text-center z-50 p-4 rounded-full right-6 bottom-8 ${
+      aria-label="Scroll to top"
+      className={`fixed items-center bg-transparent bg-[linear-gradient(to_right,rgb(236,72,153),rgb(124,58,237))] hidden text-center z-50 p-4 rounded-full right-4 bottom-6 md:right-6 md:bottom-8 ${
         isVisible ? "flex" : "hidden"
       }`}
     >

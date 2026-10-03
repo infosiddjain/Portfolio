@@ -17,6 +17,8 @@ function SkillCard({ skill }: { skill: Skill }) {
               <img
                 alt={skill.name}
                 src={skill.iconSrc}
+                loading="lazy"
+                decoding="async"
                 className="aspect-square box-border h-full max-w-full rounded-lg"
               />
             </div>
@@ -65,11 +67,10 @@ export function SkillsSection() {
               ))}
             </div>
             {/* Duplicate row */}
-            <div className="flex shrink-0">
+            <div className="flex shrink-0" aria-hidden>
               {skills.map((skill) => (
                 <SkillCard key={`duplicate-${skill.id}`} skill={skill} />
               ))}
-              s
             </div>
           </div>
         </div>

@@ -6,9 +6,15 @@ body {
 .animate-marquee-left {
   display: flex;
   animation: marquee-left 40s linear infinite;
+  will-change: transform;
 }
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* keep anchored sections clear of the sticky header */
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  overflow-x: clip;
 }
 
 @keyframes marquee-left {
@@ -100,6 +106,17 @@ html {
   contain: layout paint;
 }
 
+/* Phones: huge blurred layers are the main scroll-jank source — keep the
+   aurora static with a cheaper blur. */
+@media (max-width: 767px) {
+  .aurora {
+    filter: blur(70px);
+    animation: none;
+    will-change: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .aurora, .film-grain, .gold-text { animation: none; }
+  html { scroll-behavior: auto; }
+  .aurora, .film-grain, .gold-text, .animate-marquee-left { animation: none; }
 }

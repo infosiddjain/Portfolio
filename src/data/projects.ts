@@ -266,8 +266,12 @@ export const projects: readonly Project[] = [
     category: "product",
     role: "Product Engineer",
     tools: ["React Native", "Next.js", "TypeScript"],
-    links: { web: "https://english-offline-web.vercel.app/" },
+    links: {
+      web: "https://english-offline-web.vercel.app/",
+      playStore: "https://play.google.com/store/apps/details?id=englishoffline.com",
+    },
     image: "/projects/english-offline.jpg",
+    icon: "/projects/icons/english-offline.png",
   },
   {
     id: "calculator-zip",

@@ -3,6 +3,10 @@ import { motion } from "framer-motion";
 import React from "react";
 import { socialLinks } from "@/data/socialLinks";
 import { CodeBlock } from "./CodeBlock";
+import { INTRO_MS } from "./CinematicLayer";
+
+// Hero copy starts animating just as the intro card wipes away.
+const START = INTRO_MS / 1000;
 
 export function HeroSection() {
   return (
@@ -12,12 +16,12 @@ export function HeroSection() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 0.8 }}
+            transition={{ delay: START, duration: 0.6 }}
             className="mb-5 text-[11px] uppercase tracking-[0.5em] text-amber-200/70"
           >
             Software Engineer · Full-stack · Mobile
           </motion.p>
-          <h1 className="font-[family-name:var(--font-montaga)] text-4xl leading-[1.15] md:text-[64px]">
+          <h1 className="font-[family-name:var(--font-montaga)] text-[2.5rem] leading-[1.15] sm:text-5xl lg:text-[64px]">
             {[
               ["Crafting", ""],
               ["digital", ""],
@@ -28,15 +32,15 @@ export function HeroSection() {
             ].map(([w, c], i) => (
               <span
                 key={i}
-                className="mr-3 inline-block overflow-hidden align-bottom"
+                className="mr-2 inline-block md:mr-3 overflow-hidden align-bottom"
               >
                 <motion.span
                   className={`inline-block ${c}`}
                   initial={{ y: "110%", rotate: 4 }}
                   animate={{ y: 0, rotate: 0 }}
                   transition={{
-                    delay: 1.55 + i * 0.1,
-                    duration: 0.9,
+                    delay: START + 0.05 + i * 0.06,
+                    duration: 0.7,
                     ease: [0.22, 1, 0.36, 1],
                   }}
                 >
@@ -48,7 +52,7 @@ export function HeroSection() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 2.2, duration: 0.8 }}
+            transition={{ delay: START + 0.45, duration: 0.6 }}
             className="mt-6 max-w-md text-sm text-neutral-400"
           >
             Hi, I&apos;m <span className="text-white">Siddharth Jain</span> —
@@ -69,7 +73,7 @@ export function HeroSection() {
               </a>
             ))}
           </div>
-          <div className="items-center box-border gap-x-3 flex gap-y-3">
+          <div className="items-center box-border flex flex-wrap gap-3">
             <a
               href="#contact"
               className="bg-[linear-gradient(to_right,rgb(124,58,237),rgb(236,72,153))] box-border block p-px rounded-full"
