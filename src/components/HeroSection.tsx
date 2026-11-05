@@ -4,9 +4,9 @@ import Image from "next/image";
 import gsap from "gsap";
 import { FiArrowDownRight, FiArrowUpRight } from "react-icons/fi";
 import { CONTACT } from "@/data/contact";
-import { playStoreApps, projects } from "@/data/projects";
+import { playStoreApps } from "@/data/projects";
 import { Magnetic } from "./motion/Magnetic";
-import { onAppReady, prefersReducedMotion } from "./motion/MotionProvider";
+import { isTouchDevice, onAppReady, prefersReducedMotion } from "./motion/MotionProvider";
 import { HeroScene } from "./three/HeroScene";
 
 function RotatingBadge() {
@@ -36,12 +36,13 @@ export function HeroSection() {
     if (prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
       gsap.set(".hero-word", { yPercent: 115 });
-      gsap.set("[data-hero-fade]", { y: 30, opacity: 0 });
+      if (!isTouchDevice()) gsap.set("[data-hero-fade]", { y: 30, opacity: 0 });
     }, root);
     const off = onAppReady(() => {
       ctx.add(() => {
         gsap.to(".hero-word", { yPercent: 0, duration: 1.2, stagger: 0.06, ease: "power4.out" });
-        gsap.to("[data-hero-fade]", { y: 0, opacity: 1, duration: 1, stagger: 0.08, delay: 0.5, ease: "power3.out" });
+        if (!isTouchDevice())
+          gsap.to("[data-hero-fade]", { y: 0, opacity: 1, duration: 1, stagger: 0.08, delay: 0.5, ease: "power3.out" });
       });
     });
     return () => {
@@ -113,7 +114,7 @@ export function HeroSection() {
                     href="#work"
                     className="rounded-full border border-ink/15 px-6 py-4 text-sm font-semibold uppercase tracking-wider text-ink transition-colors hover:border-ink"
                   >
-                    See all work ({projects.length})
+                    See selected work
                   </a>
                 </div>
                 <div className="mt-8 flex items-center gap-4" data-hero-fade>

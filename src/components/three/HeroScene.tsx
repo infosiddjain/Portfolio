@@ -4,7 +4,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { FiStar } from "react-icons/fi";
 import { playStoreApps, projects } from "@/data/projects";
-import { onAppReady, prefersReducedMotion } from "../motion/MotionProvider";
+import { isTouchDevice, onAppReady, prefersReducedMotion } from "../motion/MotionProvider";
 import { AppScreen, Phone } from "./Phone";
 
 const shot = (id: string) => projects.find((p) => p.id === id)?.image ?? "";
@@ -52,15 +52,23 @@ export function HeroScene() {
       });
     };
 
+    let onScreen = true;
     const loop = (ts: number) => {
       const dt = lastTs ? Math.min(ts - lastTs, 50) : 16;
       lastTs = ts;
       t += dt * 0.00022;
       place(t);
-      raf = requestAnimationFrame(loop);
+      if (onScreen) raf = requestAnimationFrame(loop);
     };
-    if (reduced) place(0.6);
-    else raf = requestAnimationFrame(loop);
+    place(0.6);
+    // Only spin while the hero is visible.
+    const io = new IntersectionObserver(([e]) => {
+      onScreen = e.isIntersecting;
+      cancelAnimationFrame(raf);
+      lastTs = 0;
+      if (onScreen && !reduced) raf = requestAnimationFrame(loop);
+    });
+    if (stage.current) io.observe(stage.current);
 
     const ctx = gsap.context(() => {
       if (reduced) return;
@@ -69,7 +77,7 @@ export function HeroScene() {
     }, stage);
 
     const off = onAppReady(() => {
-      if (reduced) return;
+      if (reduced || isTouchDevice()) return;
       gsap.fromTo(
         stage.current,
         { opacity: 0, scale: 0.85, rotateX: 25 },
@@ -92,6 +100,7 @@ export function HeroScene() {
 
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       ctx.revert();
       off();
       window.removeEventListener("pointermove", lean);

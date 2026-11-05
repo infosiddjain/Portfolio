@@ -2,6 +2,9 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
 import { Toaster } from "@/components/Toaster";
+import { Cursor } from "@/components/motion/Cursor";
+import { MotionProvider } from "@/components/motion/MotionProvider";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,10 +19,11 @@ const tight = Inter_Tight({
   display: "swap",
 });
 
-const SITE_URL = "https://portfolio-five-brown-mafnjkhjpf.vercel.app/";
+// Set NEXT_PUBLIC_SITE_URL (e.g. https://siddharthjain.dev) once the custom domain is live.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://portfolio-five-brown-mafnjkhjpf.vercel.app/";
 const TITLE = "Siddharth Jain — React Native & Next.js Developer for Hire";
 const DESCRIPTION =
-  "Freelance React Native & Next.js developer. I design, build and launch mobile apps, web platforms and business websites — 10 apps live on Google Play and 25+ live websites.";
+  "Freelance React Native & Next.js developer. I design, build and launch mobile apps, SaaS platforms and business websites — 10 apps live on Google Play.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -65,7 +69,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${tight.variable}`}>
-        {children}
+        <MotionProvider>
+          <Cursor />
+          <ScrollProgress />
+          {children}
+        </MotionProvider>
         <Toaster />
       </body>
     </html>

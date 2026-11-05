@@ -11,7 +11,7 @@ export function Footer() {
         <div className="grid gap-10 border-b border-line pb-14 md:grid-cols-4">
           <div className="md:col-span-2">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">[ Have an idea? ]</p>
-            <a href="#contact" className="display mt-4 inline-block text-[clamp(2rem,4vw,3.6rem)] hover:bg-lime">
+            <a href="/#contact" className="display mt-4 inline-block text-[clamp(2rem,4vw,3.6rem)] hover:bg-lime">
               Start a project ↗
             </a>
             <p className="mt-4 max-w-sm text-muted">
@@ -46,7 +46,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col justify-between gap-2 py-6 text-xs uppercase tracking-[0.16em] text-muted md:flex-row">
-          <p>© {new Date().getFullYear()} Siddharth Jain®</p>
+          <p>© {new Date().getFullYear()} Siddharth Jain</p>
           <p>{CONTACT.location}</p>
           <p>Built with Next.js, GSAP & Tailwind</p>
         </div>

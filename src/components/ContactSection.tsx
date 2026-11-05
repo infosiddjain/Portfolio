@@ -263,7 +263,7 @@ export function ContactSection() {
                 ></textarea>
                 <div className="flex items-start justify-between gap-x-3">
                   <FieldError id="contact-message-error" message={errors.message} />
-                  <span className="ml-auto text-xs text-white/40">
+                  <span className="ml-auto text-xs text-white/60">
                     {formData.message.trim().length}/{CONTACT_LIMITS.message.max}
                   </span>
                 </div>
@@ -292,7 +292,7 @@ export function ContactSection() {
                   <FiArrowUpRight className="h-5 w-5" />
                 </span>
               </button>
-              <p className="text-xs text-white/40">Your details are only used to reply to you.</p>
+              <p className="text-xs text-white/60">Your details are only used to reply to you.</p>
             </form>
           </div>
         </div>

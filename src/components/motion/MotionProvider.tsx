@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -25,6 +26,10 @@ export function onAppReady(cb: () => void) {
 export const prefersReducedMotion = () =>
   typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/** Phones & tablets: skip the intro and smooth-scroll so content paints immediately. */
+export const isTouchDevice = () =>
+  typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
+
 /**
  * Site-wide motion: Lenis smooth scroll synced to GSAP ScrollTrigger, plus
  * declarative scroll effects driven by data attributes so sections stay
@@ -36,12 +41,18 @@ export const prefersReducedMotion = () =>
  *   data-clip              image wipes in from the bottom
  */
 export function MotionProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
+  // Smooth scroll — created once and kept across page navigations.
   useEffect(() => {
     if (prefersReducedMotion()) return;
+    // Native scrolling is already smooth on touch screens — Lenis only costs main-thread time there.
+    if (isTouchDevice()) return;
 
     const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.085, // lower = silkier glide
+      wheelMultiplier: 0.95,
+      smoothWheel: true,
       anchors: { offset: -80 },
     });
     (window as Window & { __lenis?: Lenis }).__lenis = lenis;
@@ -49,6 +60,28 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
+
+    const refresh = () => ScrollTrigger.refresh();
+    window.addEventListener("load", refresh);
+
+    return () => {
+      window.removeEventListener("load", refresh);
+      gsap.ticker.remove(tick);
+      lenis.destroy();
+      delete (window as Window & { __lenis?: Lenis }).__lenis;
+    };
+  }, []);
+
+  // Scroll effects — rebuilt for every page so new routes animate too.
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+
+    const lenis = (window as Window & { __lenis?: Lenis }).__lenis;
+    if (!window.location.hash) {
+      lenis?.scrollTo(0, { immediate: true, force: true });
+      window.scrollTo(0, 0);
+    }
+    lenis?.resize();
 
     const ctx = gsap.context(() => {
       // Reveal
@@ -117,17 +150,13 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
       });
     });
 
-    // Images finishing late change layout — keep trigger positions honest.
-    const refresh = () => ScrollTrigger.refresh();
-    window.addEventListener("load", refresh);
-
+    // Let the new page lay out, then measure.
+    const id = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => {
-      window.removeEventListener("load", refresh);
+      cancelAnimationFrame(id);
       ctx.revert();
-      gsap.ticker.remove(tick);
-      lenis.destroy();
     };
-  }, []);
+  }, [pathname]);
 
   return <>{children}</>;
 }

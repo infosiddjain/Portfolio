@@ -84,7 +84,7 @@ export function Header() {
               SJ
             </span>
             <span className="hidden font-display text-lg font-bold uppercase tracking-tight text-ink sm:block">
-              Siddharth Jain<sup className="ml-0.5 text-[10px]">®</sup>
+              Siddharth Jain
             </span>
           </a>
 
@@ -139,7 +139,7 @@ export function Header() {
                   onClick={() => setOpen(false)}
                   className="menu-item group flex items-baseline gap-4 py-3 md:gap-8"
                 >
-                  <span className="text-xs text-white/40 md:text-sm">[{String(i + 1).padStart(2, "0")}]</span>
+                  <span className="text-xs text-white/60 md:text-sm">[{String(i + 1).padStart(2, "0")}]</span>
                   <span className="display text-[13vw] transition-colors group-hover:text-lime md:text-[7vw]">
                     {item.label}
                   </span>

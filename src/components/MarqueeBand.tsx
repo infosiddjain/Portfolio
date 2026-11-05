@@ -1,4 +1,5 @@
 import React from "react";
+import { MarqueeVelocity } from "./motion/MarqueeVelocity";
 
 const ITEMS = ["Mobile Apps", "Web Platforms", "SaaS Tools", "Business Websites", "Games", "Dashboards", "UI / UX"];
 
@@ -14,6 +15,7 @@ export function MarqueeBand() {
 
   return (
     <section aria-hidden className="relative overflow-hidden py-10 md:py-16">
+      <MarqueeVelocity />
       <div className="-rotate-2 bg-ink py-4 text-white md:py-6">
         <div className="marquee-track">{row(false)}</div>
       </div>

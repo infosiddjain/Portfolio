@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FaAndroid, FaApple, FaGooglePlay } from "react-icons/fa";
+import { FaApple, FaGooglePlay } from "react-icons/fa";
 import { FiArrowUpRight } from "react-icons/fi";
-import { projects, type Project } from "@/data/projects";
+import { FEATURED_IDS, projects, type Project } from "@/data/projects";
 import { prefersReducedMotion } from "./motion/MotionProvider";
 import { Split } from "./motion/Split";
 import { Tilt } from "./motion/Tilt";
@@ -13,8 +14,7 @@ import { AppScreen, Phone } from "./three/Phone";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const FEATURED = ["gamerun", "dil-ki-bhakti", "fighter-aura", "sahej-health", "hub-form", "snakepad"];
-const featured = FEATURED.map((id) => projects.find((p) => p.id === id)!).filter(Boolean);
+const featured = FEATURED_IDS.map((id) => projects.find((p) => p.id === id)!).filter(Boolean);
 
 const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 
@@ -25,10 +25,16 @@ function Links({ p, dark }: { p: Project; dark: boolean }) {
   }`;
   return (
     <div className="flex flex-wrap gap-2">
+      <Link
+        href={`/work/${p.id}`}
+        className="group inline-flex items-center gap-2 rounded-full bg-lime py-2.5 pl-4 pr-2.5 text-xs font-bold uppercase tracking-wider text-ink"
+      >
+        Case study
+        <FiArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+      </Link>
       {p.links.web && (
-        <a href={p.links.web} {...ext} className="group inline-flex items-center gap-2 rounded-full bg-lime py-2.5 pl-4 pr-2.5 text-xs font-semibold uppercase tracking-wider text-ink">
-          Live site
-          <FiArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+        <a href={p.links.web} {...ext} className={ghost}>
+          Live site ↗
         </a>
       )}
       {p.links.playStore && (
@@ -39,11 +45,6 @@ function Links({ p, dark }: { p: Project; dark: boolean }) {
       {p.links.appStore && (
         <a href={p.links.appStore} {...ext} className={ghost}>
           <FaApple className="h-3.5 w-3.5" /> App Store
-        </a>
-      )}
-      {p.links.apk && (
-        <a href={p.links.apk} {...ext} className={ghost}>
-          <FaAndroid className="h-3.5 w-3.5" /> APK
         </a>
       )}
     </div>
@@ -60,7 +61,7 @@ function Media({ p }: { p: Project }) {
           data-cursor="View"
           className="relative w-full overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_40px_80px_-30px_rgba(0,0,0,0.45)] sm:absolute sm:left-0 sm:top-[6%] sm:w-[88%]"
         >
-          <a href={p.links.web ?? p.links.playStore ?? "#"} target="_blank" rel="noopener noreferrer" tabIndex={-1}>
+          <Link href={`/work/${p.id}`} tabIndex={-1} aria-hidden>
             <div className="flex items-center gap-1.5 border-b border-black/5 bg-white px-3 py-2">
               <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
               <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
@@ -80,7 +81,7 @@ function Media({ p }: { p: Project }) {
                 className="object-cover object-top transition-transform duration-[1.4s] ease-out group-hover/tilt:scale-105"
               />
             </div>
-          </a>
+          </Link>
         </Tilt>
       ) : (
         <div
@@ -139,13 +140,13 @@ export function WorkStack() {
       <div className="mb-14 grid gap-8 md:mb-20 lg:grid-cols-[1.4fr_1fr] lg:items-end">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted" data-reveal>
-            [ Selected work — {featured.length} of {projects.length} ]
+            [ Selected work — case studies ]
           </p>
           <Split className="display mt-5 text-[clamp(3rem,8vw,8rem)]" text={"Selected\n*work*"} />
         </div>
         <p className="max-w-md text-lg leading-relaxed text-muted lg:justify-self-end" data-reveal>
-          Client platforms and my own products — AI sports analytics, healthcare, devotional apps,
-          real-time games and SaaS. Every one is live.
+          Client platforms first — AI sports analytics for US coaches, a diabetes-care app and a
+          lead-generating business site — then my own products. Every one is live.
         </p>
       </div>
 
@@ -168,17 +169,38 @@ export function WorkStack() {
                   className="absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full blur-3xl"
                   style={{ background: `${p.accent}${dark ? "40" : "30"}` }}
                 />
-                <div className="relative grid h-full gap-8 p-6 md:p-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:p-14">
+                <div className="relative grid h-full gap-8 p-6 md:p-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:p-12 [@media(min-width:1024px)_and_(max-height:860px)]:py-9">
                   <div className="flex flex-col">
-                    <div className={`flex items-center justify-between gap-4 text-xs font-semibold uppercase tracking-[0.18em] ${dark ? "text-white/50" : "text-muted"}`}>
+                    <div className={`flex items-center justify-between gap-4 text-xs font-semibold uppercase tracking-[0.18em] ${dark ? "text-white/65" : "text-ink-soft"}`}>
                       <span>[{String(i + 1).padStart(2, "0")}]</span>
                       <span>{p.category === "client" ? `Client — ${p.client}` : "Own product"}</span>
                     </div>
-                    <h3 className="display mt-6 text-[clamp(2.8rem,6vw,6rem)]">{p.name}</h3>
+                    <h3 className="display mt-6 text-[clamp(2.6rem,min(6vw,9vh),6rem)]">
+                      <Link href={`/work/${p.id}`} className={`transition-colors ${dark ? "hover:text-lime" : "hover:text-electric"}`}>
+                        {p.name}
+                      </Link>
+                    </h3>
                     <p className={`mt-4 text-xl font-medium leading-snug md:text-2xl ${dark ? "text-white/90" : "text-ink"}`}>
                       {p.tagline}
                     </p>
-                    <p className={`mt-4 max-w-lg leading-relaxed ${dark ? "text-white/60" : "text-muted"}`}>{p.description}</p>
+                    {/* Sticky cards can't be taller than the screen — on short laptops the results carry the story. */}
+                    <p
+                      className={`mt-4 max-w-lg leading-relaxed ${dark ? "text-white/70" : "text-ink-soft"} ${
+                        p.results ? "[@media(min-width:1024px)_and_(max-height:860px)]:hidden" : ""
+                      }`}
+                    >
+                      {p.description}
+                    </p>
+                    {p.results && (
+                      <dl className={`mt-6 grid grid-cols-2 gap-4 border-y py-5 ${dark ? "border-white/10" : "border-ink/10"}`}>
+                        {p.results.map((r) => (
+                          <div key={r.label}>
+                            <dt className={`font-display text-2xl font-bold tracking-tight md:text-3xl ${dark ? "text-lime" : "text-ink"}`}>{r.value}</dt>
+                            <dd className={`mt-1 text-xs leading-snug ${dark ? "text-white/70" : "text-ink-soft"}`}>{r.label}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
                     <div className="mt-6 flex flex-wrap gap-2">
                       {p.tools.map((t) => (
                         <span
@@ -190,7 +212,7 @@ export function WorkStack() {
                       ))}
                     </div>
                     <div className="mt-auto pt-8">
-                      <p className={`mb-3 text-xs uppercase tracking-[0.18em] ${dark ? "text-white/40" : "text-muted"}`}>Role — {p.role}</p>
+                      <p className={`mb-3 text-xs uppercase tracking-[0.18em] ${dark ? "text-white/65" : "text-ink-soft"}`}>Role — {p.role}</p>
                       <Links p={p} dark={dark} />
                     </div>
                   </div>

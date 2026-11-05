@@ -5,7 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { FaGooglePlay } from "react-icons/fa";
 import { FiArrowUpRight } from "react-icons/fi";
-import { projects, type Project } from "@/data/projects";
+import { FEATURED_IDS, projects as allProjects, type Project } from "@/data/projects";
 import { Split } from "./motion/Split";
 import { Tilt } from "./motion/Tilt";
 import { AppScreen, Phone } from "./three/Phone";
@@ -20,15 +20,18 @@ const FILTERS: { id: Filter; label: string }[] = [
   { id: "web", label: "Web & SaaS" },
 ];
 
+// The archive skips the case studies already shown in "Selected work".
+const projects = allProjects.filter((p) => !(FEATURED_IDS as readonly string[]).includes(p.id));
+
 const KIND_LABEL = { app: "Mobile app", game: "Game", web: "Web platform" } as const;
-const STATUS_LABEL = { "coming-soon": "Coming soon", apk: "APK", live: "Live" } as const;
-const INITIAL = 9;
+const STATUS_LABEL = { "coming-soon": "Coming soon", apk: "Beta", live: "Live" } as const;
+const INITIAL = 6;
 
 const matches = (p: Project, f: Filter) =>
   f === "all" || (f === "client" ? p.category === "client" : p.kind === f);
 
 // "All" opens with a varied mix instead of a run of similar apps.
-const PINNED = ["learn-refill", "hot-job", "timeatlas", "cpukit", "puzzle-buzz", "krishna-transport", "calculator-zip", "ludo-masti", "math-concepts"];
+const PINNED = ["learn-refill", "hot-job", "divansh-transport", "cpukit", "timeatlas", "calculator-zip", "puzzle-buzz", "ludo-masti", "math-concepts"];
 const rank = (p: Project) => {
   const i = PINNED.indexOf(p.id);
   return i === -1 ? PINNED.length : i;
@@ -112,11 +115,6 @@ function Card({ p, index }: { p: Project; index: number }) {
                 App Store ↗
               </a>
             )}
-            {p.links.apk && (
-              <a href={p.links.apk} target="_blank" rel="noopener noreferrer" className="border-b border-ink pb-0.5 hover:border-lime hover:bg-lime">
-                APK ↓
-              </a>
-            )}
           </div>
         </div>
       </div>
@@ -146,13 +144,13 @@ export function ProjectsSection() {
       <div className="mb-12 grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-end">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted" data-reveal>
-            [ Full portfolio — {projects.length} projects ]
+            [ Archive — more apps, games & tools ]
           </p>
-          <Split className="display mt-5 text-[clamp(3rem,7vw,7rem)]" text={"Everything\nI've *shipped*"} />
+          <Split className="display mt-5 text-[clamp(3rem,7vw,7rem)]" text={"Also\n*shipped*"} />
         </div>
         <p className="max-w-md text-lg leading-relaxed text-muted lg:justify-self-end" data-reveal>
-          Apps, games, SaaS tools and websites — for clients and my own brands. Click any card to open the
-          live product.
+          More products I&apos;ve designed, built and launched — utility apps, games, SaaS tools and
+          websites. Click any card to open it live.
         </p>
       </div>
 
@@ -199,7 +197,7 @@ export function ProjectsSection() {
             onClick={() => setExpanded((e) => !e)}
             className="group inline-flex items-center gap-3 rounded-full bg-ink py-2 pl-7 pr-2 text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-lime hover:text-ink"
           >
-            {expanded ? "Show less" : `View all ${visible.length} projects`}
+            {expanded ? "Show less" : `Show all ${visible.length}`}
             <span className="grid h-10 w-10 place-items-center rounded-full bg-lime text-ink transition-transform group-hover:rotate-90 group-hover:bg-ink group-hover:text-lime">
               {expanded ? "−" : "+"}
             </span>

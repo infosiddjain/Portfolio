@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { READY_EVENT, prefersReducedMotion } from "./MotionProvider";
+import { READY_EVENT, isAppReady, isTouchDevice, prefersReducedMotion } from "./MotionProvider";
 
 const markReady = () => {
   (window as Window & { __appReady?: boolean }).__appReady = true;
@@ -12,10 +12,12 @@ const markReady = () => {
 export function Preloader() {
   const root = useRef<HTMLDivElement>(null);
   const num = useRef<HTMLSpanElement>(null);
-  const [done, setDone] = useState(false);
+  // Client-side navigation back to home: the intro already played.
+  const [done, setDone] = useState(() => isAppReady());
 
   useEffect(() => {
-    if (prefersReducedMotion()) {
+    if (isAppReady()) return;
+    if (prefersReducedMotion() || isTouchDevice()) {
       setDone(true);
       markReady();
       return;
@@ -49,10 +51,10 @@ export function Preloader() {
     <div
       ref={root}
       aria-hidden
-      className="fixed inset-0 z-[200] flex flex-col justify-between bg-ink p-6 text-white md:p-10"
+      className="preloader fixed inset-0 z-[200] flex flex-col justify-between bg-ink p-6 text-white md:p-10"
     >
       <div className="pl-inner flex items-center justify-between text-xs uppercase tracking-[0.3em] text-white/60">
-        <span>Siddharth Jain®</span>
+        <span>Siddharth Jain</span>
         <span>Portfolio — {new Date().getFullYear()}</span>
       </div>
       <div className="pl-inner">

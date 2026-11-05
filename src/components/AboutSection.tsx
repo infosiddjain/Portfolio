@@ -60,7 +60,7 @@ export function AboutSection() {
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">[ Education ]</p>
                 <ul className="mt-3 space-y-1.5 text-[15px]">
-                  {educations.map((e) => (
+                  {educations.filter((e) => e.id === "bachelor").map((e) => (
                     <li key={e.id} className="flex flex-wrap gap-x-3">
                       <span className="font-semibold text-ink">{e.degree}</span>
                       <span className="text-muted">{e.institution} · {e.period}</span>

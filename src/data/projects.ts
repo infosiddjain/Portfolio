@@ -14,6 +14,12 @@ export interface ProjectLinks {
   readonly apk?: string;
 }
 
+/** A business outcome shown big on case-study cards, e.g. { value: "4.8★", label: "Google Play rating" }. */
+export interface ProjectResult {
+  readonly value: string;
+  readonly label: string;
+}
+
 export interface Project {
   readonly id: string;
   readonly name: string;
@@ -35,7 +41,15 @@ export interface Project {
   /** Brand colour used as a backdrop when a project has no screenshot. */
   readonly accent?: string;
   readonly featured?: boolean;
+  /** Outcome numbers. Only add real, verifiable figures. */
+  readonly results?: readonly ProjectResult[];
 }
+
+/**
+ * Case studies shown in "Selected work", in order. Client work leads —
+ * visitors want proof you've built for someone like them.
+ */
+export const FEATURED_IDS = ["gamerun", "sahej-health", "dil-ki-bhakti", "krishna-transport", "snakepad", "hub-form"] as const;
 
 /** Google Play developer page — every published app lives here. */
 export const PLAY_DEVELOPER_URL =
@@ -60,6 +74,10 @@ export const projects: readonly Project[] = [
       playStore: "https://play.google.com/store/apps/details?id=com.gamerun.app",
     },
     image: "/projects/gamerun.jpg",
+    results: [
+      { value: "40+", label: "organisations using it, incl. Duke & Stanford coaches" },
+      { value: "USA Baseball", label: "scouts on the platform" },
+    ],
     icon: "/projects/icons/gamerun.png",
     featured: true,
   },
@@ -129,6 +147,10 @@ export const projects: readonly Project[] = [
       playStore: "https://play.google.com/store/apps/details?id=com.dilkibhaktiapp",
     },
     image: "/projects/dilkibhakti.jpg",
+    results: [
+      { value: "4.8★", label: "rating on Google Play" },
+      { value: "Web + app", label: "Hindi website and Android app" },
+    ],
     icon: "/projects/icons/dilkibhakti.png",
     featured: true,
   },
@@ -306,6 +328,10 @@ export const projects: readonly Project[] = [
       playStore: "https://play.google.com/store/apps/details?id=com.infosiddjain.snakepad",
     },
     image: "/projects/snakepad.jpg",
+    results: [
+      { value: "2–4", label: "players per real-time room" },
+      { value: "Web + Android", label: "same game, shared rooms" },
+    ],
     icon: "/projects/icons/snakepad.png",
   },
   {

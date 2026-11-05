@@ -112,7 +112,7 @@ export function AppsShowcase() {
                 </div>
                 <div className="mt-6 flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/40">[{String(i + 1).padStart(2, "0")}]</p>
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-white/60">[{String(i + 1).padStart(2, "0")}]</p>
                     <p className="mt-1 font-display text-xl font-bold tracking-tight">{app.name}</p>
                     <p className="mt-1 line-clamp-2 text-sm text-white/55">{app.tagline}</p>
                   </div>

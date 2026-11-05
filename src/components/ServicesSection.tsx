@@ -4,11 +4,21 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FiArrowUpRight, FiCheck } from "react-icons/fi";
 import { Split } from "./motion/Split";
 
-const services = [
+// `from`: starting price shown as a chip, e.g. "₹2L" — leave "" to hide it.
+const services: {
+  title: string;
+  tag: string;
+  timeline: string;
+  from?: string;
+  also?: boolean;
+  text: string;
+  points: string[];
+}[] = [
   {
     title: "Mobile Apps",
     tag: "React Native · Android & iOS",
     timeline: "MVP in 6–8 weeks",
+    from: "",
     text: "Cross-platform apps designed, built and published to Google Play and the App Store — the same way I ship my own 10 live apps.",
     points: ["Store listing, review & policy compliance", "Push notifications, offline mode, deep links", "Payments, auth, analytics & crash reporting"],
   },
@@ -16,10 +26,12 @@ const services = [
     title: "Web Apps & SaaS",
     tag: "Next.js · Node.js · MongoDB",
     timeline: "3–5 weeks",
+    from: "",
     text: "Dashboards, admin panels, portals and SaaS products — fast, secure and built to scale with your users.",
     points: ["Role-based dashboards & admin panels", "REST APIs & third-party integrations", "Auth, billing & multi-tenant setups"],
   },
   {
+    also: true,
     title: "Business Websites",
     tag: "SEO · Speed · Conversion",
     timeline: "1–2 weeks",
@@ -27,6 +39,7 @@ const services = [
     points: ["Lead forms & WhatsApp enquiries", "Local SEO & Google indexing", "Mobile-first, 95+ Lighthouse scores"],
   },
   {
+    also: true,
     title: "Games & Interactive",
     tag: "Skia · Reanimated · WebSockets",
     timeline: "Scoped per project",
@@ -37,10 +50,15 @@ const services = [
     title: "Care & Retainer",
     tag: "Ongoing partnership",
     timeline: "Monthly",
+    from: "",
     text: "New features, bug fixes, store and SDK updates and performance work for your existing app or website.",
     points: ["Priority support in IST", "Store policy & dependency updates", "Monthly progress report"],
   },
 ];
+
+// Three core offers up front; the rest stay available but don't dilute the pitch.
+const main = services.filter((s) => !s.also);
+const extra = services.filter((s) => s.also);
 
 export function ServicesSection() {
   const [open, setOpen] = useState(0);
@@ -59,7 +77,7 @@ export function ServicesSection() {
       </div>
 
       <div className="border-t border-ink">
-        {services.map((s, i) => {
+        {main.map((s, i) => {
           const active = open === i;
           return (
             <div key={s.title} className="group border-b border-ink/15" data-reveal>
@@ -104,6 +122,9 @@ export function ServicesSection() {
                       </ul>
                       <div className="flex flex-col items-start gap-4 md:col-span-2 md:flex-row md:items-center lg:col-span-1 lg:flex-col lg:items-end">
                         <span className="rounded-full bg-ink px-4 py-2 text-xs font-semibold uppercase tracking-wider text-lime">{s.timeline}</span>
+                        {s.from && (
+                          <span className="rounded-full bg-lime px-4 py-2 text-xs font-bold uppercase tracking-wider text-ink">From {s.from}</span>
+                        )}
                         <a href="#contact" className="border-b border-ink text-sm font-semibold uppercase tracking-wider hover:bg-lime">
                           Get started ↗
                         </a>
@@ -115,6 +136,24 @@ export function ServicesSection() {
             </div>
           );
         })}
+      </div>
+
+      <div className="mt-10 grid gap-4 md:grid-cols-[auto_1fr] md:items-center md:gap-10" data-reveal>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">[ Also available ]</p>
+        <div className="flex flex-wrap gap-3">
+          {extra.map((s) => (
+            <a
+              key={s.title}
+              href="#contact"
+              title={s.text}
+              className="group inline-flex items-center gap-3 rounded-full border border-ink/15 py-2 pl-5 pr-2 text-sm font-semibold uppercase tracking-wider transition-colors hover:border-ink hover:bg-lime"
+            >
+              {s.title}
+              <span className="text-xs font-medium normal-case tracking-normal text-muted group-hover:text-ink">{s.timeline}</span>
+              <FiArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,15 +1,15 @@
 import React from "react";
 import { experiences, totalYears } from "@/data/experiences";
-import { liveWebsites, playStoreApps, projects } from "@/data/projects";
+import { playStoreApps } from "@/data/projects";
 import { Split } from "./motion/Split";
 
 export function StatsSection() {
   const stats = [
     { n: totalYears(), suffix: "+", label: "Years of experience", note: "Since Sep 2021" },
-    { n: projects.length, suffix: "+", label: "Products shipped", note: "Apps, games, SaaS & sites" },
-    { n: playStoreApps.length, suffix: "", label: "Apps on Google Play", note: "Built & published solo" },
-    { n: Math.floor(liveWebsites.length / 5) * 5, suffix: "+", label: "Live websites", note: "Open to try right now" },
-    { n: experiences.length, suffix: "", label: "Companies", note: "India & United States" },
+    { n: playStoreApps.length, suffix: "", label: "Apps live on Google Play", note: "Plus Sahej Health on the App Store" },
+    { n: experiences.length, suffix: "", label: "Product companies", note: "Full-time, India & United States" },
+    { n: 40, suffix: "+", label: "Organisations on GameRun", note: "Client platform I helped build" },
+    { n: 2, suffix: "", label: "US client products", note: "Sports-tech & healthcare" },
   ];
 
   return (

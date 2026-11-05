@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { FaGooglePlay } from "react-icons/fa";
+import { FaApple, FaGooglePlay } from "react-icons/fa";
+import { FiGlobe } from "react-icons/fi";
 import type { Project } from "@/data/projects";
 
 /** Branded launch/home screen for an app, drawn in CSS — sits inside <Phone>. */
@@ -55,7 +56,19 @@ export function AppScreen({ app, compact = false }: { app: Project; compact?: bo
 
       <div className="px-5 pb-6">
         <div className="flex items-center justify-center gap-1.5 rounded-full bg-white py-2.5 text-[11px] font-bold text-ink">
-          <FaGooglePlay className="h-3 w-3" /> Get it on Google Play
+          {app.links.playStore ? (
+            <>
+              <FaGooglePlay className="h-3 w-3" /> Get it on Google Play
+            </>
+          ) : app.links.appStore ? (
+            <>
+              <FaApple className="h-3.5 w-3.5" /> Download on the App Store
+            </>
+          ) : (
+            <>
+              <FiGlobe className="h-3 w-3" /> Coming soon to stores
+            </>
+          )}
         </div>
         <div className="mx-auto mt-3 h-1 w-24 rounded-full bg-white/60" />
       </div>

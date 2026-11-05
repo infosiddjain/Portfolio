@@ -189,6 +189,11 @@ html.lenis, html.lenis body { height: auto; }
   .Toastify__toast { margin-bottom: 10px; }
 }
 
+/* Touch screens & reduced motion never see the intro, even before JS loads. */
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .preloader { display: none !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track, .spin-slow, .pulse-dot { animation: none; }
 }
