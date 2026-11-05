@@ -37,13 +37,14 @@ export default function ExperienceSection() {
               >
                 <span className="order-2 text-sm font-semibold text-muted lg:order-none">
                   {year(exp.start)} — {year(exp.end)}
-                </span>
+                </span>{" "}
                 <span className="col-span-2 lg:col-span-1">
                   <span className="block font-display text-2xl font-bold uppercase tracking-tight transition-transform duration-500 group-hover:translate-x-2 md:text-4xl">
                     {company}
                   </span>
+                  {" "}
                   <span className="mt-1 block text-[15px] text-ink-soft">{exp.title}</span>
-                </span>
+                </span>{" "}
                 <span className="hidden text-sm text-muted lg:block">
                   {exp.location}
                   <br />

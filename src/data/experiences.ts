@@ -52,10 +52,10 @@ export const experiences: Experience[] = [
     title: "Software Engineer",
     company: "Revoluza Technologies · Full-time",
     start: "2024-03-01",
-    end: null,
+    end: "2026-06-30",
     location: "India · Remote",
     description: [
-      "Leading full-stack development using React.js, React Native, Next.js, Node.js, Express.js, and MongoDB.",
+      "Led full-stack development using React.js, React Native, Next.js, Node.js, Express.js, and MongoDB.",
       "Designed and developed the Learnz landing page, travel & transport website, student portal, and admin dashboard.",
       "Managed Figma-based UI/UX for all digital products ensuring responsive and accessible design.",
       "Oversaw the complete technical architecture and product roadmap aligning with business goals.",

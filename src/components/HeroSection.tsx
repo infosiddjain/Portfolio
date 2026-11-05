@@ -66,6 +66,9 @@ export function HeroSection() {
 
         <div className="grid items-center gap-6 pb-12 pt-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-4 lg:pb-20">
           <div>
+            <p className="mb-5 max-w-xl text-sm font-semibold uppercase tracking-[0.16em] text-ink-soft md:text-[15px]" data-hero-fade>
+              Apps for health, fitness &amp; sports-tech — and the businesses behind them
+            </p>
             <h1 className="display text-[clamp(3rem,7.2vw,7.6rem)] text-ink" aria-label="Apps and websites that grow businesses">
               {[["Apps &", ""], ["websites", ""], ["that", "text-outline"], ["grow", ""], ["businesses.", "hl"]].map(
                 ([w, c], i) => (
@@ -117,7 +120,8 @@ export function HeroSection() {
                     See selected work
                   </a>
                 </div>
-                <div className="mt-8 flex items-center gap-4" data-hero-fade>
+                <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5" data-hero-fade>
+                  <div className="flex items-center gap-4">
                   <div className="flex -space-x-3">
                     {icons.map((p) => (
                       <Image key={p.id} src={p.icon!} alt="" width={40} height={40} className="h-10 w-10 rounded-xl bg-white ring-[3px] ring-white" />
@@ -127,6 +131,16 @@ export function HeroSection() {
                     <strong className="block text-ink">{playStoreApps.length} apps on Google Play</strong>
                     built & published by me
                   </p>
+                  </div>
+                  <a href="#work" className="group flex items-center gap-3 border-l border-line pl-6 sm:pl-8">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-ink font-display text-xs font-bold text-lime">
+                      USA
+                    </span>
+                    <span className="text-sm leading-tight text-muted">
+                      <strong className="block text-ink group-hover:underline">Used by USA Baseball scouts</strong>
+                      via GameRun — a client app I worked on
+                    </span>
+                  </a>
                 </div>
               </div>
             </div>

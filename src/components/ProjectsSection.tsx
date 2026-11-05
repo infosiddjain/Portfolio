@@ -27,8 +27,10 @@ const KIND_LABEL = { app: "Mobile app", game: "Game", web: "Web platform" } as c
 const STATUS_LABEL = { "coming-soon": "Coming soon", apk: "Beta", live: "Live" } as const;
 const INITIAL = 6;
 
+// Filters don't overlap: client work sits only under "Client work", so the
+// counts always add up to "All".
 const matches = (p: Project, f: Filter) =>
-  f === "all" || (f === "client" ? p.category === "client" : p.kind === f);
+  f === "all" || (f === "client" ? p.category === "client" : p.category === "product" && p.kind === f);
 
 // "All" opens with a varied mix instead of a run of similar apps.
 const PINNED = ["learn-refill", "hot-job", "divansh-transport", "cpukit", "timeatlas", "calculator-zip", "puzzle-buzz", "ludo-masti", "math-concepts"];
