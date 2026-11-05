@@ -46,7 +46,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col justify-between gap-2 py-6 text-xs uppercase tracking-[0.16em] text-muted md:flex-row">
-          <p>© {new Date().getFullYear()} Siddharth Jain</p>
+          <p>© {new Date().getFullYear()} Siddharth Jain®</p>
           <p>{CONTACT.location}</p>
           <p>Built with Next.js, GSAP & Tailwind</p>
         </div>

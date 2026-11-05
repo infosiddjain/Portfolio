@@ -84,7 +84,7 @@ export function Header() {
               SJ
             </span>
             <span className="hidden font-display text-lg font-bold uppercase tracking-tight text-ink sm:block">
-              Siddharth Jain
+              Siddharth Jain<sup className="ml-0.5 text-[10px]">®</sup>
             </span>
           </a>
 

@@ -1,11 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import { testimonials } from "@/data/testimonials";
+import { socialLinks } from "@/data/socialLinks";
 import { Split } from "./motion/Split";
 
-/** Client & manager quotes. Renders nothing until src/data/testimonials.ts has entries. */
+/** Client & manager quotes from src/data/testimonials.ts. Shows a LinkedIn card until quotes are added. */
 export function TestimonialsSection() {
-  if (testimonials.length === 0) return null;
+  const linkedin = socialLinks.find((s) => s.id === "linkedin")?.href;
 
   return (
     <section id="testimonials" className="mx-auto max-w-[1440px] px-5 py-24 md:px-10 md:py-32">
@@ -35,6 +36,24 @@ export function TestimonialsSection() {
             </figcaption>
           </figure>
         ))}
+        {testimonials.length === 0 && (
+          <div data-reveal className="flex flex-col justify-between rounded-[1.6rem] bg-ink p-7 text-white md:col-span-2 md:p-10 lg:col-span-3">
+            <p className="max-w-2xl text-2xl font-medium leading-snug md:text-3xl">
+              Worked with teams at GameRun (USA), Completum Health (USA) and local businesses across Delhi NCR.
+              Client quotes are being added here.
+            </p>
+            {linkedin && (
+              <a
+                href={linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 inline-flex self-start rounded-full bg-lime px-6 py-3 text-sm font-semibold uppercase tracking-wider text-ink"
+              >
+                Read recommendations on LinkedIn ↗
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );

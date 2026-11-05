@@ -95,6 +95,10 @@ export const projects: readonly Project[] = [
     links: {
       appStore: "https://apps.apple.com/in/app/sahej-health-app/id6469026236",
     },
+    results: [
+      { value: "App Store", label: "live on iOS for Completum Health, USA" },
+      { value: "Type 2", label: "diabetes care — tracking, onboarding & reminders" },
+    ],
     icon: "/projects/icons/sahej.png",
     accent: "#9f1d45",
     featured: true,
@@ -113,6 +117,10 @@ export const projects: readonly Project[] = [
     tools: ["Next.js", "Tailwind CSS", "TypeScript", "HubSpot"],
     links: { web: "https://www.krishnatransportpackersandmovers.com/" },
     image: "/projects/krishna-transport.jpg",
+    results: [
+      { value: "1-tap", label: "WhatsApp enquiries + HubSpot lead capture" },
+      { value: "Delhi NCR", label: "service pages built for local Google search" },
+    ],
   },
   {
     id: "divansh-transport",
@@ -444,6 +452,10 @@ export const projects: readonly Project[] = [
     tools: ["Next.js", "Node.js", "MongoDB", "TypeScript"],
     links: { web: "https://hub-form.vercel.app/" },
     image: "/projects/hub-form.jpg",
+    results: [
+      { value: "0 lines", label: "of server code to add a working form" },
+      { value: "1 inbox", label: "for submissions from every site" },
+    ],
     featured: true,
   },
   {

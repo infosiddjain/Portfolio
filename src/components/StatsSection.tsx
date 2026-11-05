@@ -6,7 +6,7 @@ import { Split } from "./motion/Split";
 export function StatsSection() {
   const stats = [
     { n: totalYears(), suffix: "+", label: "Years of experience", note: "Since Sep 2021" },
-    { n: playStoreApps.length, suffix: "", label: "Apps live on Google Play", note: "Plus Sahej Health on the App Store" },
+    { n: playStoreApps.length, suffix: "", label: "Apps live on Google Play", note: "Plus Sahej Health on the App Store", href: "https://apps.apple.com/in/app/sahej-health-app/id6469026236" },
     { n: experiences.length, suffix: "", label: "Product companies", note: "Full-time, India & United States" },
     { n: 40, suffix: "+", label: "Organisations on GameRun", note: "Client platform I helped build" },
     { n: 2, suffix: "", label: "US client products", note: "Sports-tech & healthcare" },
@@ -40,7 +40,13 @@ export function StatsSection() {
                   {s.suffix}
                 </p>
                 <p className="mt-3 font-semibold uppercase tracking-wide text-ink">{s.label}</p>
-                <p className="mt-1 text-sm text-muted">{s.note}</p>
+                {s.href ? (
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block border-b border-ink text-sm font-medium text-ink">
+                    {s.note} ↗
+                  </a>
+                ) : (
+                  <p className="mt-1 text-sm text-muted">{s.note}</p>
+                )}
               </div>
             </div>
           ))}

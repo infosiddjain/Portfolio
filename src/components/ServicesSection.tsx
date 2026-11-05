@@ -10,7 +10,6 @@ const services: {
   tag: string;
   timeline: string;
   from?: string;
-  also?: boolean;
   text: string;
   points: string[];
 }[] = [
@@ -31,18 +30,18 @@ const services: {
     points: ["Role-based dashboards & admin panels", "REST APIs & third-party integrations", "Auth, billing & multi-tenant setups"],
   },
   {
-    also: true,
     title: "Business Websites",
     tag: "SEO · Speed · Conversion",
     timeline: "1–2 weeks",
+    from: "₹25k",
     text: "Company websites and landing pages that load instantly, rank on Google and turn visitors into enquiries.",
     points: ["Lead forms & WhatsApp enquiries", "Local SEO & Google indexing", "Mobile-first, 95+ Lighthouse scores"],
   },
   {
-    also: true,
     title: "Games & Interactive",
     tag: "Skia · Reanimated · WebSockets",
     timeline: "Scoped per project",
+    from: "₹1L",
     text: "Casual games, real-time multiplayer and playful interactive experiences — like Fighter Aura, Snakepad and Ludo Masti.",
     points: ["60 FPS animation engines", "Real-time rooms & matchmaking", "Offline play & progression systems"],
   },
@@ -56,9 +55,7 @@ const services: {
   },
 ];
 
-// Three core offers up front; the rest stay available but don't dilute the pitch.
-const main = services.filter((s) => !s.also);
-const extra = services.filter((s) => s.also);
+const main = services;
 
 export function ServicesSection() {
   const [open, setOpen] = useState(0);
@@ -71,8 +68,8 @@ export function ServicesSection() {
           <Split className="display mt-5 text-[clamp(3rem,7vw,7rem)]" text={"What I *build*\nfor you"} />
         </div>
         <p className="max-w-md text-lg leading-relaxed text-muted lg:justify-self-end" data-reveal>
-          One developer from design to launch. You talk directly to the person writing your code — no agency
-          layers, no hand-offs.
+          Specialised in health, fitness &amp; sports-tech apps — GameRun for US coaches, Sahej Health for
+          diabetes care. One developer from design to launch, no agency layers.
         </p>
       </div>
 
@@ -93,6 +90,11 @@ export function ServicesSection() {
                   {s.title}
                 </span>
                 <span className="relative hidden text-sm font-medium uppercase tracking-wider text-ink-soft lg:block">{s.tag}</span>
+                {s.from && (
+                  <span className="relative hidden shrink-0 rounded-full bg-ink px-4 py-2 text-xs font-bold uppercase tracking-wider text-lime sm:block">
+                    From {s.from}
+                  </span>
+                )}
                 <span
                   className={`relative grid h-12 w-12 shrink-0 place-items-center rounded-full border border-ink transition-all duration-500 md:h-14 md:w-14 ${
                     active ? "rotate-90 bg-ink text-lime" : "group-hover:bg-ink group-hover:text-lime"
@@ -138,23 +140,6 @@ export function ServicesSection() {
         })}
       </div>
 
-      <div className="mt-10 grid gap-4 md:grid-cols-[auto_1fr] md:items-center md:gap-10" data-reveal>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">[ Also available ]</p>
-        <div className="flex flex-wrap gap-3">
-          {extra.map((s) => (
-            <a
-              key={s.title}
-              href="#contact"
-              title={s.text}
-              className="group inline-flex items-center gap-3 rounded-full border border-ink/15 py-2 pl-5 pr-2 text-sm font-semibold uppercase tracking-wider transition-colors hover:border-ink hover:bg-lime"
-            >
-              {s.title}
-              <span className="text-xs font-medium normal-case tracking-normal text-muted group-hover:text-ink">{s.timeline}</span>
-              <FiArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
-            </a>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
