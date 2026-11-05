@@ -4,12 +4,11 @@ export interface NavigationItem {
   readonly href: string;
 }
 
-export const navigationItems: NavigationItem[] = [
-  { id: "about", label: "ABOUT", href: "/#about" },
-  { id: "experience", label: "EXPERIENCE", href: "/#experience" },
-  { id: "skills", label: "SKILLS", href: "/#skills" },
-  { id: "projects", label: "PROJECTS", href: "/#projects" },
-  { id: "education", label: "EDUCATION", href: "/#education" },
-  { id: "blogs", label: "BLOGS", href: "/blog" },
-  { id: "contact", label: "CONTACT", href: "/#contact" },
-] as const;
+export const navigationItems: readonly NavigationItem[] = [
+  { id: "work", label: "Work", href: "/#work" },
+  { id: "apps", label: "Apps", href: "/#apps" },
+  { id: "products", label: "Products", href: "/#products" },
+  { id: "services", label: "Services", href: "/#services" },
+  { id: "experience", label: "Experience", href: "/#experience" },
+  { id: "contact", label: "Contact", href: "/#contact" },
+];

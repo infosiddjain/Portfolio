@@ -1,16 +1,17 @@
 "use client";
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// One app-wide container; any component can call toast() without rendering its own.
+// One app-wide container; call notify.*() (src/lib/notify.tsx) from anywhere.
 export function Toaster() {
   return (
     <ToastContainer
-      position="top-right"
-      autoClose={4000}
+      position="bottom-right"
+      autoClose={6000}
+      transition={Slide}
       theme="dark"
       newestOnTop
-      closeOnClick
+      closeOnClick={false}
       pauseOnFocusLoss={false}
     />
   );

@@ -1,33 +1,15 @@
+export type SocialId = "github" | "linkedin" | "twitter" | "instagram" | "facebook";
+
 export interface SocialLink {
-  readonly id: string;
+  readonly id: SocialId;
+  readonly label: string;
   readonly href: string;
-  readonly iconSrc: string;
 }
 
-export const socialLinks: SocialLink[] = [
-  {
-    id: "github",
-    href: "https://github.com/infosiddjain",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-1.svg",
-  },
-  {
-    id: "linkedin",
-    href: "https://www.linkedin.com/in/infosiddjain/",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-2.svg",
-  },
-  {
-    id: "facebook",
-    href: "https://www.facebook.com/infosiddjain",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-3.svg",
-  },
-  {
-    id: "instagram",
-    href: "https://www.instagram.com/infosiddjain/",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-4.svg",
-  },
-  {
-    id: "twitter",
-    href: "https://x.com/infosiddjain",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-5.svg",
-  },
-] as const;
+export const socialLinks: readonly SocialLink[] = [
+  { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/infosiddjain/" },
+  { id: "github", label: "GitHub", href: "https://github.com/infosiddjain" },
+  { id: "twitter", label: "X (Twitter)", href: "https://x.com/infosiddjain" },
+  { id: "instagram", label: "Instagram", href: "https://www.instagram.com/infosiddjain/" },
+  { id: "facebook", label: "Facebook", href: "https://www.facebook.com/infosiddjain" },
+];

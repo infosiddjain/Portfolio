@@ -1,57 +1,10 @@
-export interface ContactInfo {
-  readonly id: string;
-  readonly text: string;
-  readonly iconSrc: string;
-}
-
-export interface SocialLinkLarge {
-  alt: string;
-  readonly id: string;
-  readonly href: string;
-  readonly iconSrc: string;
-}
-
-export const contactInfo: ContactInfo[] = [
-  {
-    id: "email",
-    text: "infosiddjain@gmail.com",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-15.svg",
-  },
-  {
-    id: "phone",
-    text: "+91 9259457900",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-16.svg",
-  },
-  {
-    id: "address",
-    text: "Near By Delhi, Hapur - 245101 ",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-17.svg",
-  },
-] as const;
-
-export const socialLinksLarge: SocialLinkLarge[] = [
-  {
-    id: "github",
-    href: "https://github.com/infosiddjain",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-18.svg",
-    alt: "",
-  },
-  {
-    id: "linkedin",
-    href: "https://www.linkedin.com/in/infosiddjain/",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-19.svg",
-    alt: "",
-  },
-  {
-    id: "twitter",
-    href: "https://x.com/infosiddjain",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-20.svg",
-    alt: "",
-  },
-  {
-    id: "facebook",
-    href: "https://www.facebook.com/infosiddjain",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/icon-22.svg",
-    alt: "",
-  },
-] as const;
+export const CONTACT = {
+  name: "Siddharth Jain",
+  email: "infosiddjain@gmail.com",
+  phone: "+91 92594 57900",
+  phoneHref: "tel:+919259457900",
+  whatsapp: "https://wa.me/919259457900?text=Hi%20Siddharth%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project.",
+  location: "Hapur, Delhi NCR · India",
+  timezone: "IST (UTC+5:30)",
+  resume: "/cv/Siddharth_Jain_Resume.pdf",
+} as const;

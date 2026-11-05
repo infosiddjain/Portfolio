@@ -17,7 +17,7 @@ export type ContactResult =
   | { ok: true }
   | { ok: false; error: string; fieldErrors?: ContactErrors };
 
-// Runs on the server so HUB_FORM_KEY never reaches the browser.
+// Runs on the server so the HubForm secret key never reaches the browser.
 export async function sendContact(
   payload: ContactPayload
 ): Promise<ContactResult> {
@@ -29,9 +29,10 @@ export async function sendContact(
     return { ok: false, error: "Please fix the highlighted fields.", fieldErrors };
   }
 
-  const key = process.env.HUB_FORM_KEY;
+  // HUBFORM_SECRET_KEY is the name HubForm's dashboard uses; HUB_FORM_KEY is the older name.
+  const key = process.env.HUBFORM_SECRET_KEY ?? process.env.HUB_FORM_KEY;
   if (!key) {
-    console.error("HUB_FORM_KEY is not set");
+    console.error("HUBFORM_SECRET_KEY is not set");
     return { ok: false, error: "The contact form isn't available right now." };
   }
 
@@ -46,6 +47,7 @@ export async function sendContact(
         name: payload.name.trim(),
         email: payload.email.trim(),
         message: payload.message.trim(),
+        source: "Portfolio website",
       }),
     });
     const data = await res.json().catch(() => null);
@@ -53,6 +55,12 @@ export async function sendContact(
     if (res.ok && data?.ok === true) return { ok: true };
 
     console.error("hub-form rejected the message", res.status, data);
+
+    // HubForm codes we can explain better than the raw message.
+    if (data?.code === "duplicate_email") {
+      const error = "You've already sent a message from this email — I'll reply soon.";
+      return { ok: false, error, fieldErrors: { email: error } };
+    }
 
     // Show hub-form's own message whenever it sends one.
     if (typeof data?.error === "string" && data.error.trim()) {

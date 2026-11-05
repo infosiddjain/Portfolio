@@ -1,7 +1,10 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { contactInfo, socialLinksLarge } from "@/data/contact";
-import { toast } from "react-toastify";
+import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
+import { FiArrowUpRight, FiClock, FiMail, FiMapPin, FiPhone } from "react-icons/fi";
+import { CONTACT } from "@/data/contact";
+import { Magnetic } from "./motion/Magnetic";
+import { notify } from "@/lib/notify";
 import { sendContact } from "@/app/actions/contact";
 import {
   CONTACT_LIMITS,
@@ -15,8 +18,8 @@ const EMPTY_FORM = { name: "", email: "", message: "", _gotcha: "" };
 const FIELD_ORDER: ContactField[] = ["name", "email", "message"];
 
 const inputClass = (hasError: boolean) =>
-  `bg-slate-900 border px-3 py-2 rounded-md outline-none transition-colors focus:border-purple-500 ${
-    hasError ? "border-red-500" : "border-gray-700"
+  `w-full border-0 border-b-2 bg-transparent px-0 py-3 text-lg text-white outline-none transition-colors placeholder:text-white/30 focus:border-lime ${
+    hasError ? "border-red-400" : "border-white/20"
   }`;
 
 function FieldError({ id, message }: { id: string; message?: string }) {
@@ -77,120 +80,170 @@ export function ContactSection() {
     const fieldErrors = validateContact(formData);
     if (Object.keys(fieldErrors).length > 0) {
       showErrors(fieldErrors);
-      toast.error("Please fix the highlighted fields.", { toastId: "contact-invalid" });
+      notify.error("Almost there", "Please fix the highlighted fields and try again.", undefined, "contact-invalid");
       return;
     }
 
     setLoading(true);
-    const toastId = toast.loading("Sending your message…");
+    const toastId = notify.loading("Sending your enquiry…", "This only takes a moment.");
 
     try {
       const result = await sendContact(formData);
       if (result.ok) {
-        toast.update(toastId, {
-          render: "Thanks! Your message has been sent. I'll get back to you soon.",
-          type: "success",
-          isLoading: false,
-          autoClose: 5000,
-        });
+        notify.success(
+          `Thanks${formData.name.trim() ? `, ${formData.name.trim().split(" ")[0]}` : ""}! Message sent`,
+          "I usually reply within a few hours (IST). Check your inbox soon.",
+          toastId
+        );
         setFormData(EMPTY_FORM);
         setErrors({});
         setTouched({});
       } else {
         if (result.fieldErrors) showErrors(result.fieldErrors);
-        toast.update(toastId, {
-          render: result.error,
-          type: "error",
-          isLoading: false,
-          autoClose: 5000,
-        });
+        notify.error("Couldn't send", result.error, toastId);
       }
     } catch (err) {
       console.error(err);
-      toast.update(toastId, {
-        render: "Something went wrong. Please try again.",
-        type: "error",
-        isLoading: false,
-        autoClose: 5000,
-      });
+      notify.error("Something went wrong", "Please try again, or message me on WhatsApp.", toastId);
     } finally {
       setLoading(false);
     }
   };
 
+  const channels = [
+    { icon: FaWhatsapp, label: "WhatsApp", value: "Chat now", href: CONTACT.whatsapp, ext: true },
+    { icon: FiMail, label: "Email", value: CONTACT.email, href: `mailto:${CONTACT.email}`, ext: false },
+    { icon: FiPhone, label: "Phone", value: CONTACT.phone, href: CONTACT.phoneHref, ext: false },
+    { icon: FaLinkedin, label: "LinkedIn", value: "in/infosiddjain", href: "https://www.linkedin.com/in/infosiddjain/", ext: true },
+  ];
+
   return (
-    <div className="relative box-border mt-24 mb-12 md:my-16">
-      <div className="absolute items-center box-border hidden flex-col -right-8 top-24 md:flex">
-        <span className="text-xl bg-indigo-950 box-border inline leading-7 w-fit px-5 py-2 rounded-md md:rotate-90">
-          CONTACT
-        </span>
-        <span className="bg-indigo-950 box-border inline h-36 w-0.5"></span>
-      </div>
+    <section id="contact" className="relative overflow-hidden bg-ink text-white">
+      <div aria-hidden className="absolute -right-40 -top-40 h-[40rem] w-[40rem] rounded-full bg-electric/25 blur-[140px]" />
+      <div aria-hidden className="absolute -bottom-40 -left-40 h-[34rem] w-[34rem] rounded-full bg-lime/10 blur-[120px]" />
 
-      <div className="items-center box-border gap-x-8 grid grid-cols-1 gap-y-8 md:gap-x-16 md:grid-cols-2 md:gap-y-16">
-        <div className="box-border">
-          <p className="text-teal-400 text-xl font-medium uppercase mb-5">
-            Contact with me
-          </p>
-          <div className="box-border max-w-screen-md border border-slate-600 p-3 rounded-lg md:p-5">
-            <p className="text-slate-300 text-sm leading-5">
-              If you have any questions or concerns, please don't hesitate to
-              contact me. I am open to any work opportunities that align with my
-              skills and interests.
+      <div className="relative mx-auto max-w-[1440px] px-5 pb-20 pt-24 md:px-10 md:pt-32">
+        <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+          <span className="pulse-dot h-2 w-2 rounded-full bg-success" /> Available for new projects
+        </p>
+        <h2 className="display mt-6 text-[clamp(3.4rem,11vw,11rem)]">
+          Let&apos;s build
+          <br />
+          <span className="text-lime">something</span>{" "}
+          <span className="text-outline-light">great.</span>
+        </h2>
+
+        <div className="mt-16 grid gap-14 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
+          {/* Direct channels */}
+          <div>
+            <p className="max-w-md text-xl leading-relaxed text-white/70">
+              Tell me what you want to build. You&apos;ll get a reply with next steps, a rough timeline and an
+              estimate — no obligation.
             </p>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Magnetic>
+                <a
+                  href={CONTACT.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor="Chat"
+                  className="grid h-36 w-36 place-items-center rounded-full bg-lime text-center text-ink transition-transform hover:scale-105 md:h-44 md:w-44"
+                >
+                  <span>
+                    <FaWhatsapp className="mx-auto h-7 w-7" />
+                    <span className="mt-2 block text-xs font-bold uppercase tracking-[0.18em]">WhatsApp me</span>
+                  </span>
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <a
+                  href={`mailto:${CONTACT.email}`}
+                  className="grid h-36 w-36 place-items-center rounded-full border border-white/25 text-center transition-colors hover:bg-white hover:text-ink md:h-44 md:w-44"
+                >
+                  <span>
+                    <FiMail className="mx-auto h-7 w-7" />
+                    <span className="mt-2 block text-xs font-bold uppercase tracking-[0.18em]">Email me</span>
+                  </span>
+                </a>
+              </Magnetic>
+            </div>
 
-            {/* Form */}
-            <form
-              onSubmit={handleSubmit}
-              noValidate
-              className="flex flex-col gap-y-4 mt-6"
-            >
-              <div className="flex flex-col gap-y-2">
-                <label htmlFor="contact-name">Your Name: </label>
-                <input
-                  ref={(el) => {
-                    fieldRefs.current.name = el;
-                  }}
-                  id="contact-name"
-                  type="text"
-                  name="name"
-                  autoComplete="name"
-                  value={formData.name}
-                  placeholder="Enter your name"
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  maxLength={CONTACT_LIMITS.name.max}
-                  aria-invalid={!!errors.name}
-                  aria-describedby={errors.name ? "contact-name-error" : undefined}
-                  className={inputClass(!!errors.name)}
-                />
-                <FieldError id="contact-name-error" message={errors.name} />
+            <div className="mt-12 border-t border-white/15">
+              {channels.map(({ icon: Icon, label, value, href, ext }) => (
+                <a
+                  key={label}
+                  href={href}
+                  {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="group flex items-center gap-4 border-b border-white/15 py-4 transition-colors hover:text-lime"
+                >
+                  <Icon className="h-4 w-4 text-white/50 group-hover:text-lime" />
+                  <span className="w-24 text-xs uppercase tracking-[0.18em] text-white/50">{label}</span>
+                  <span className="flex-1 truncate font-medium">{value}</span>
+                  <FiArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+                </a>
+              ))}
+            </div>
+            <div className="mt-6 space-y-2 text-sm text-white/60">
+              <p className="flex items-center gap-2">
+                <FiClock className="h-4 w-4 text-lime" /> Usually replies within a few hours ({CONTACT.timezone})
+              </p>
+              <p className="flex items-center gap-2">
+                <FiMapPin className="h-4 w-4 text-lime" /> {CONTACT.location} · clients worldwide
+              </p>
+            </div>
+          </div>
+
+          {/* Form */}
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 backdrop-blur md:p-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">[ Project enquiry ]</p>
+            <form onSubmit={handleSubmit} noValidate className="form-dark mt-6 flex flex-col gap-y-7">
+              <div className="grid gap-7 sm:grid-cols-2">
+                <div className="flex flex-col gap-y-1">
+                  <label htmlFor="contact-name" className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">Your name</label>
+                  <input
+                    ref={(el) => {
+                      fieldRefs.current.name = el;
+                    }}
+                    id="contact-name"
+                    type="text"
+                    name="name"
+                    autoComplete="name"
+                    value={formData.name}
+                    placeholder="Jane Smith"
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    maxLength={CONTACT_LIMITS.name.max}
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "contact-name-error" : undefined}
+                    className={inputClass(!!errors.name)}
+                  />
+                  <FieldError id="contact-name-error" message={errors.name} />
+                </div>
+                <div className="flex flex-col gap-y-1">
+                  <label htmlFor="contact-email" className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">Email</label>
+                  <input
+                    ref={(el) => {
+                      fieldRefs.current.email = el;
+                    }}
+                    id="contact-email"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    value={formData.email}
+                    placeholder="jane@company.com"
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    maxLength={CONTACT_LIMITS.email.max}
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "contact-email-error" : undefined}
+                    className={inputClass(!!errors.email)}
+                  />
+                  <FieldError id="contact-email-error" message={errors.email} />
+                </div>
               </div>
 
-              <div className="flex flex-col gap-y-2">
-                <label htmlFor="contact-email">Your Email: </label>
-                <input
-                  ref={(el) => {
-                    fieldRefs.current.email = el;
-                  }}
-                  id="contact-email"
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  value={formData.email}
-                  placeholder="Enter your email"
-                  onChange={handleInputChange}
-                  onBlur={handleBlur}
-                  maxLength={CONTACT_LIMITS.email.max}
-                  aria-invalid={!!errors.email}
-                  aria-describedby={errors.email ? "contact-email-error" : undefined}
-                  className={inputClass(!!errors.email)}
-                />
-                <FieldError id="contact-email-error" message={errors.email} />
-              </div>
-
-              <div className="flex flex-col gap-y-2">
-                <label htmlFor="contact-message">Your Message: </label>
+              <div className="flex flex-col gap-y-1">
+                <label htmlFor="contact-message" className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">Project details</label>
                 <textarea
                   ref={(el) => {
                     fieldRefs.current.message = el;
@@ -199,17 +252,18 @@ export function ContactSection() {
                   name="message"
                   rows={5}
                   value={formData.message}
-                  placeholder="Enter your message"
+                  placeholder="I need an Android & iOS app for… / a website for my business…"
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                   maxLength={CONTACT_LIMITS.message.max}
                   aria-invalid={!!errors.message}
                   aria-describedby={errors.message ? "contact-message-error" : undefined}
                   className={`${inputClass(!!errors.message)} resize-y`}
+                  data-lenis-prevent
                 ></textarea>
                 <div className="flex items-start justify-between gap-x-3">
                   <FieldError id="contact-message-error" message={errors.message} />
-                  <span className="ml-auto text-xs text-slate-500">
+                  <span className="ml-auto text-xs text-white/40">
                     {formData.message.trim().length}/{CONTACT_LIMITS.message.max}
                   </span>
                 </div>
@@ -227,63 +281,22 @@ export function ContactSection() {
                 style={{ display: "none" }}
               />
 
-              {/* Submit button */}
-              <div className="flex flex-col items-center gap-y-3">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  aria-busy={loading}
-                  className={`text-xs font-medium flex items-center justify-center gap-x-2 uppercase px-5 py-2.5 rounded-full md:text-sm md:font-semibold md:px-12 md:py-3 transition cursor-pointer ${
-                    loading
-                      ? "bg-gray-500 cursor-not-allowed"
-                      : "bg-gradient-to-r from-pink-500 to-purple-600"
-                  }`}
-                >
-                  {loading ? "Sending..." : "Send Message"}
-                  {!loading && (
-                    <img
-                      src="https://c.animaapp.com/mek409lvoDLlSz/assets/icon-14.svg"
-                      alt="Icon"
-                      className="h-5 w-5"
-                    />
-                  )}
-                </button>
-              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                aria-busy={loading}
+                className="group inline-flex items-center justify-between gap-3 rounded-full bg-lime py-2 pl-7 pr-2 text-sm font-bold uppercase tracking-wider text-ink transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {loading ? "Sending…" : "Send enquiry"}
+                <span className="grid h-11 w-11 place-items-center rounded-full bg-ink text-lime transition-transform group-hover:rotate-45">
+                  <FiArrowUpRight className="h-5 w-5" />
+                </span>
+              </button>
+              <p className="text-xs text-white/40">Your details are only used to reply to you.</p>
             </form>
           </div>
         </div>
-
-        {/* Contact Info + Social */}
-        <div className="w-auto md:w-9/12">
-          <div className="flex flex-col gap-y-5 md:gap-y-9">
-            {contactInfo.map((info) => (
-              <p
-                key={info.id}
-                className="flex items-center gap-x-3 text-sm md:text-xl"
-              >
-                <img
-                  src={info.iconSrc}
-                  alt="Icon"
-                  className="h-9 w-9 p-2 rounded-full bg-gray-400"
-                />
-                <span className="text-sm md:text-xl">{info.text}</span>
-              </p>
-            ))}
-          </div>
-
-          <div className="flex gap-x-5 mt-8 md:gap-x-10 md:mt-16">
-            {socialLinksLarge.map((link) => (
-              <a key={link.id} href={link.href}>
-                <img
-                  src={link.iconSrc}
-                  alt={link.alt || "Icon"}
-                  className="h-12 w-12 p-3 rounded-full bg-gray-400"
-                />
-              </a>
-            ))}
-          </div>
-        </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,55 +1,60 @@
 import React from "react";
+import { CONTACT } from "@/data/contact";
+import { navigationItems } from "@/data/navigation";
+import { PLAY_DEVELOPER_URL } from "@/data/projects";
+import { socialLinks } from "@/data/socialLinks";
 
 export function Footer() {
   return (
-    <footer className="relative text-white bg-gray-900 border-t border-gray-700">
-      {/* Gradient Divider */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-6/12 h-px bg-[linear-gradient(to_right,rgba(0,0,0,0),rgb(139,92,246),rgba(0,0,0,0))]" />
+    <footer className="relative overflow-hidden bg-paper text-ink">
+      <div className="mx-auto max-w-[1440px] px-5 pt-20 md:px-10">
+        <div className="grid gap-10 border-b border-line pb-14 md:grid-cols-4">
+          <div className="md:col-span-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">[ Have an idea? ]</p>
+            <a href="#contact" className="display mt-4 inline-block text-[clamp(2rem,4vw,3.6rem)] hover:bg-lime">
+              Start a project ↗
+            </a>
+            <p className="mt-4 max-w-sm text-muted">
+              Freelance React Native & Next.js developer — mobile apps, SaaS platforms and business websites.
+            </p>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Explore</p>
+            <ul className="mt-4 space-y-2 font-medium">
+              {navigationItems.map((n) => (
+                <li key={n.id}>
+                  <a href={n.href} className="hover:bg-lime">{n.label}</a>
+                </li>
+              ))}
+              <li>
+                <a href={PLAY_DEVELOPER_URL} target="_blank" rel="noopener noreferrer" className="hover:bg-lime">Google Play ↗</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Connect</p>
+            <ul className="mt-4 space-y-2 font-medium">
+              <li><a href={`mailto:${CONTACT.email}`} className="hover:bg-lime">{CONTACT.email}</a></li>
+              <li><a href={CONTACT.phoneHref} className="hover:bg-lime">{CONTACT.phone}</a></li>
+              {socialLinks.map((s) => (
+                <li key={s.id}>
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:bg-lime">{s.label} ↗</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-8 md:flex md:items-center md:justify-between">
-        {/* Left Side */}
-        <p className="text-sm text-gray-400 text-center md:text-left mb-4 md:mb-0">
-          © Developer Portfolio by{" "}
-          <a
-            href="https://www.linkedin.com/in/infosiddjain/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-teal-400 hover:text-teal-300 transition-colors"
-          >
-            Siddharth Jain
-          </a>
-        </p>
-
-        {/* Right Side */}
-        <div className="flex justify-center md:justify-end gap-6">
-          <a
-            href="https://github.com/infosiddjain"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 uppercase text-gray-300 hover:text-white transition-colors text-sm"
-          >
-            <img
-              src="https://c.animaapp.com/mek409lvoDLlSz/assets/icon-24.svg"
-              alt="GitHub Star"
-              className="h-4 w-4"
-            />
-            Star
-          </a>
-          <a
-            href="https://github.com/infosiddjain/Portfolio"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 uppercase text-gray-300 hover:text-white transition-colors text-sm"
-          >
-            <img
-              src="https://c.animaapp.com/mek409lvoDLlSz/assets/icon-25.svg"
-              alt="GitHub Fork"
-              className="h-4 w-4"
-            />
-            Fork
-          </a>
+        <div className="flex flex-col justify-between gap-2 py-6 text-xs uppercase tracking-[0.16em] text-muted md:flex-row">
+          <p>© {new Date().getFullYear()} Siddharth Jain®</p>
+          <p>{CONTACT.location}</p>
+          <p>Built with Next.js, GSAP & Tailwind</p>
         </div>
       </div>
+
+      <p aria-hidden className="display select-none whitespace-nowrap px-3 text-center text-[12.4vw] leading-[0.8] text-ink">
+        Siddharth<span className="text-outline">Jain</span>
+      </p>
     </footer>
   );
 }

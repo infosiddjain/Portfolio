@@ -8,13 +8,13 @@ export default function BlogPage() {
   const router = useRouter();
 
   return (
-    <div className="text-black text-base not-italic normal-nums font-normal accent-auto bg-gray-900 box-border block tracking-[normal] leading-6 list-outside list-disc text-start indent-[0px] normal-case visible border-separate font-inter">
-      <main className="relative text-white box-border max-w-none min-h-[1000px] mx-auto px-6 md:max-w-[1216px] md:px-12">
-        <Header />
+    <div className="min-h-screen bg-surface text-ink">
+      <Header />
+      <main className="mx-auto max-w-[1200px] px-5 py-12 md:px-8">
         <div className="">
           <button
             onClick={() => router.back()}
-            className="bg-[#1a1443] text-white px-4 py-2 rounded-md hover:bg-[#2a1f63] transition-colors duration-300 cursor-pointer"
+            className="rounded-lg border border-line bg-white px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-surface cursor-pointer"
           >
             ← Back
           </button>
@@ -23,11 +23,7 @@ export default function BlogPage() {
         <div className="">
           <div className="flex justify-center my-5 lg:py-8">
             <div className="flex items-center">
-              <span className="w-24 h-[2px] bg-[#1a1443]"></span>
-              <span className="bg-[#1a1443] w-fit text-white p-2 px-5 text-2xl rounded-md">
-                All Blog
-              </span>
-              <span className="w-24 h-[2px] bg-[#1a1443]"></span>
+              <h1 className="font-display text-3xl font-bold text-ink md:text-4xl">Notes & articles</h1>
             </div>
           </div>
 
@@ -35,7 +31,7 @@ export default function BlogPage() {
             {blogs.map((blog) => (
               <div
                 key={blog.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                className="overflow-hidden rounded-2xl border border-line bg-white transition-shadow duration-300 hover:shadow-lg"
               >
                 {blog.imageSrc && (
                   <div className="h-48 overflow-hidden">
@@ -102,7 +98,6 @@ export default function BlogPage() {
         </div>
       </main>
       <Footer />
-      <div className="absolute box-border block"></div>
     </div>
   );
 }

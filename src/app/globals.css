@@ -1,130 +1,194 @@
 @import "tailwindcss";
-body {
-  font-family: var(--font-poppins), sans-serif;
-  background: #05060d;
+
+/* ───────── Brand tokens ─────────
+   White "agency" edition: paper-white canvas, near-black ink,
+   an electric lime for highlights and an electric blue for 3D glows. */
+@theme {
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #2b2b29;
+  --color-muted: #6b6b66;
+  --color-line: #e6e6e1;
+  --color-paper: #ffffff;
+  --color-paper-2: #f4f4f0;
+  --color-lime: #c6f432;
+  --color-electric: #3d5afe;
+  --color-success: #16a34a;
+
+  /* aliases kept for older class names */
+  --color-canvas: #ffffff;
+  --color-surface: #f4f4f0;
+  --color-brand: #0a0a0a;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-tight), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
-.animate-marquee-left {
-  display: flex;
-  animation: marquee-left 40s linear infinite;
-  will-change: transform;
-}
+
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 5rem; /* keep anchored sections clear of the sticky header */
+  scroll-padding-top: 6rem;
   -webkit-tap-highlight-color: transparent;
-}
-/* Guard on both html and body: iOS Safari ignores body-only overflow for
-   touch panning. `clip` (unlike `hidden`) keeps the sticky header working;
-   `hidden` on html is the fallback for older Safari. */
-html {
   overflow-x: hidden;
   overflow-x: clip;
 }
+
 body {
+  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-ink);
   overflow-x: clip;
   max-width: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
-@keyframes marquee-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
 }
 
-/* ---- Cinematic layer ---- */
-.aurora {
+/* Lenis smooth scroll */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Huge display type */
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+/* Outline text: a thick stroke painted *under* a background-coloured fill.
+   Hides the overlapping contours variable fonts show with plain strokes. */
+.text-outline {
+  color: var(--outline-fill, #ffffff);
+  /* half the stroke hides under the fill, so this reads as ~1px on phones, ~1.5px on desktop */
+  -webkit-text-stroke: clamp(2px, 0.22vw, 3px) var(--color-ink);
+  paint-order: stroke fill;
+}
+.text-outline-light {
+  color: var(--outline-fill, #0a0a0a);
+  -webkit-text-stroke: clamp(2px, 0.22vw, 3px) #ffffff;
+  paint-order: stroke fill;
+}
+
+/* Split-text word mask */
+.split-line { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+.split-word { display: inline-block; will-change: transform; }
+
+/* Dotted tech grid */
+.bg-grid {
+  background-image: radial-gradient(rgba(10, 10, 10, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.bg-lines {
+  background-image:
+    linear-gradient(rgba(10, 10, 10, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 10, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Marquee */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+.marquee-track.reverse { animation-direction: reverse; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Rotating circular badge */
+.spin-slow { animation: spin 16s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.pulse-dot { animation: pulse-dot 2s ease-out infinite; }
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5); }
+  100% { box-shadow: 0 0 0 9px rgba(22, 163, 74, 0); }
+}
+
+/* 3D helpers */
+.preserve-3d { transform-style: preserve-3d; }
+.perspective { perspective: 1400px; }
+
+/* Phone mockup */
+.phone {
+  position: relative;
+  border-radius: 2.6rem;
+  padding: 0.55rem;
+  background: linear-gradient(145deg, #1b1b1b, #050505);
+  box-shadow:
+    inset 0 0 0 1.5px #3a3a3a,
+    0 50px 100px -30px rgba(10, 10, 30, 0.45),
+    0 30px 60px -40px rgba(61, 90, 254, 0.5);
+}
+.phone::before {
+  content: "";
   position: absolute;
-  width: 60vw;
-  height: 60vw;
-  border-radius: 9999px;
-  filter: blur(120px);
-  opacity: 0.35;
-  will-change: transform;
+  top: 0.95rem;
+  left: 50%;
+  width: 28%;
+  height: 1.15rem;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #050505;
+  z-index: 3;
 }
-.aurora-a {
-  background: radial-gradient(circle, #7c3aed, transparent 65%);
-  top: -15%;
-  left: -10%;
-  animation: drift-a 26s ease-in-out infinite alternate;
-}
-.aurora-b {
-  background: radial-gradient(circle, #d4af37, transparent 65%);
-  opacity: 0.18;
-  bottom: -20%;
-  right: -10%;
-  animation: drift-b 32s ease-in-out infinite alternate;
-}
-.aurora-c {
-  background: radial-gradient(circle, #ec4899, transparent 65%);
-  opacity: 0.2;
-  top: 35%;
-  left: 30%;
-  animation: drift-c 38s ease-in-out infinite alternate;
-}
-@keyframes drift-a {
-  to { transform: translate(35vw, 25vh) scale(1.3); }
-}
-@keyframes drift-b {
-  to { transform: translate(-30vw, -30vh) scale(1.2); }
-}
-@keyframes drift-c {
-  to { transform: translate(-25vw, 20vh) scale(0.8) rotate(90deg); }
+.phone-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2.1rem;
+  aspect-ratio: 9 / 19.5;
+  background: #fff;
 }
 
-.film-grain {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  animation: grain 0.6s steps(6) infinite;
-}
-@keyframes grain {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-3%, 2%); }
-  40% { transform: translate(2%, -3%); }
-  60% { transform: translate(-2%, -1%); }
-  80% { transform: translate(3%, 3%); }
-  100% { transform: translate(0, 0); }
+/* Custom cursor only for fine pointers; text fields keep the native I-beam. */
+@media (pointer: fine) {
+  .has-custom-cursor, .has-custom-cursor * { cursor: none !important; }
+  .has-custom-cursor input, .has-custom-cursor textarea { cursor: text !important; }
 }
 
-.gold-text {
-  background: linear-gradient(100deg, #f5e6a8, #d4af37 45%, #f5e6a8 80%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: sheen 6s linear infinite;
-}
-@keyframes sheen {
-  to { background-position: 200% center; }
-}
-
-.glass {
-  background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
-  border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 20px 60px -20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
+/* Dark form fields: stop Chrome's light-blue autofill background. */
+.form-dark input:-webkit-autofill,
+.form-dark input:-webkit-autofill:hover,
+.form-dark input:-webkit-autofill:focus,
+.form-dark textarea:-webkit-autofill {
+  -webkit-text-fill-color: #fff;
+  caret-color: #fff;
+  -webkit-box-shadow: 0 0 0 1000px #141414 inset;
+  transition: background-color 9999s ease-out;
 }
 
-/* Glass look without backdrop-filter — cheap to scroll with many cards on screen. */
-.project-card {
-  background: linear-gradient(145deg, rgba(22,23,36,0.78), rgba(10,11,20,0.72));
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 20px 60px -20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
-  contain: layout paint;
+/* ───────── Toasts ───────── */
+:root {
+  --toastify-toast-width: 400px;
+  --toastify-color-progress-success: #c6f432;
+  --toastify-color-progress-error: #f87171;
+  --toastify-color-progress-dark: #c6f432;
 }
-
-/* Phones: huge blurred layers are the main scroll-jank source — keep the
-   aurora static with a cheaper blur. */
-@media (max-width: 767px) {
-  .aurora {
-    filter: blur(70px);
-    animation: none;
-    will-change: auto;
-  }
+.Toastify__toast {
+  background: #0a0a0a !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px !important;
+  padding: 16px 18px 18px !important;
+  min-height: 0 !important;
+  font-family: var(--font-sans) !important;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(198, 244, 50, 0.04);
+  overflow: hidden;
+}
+.Toastify__toast--success { border-color: rgba(198, 244, 50, 0.35); }
+.Toastify__toast--error { border-color: rgba(248, 113, 113, 0.35); }
+.Toastify__close-button { color: #fff !important; opacity: 0.45; align-self: flex-start; }
+.Toastify__close-button:hover { opacity: 1; }
+.Toastify__progress-bar { height: 3px !important; }
+@media (max-width: 480px) {
+  .Toastify__toast-container { padding: 12px !important; }
+  .Toastify__toast { margin-bottom: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .aurora, .film-grain, .gold-text, .animate-marquee-left { animation: none; }
+  .marquee-track, .spin-slow, .pulse-dot { animation: none; }
 }

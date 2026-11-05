@@ -1,125 +1,139 @@
 "use client";
-import { motion } from "framer-motion";
-import React from "react";
-import { socialLinks } from "@/data/socialLinks";
-import { CodeBlock } from "./CodeBlock";
-import { INTRO_MS } from "./CinematicLayer";
+import React, { useEffect, useRef } from "react";
+import Image from "next/image";
+import gsap from "gsap";
+import { FiArrowDownRight, FiArrowUpRight } from "react-icons/fi";
+import { CONTACT } from "@/data/contact";
+import { playStoreApps, projects } from "@/data/projects";
+import { Magnetic } from "./motion/Magnetic";
+import { onAppReady, prefersReducedMotion } from "./motion/MotionProvider";
+import { HeroScene } from "./three/HeroScene";
 
-// Hero copy starts animating just as the intro card wipes away.
-const START = INTRO_MS / 1000;
+function RotatingBadge() {
+  const text = "AVAILABLE FOR NEW PROJECTS • FREELANCE & CONTRACT • ";
+  return (
+    <div className="relative grid h-32 w-32 place-items-center">
+      <svg viewBox="0 0 100 100" className="spin-slow absolute inset-0 h-full w-full">
+        <defs>
+          <path id="badge-circle" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
+        </defs>
+        <text className="fill-ink text-[8.4px] font-semibold uppercase tracking-[0.18em]">
+          <textPath href="#badge-circle">{text}</textPath>
+        </text>
+      </svg>
+      <span className="grid h-12 w-12 place-items-center rounded-full bg-lime">
+        <FiArrowDownRight className="h-5 w-5" />
+      </span>
+    </div>
+  );
+}
 
 export function HeroSection() {
+  const root = useRef<HTMLElement>(null);
+  const icons = playStoreApps.filter((p) => p.icon).slice(0, 5);
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    const ctx = gsap.context(() => {
+      gsap.set(".hero-word", { yPercent: 115 });
+      gsap.set("[data-hero-fade]", { y: 30, opacity: 0 });
+    }, root);
+    const off = onAppReady(() => {
+      ctx.add(() => {
+        gsap.to(".hero-word", { yPercent: 0, duration: 1.2, stagger: 0.06, ease: "power4.out" });
+        gsap.to("[data-hero-fade]", { y: 0, opacity: 1, duration: 1, stagger: 0.08, delay: 0.5, ease: "power3.out" });
+      });
+    });
+    return () => {
+      off();
+      ctx.revert();
+    };
+  }, []);
+
   return (
-    <section className="relative items-center box-border flex flex-col justify-between py-4 md:py-12">
-      <div className="items-start box-border gap-x-[normal] grid grid-cols-[repeat(1,minmax(0px,1fr))] gap-y-8 md:gap-x-12 md:grid-cols-[repeat(2,minmax(0px,1fr))] md:gap-y-12">
-        <div className="items-start box-border flex flex-col justify-center order-2 pt-2 pb-20 px-2 md:order-1 md:py-10">
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: START, duration: 0.6 }}
-            className="mb-5 text-[11px] uppercase tracking-[0.5em] text-amber-200/70"
-          >
-            Software Engineer · Full-stack · Mobile
-          </motion.p>
-          <h1 className="font-[family-name:var(--font-montaga)] text-[2.5rem] leading-[1.15] sm:text-5xl lg:text-[64px]">
-            {[
-              ["Crafting", ""],
-              ["digital", ""],
-              ["experiences", "gold-text"],
-              ["that", ""],
-              ["feel", ""],
-              ["alive.", "gold-text"],
-            ].map(([w, c], i) => (
-              <span
-                key={i}
-                className="mr-2 inline-block md:mr-3 overflow-hidden align-bottom"
-              >
-                <motion.span
-                  className={`inline-block ${c}`}
-                  initial={{ y: "110%", rotate: 4 }}
-                  animate={{ y: 0, rotate: 0 }}
-                  transition={{
-                    delay: START + 0.05 + i * 0.06,
-                    duration: 0.7,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                >
-                  {w}
-                </motion.span>
-              </span>
-            ))}
-          </h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: START + 0.45, duration: 0.6 }}
-            className="mt-6 max-w-md text-sm text-neutral-400"
-          >
-            Hi, I&apos;m <span className="text-white">Siddharth Jain</span> —
-            building fast, elegant web and mobile products.
-          </motion.p>
-          <div className="items-center box-border gap-x-5 flex gap-y-5 my-12">
-            {socialLinks.map((link) => (
-              <a
-                key={link.id}
-                href={link.href}
-                className="text-pink-500 box-border block"
-              >
-                <img
-                  src={link.iconSrc}
-                  alt="Icon"
-                  className="box-border h-[30px] w-[30px]"
-                />
-              </a>
-            ))}
-          </div>
-          <div className="items-center box-border flex flex-wrap gap-3">
-            <a
-              href="#contact"
-              className="bg-[linear-gradient(to_right,rgb(124,58,237),rgb(236,72,153))] box-border block p-px rounded-full"
-            >
-              <button className="text-xs font-medium items-center bg-gray-900 gap-x-1 flex tracking-[0.6px] leading-4 gap-y-1 text-center uppercase p-3 rounded-full md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5 md:px-8 md:py-4 cursor-pointer">
-                <span className="text-xs font-medium box-border block tracking-[0.6px] leading-4 md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5">
-                  Contact me
-                </span>
-                <img
-                  src="https://c.animaapp.com/mek409lvoDLlSz/assets/icon-6.svg"
-                  alt="Icon"
-                  className="text-xs font-medium box-border h-4 tracking-[0.6px] leading-4 w-4 md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5"
-                />
-              </button>
-            </a>
-            <a
-              role="button"
-              href="/cv/Siddharth_Jain_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-medium items-center bg-[linear-gradient(to_right,rgb(236,72,153),rgb(124,58,237))] box-border gap-x-1 flex tracking-[0.6px] leading-4 gap-y-1 text-center uppercase p-3 rounded-full md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5 md:px-8 md:py-4"
-            >
-              <span className="text-xs font-medium box-border block tracking-[0.6px] leading-4 md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5">
-                Get Resume
-              </span>
-              <img
-                src="https://c.animaapp.com/mek409lvoDLlSz/assets/icon-7.svg"
-                alt="Icon"
-                className="text-xs font-medium box-border h-4 tracking-[0.6px] leading-4 w-4 md:text-sm md:font-semibold md:tracking-[0.7px] md:leading-5"
-              />
-            </a>
-          </div>
+    <section id="top" ref={root} className="relative overflow-hidden pt-28 md:pt-32">
+      <div aria-hidden className="bg-lines pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_70%_40%,black,transparent)]" />
+
+      <div className="relative mx-auto max-w-[1440px] px-5 md:px-10">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5 text-xs font-semibold uppercase tracking-[0.18em] text-muted" data-hero-fade>
+          <span className="flex items-center gap-2 text-ink">
+            <span className="pulse-dot h-2 w-2 rounded-full bg-success" /> Available for freelance & contract work
+          </span>
+          <span>[ React Native · Next.js · Node.js ]</span>
+          <span className="hidden md:block">Est. 2021 — {CONTACT.timezone}</span>
         </div>
-        <div className="relative glass box-border order-1 border border-blue-950/60 rounded-lg border-solid md:order-2">
-          <div className="box-border flex">
-            <div className="bg-[linear-gradient(to_right,rgba(0,0,0,0),rgb(236,72,153),rgb(124,58,237))] box-border h-px w-full"></div>
-            <div className="bg-[linear-gradient(to_right,rgb(124,58,237),rgba(0,0,0,0))] box-border h-px w-full"></div>
-          </div>
-          <div className="box-border px-4 py-5 md:px-8">
-            <div className="box-border flex">
-              <div className="bg-red-400 box-border h-3 w-3 rounded-full"></div>
-              <div className="bg-orange-400 box-border h-3 w-3 ml-2 rounded-full"></div>
-              <div className="bg-green-200 box-border h-3 w-3 ml-2 rounded-full"></div>
+
+        <div className="grid items-center gap-6 pb-12 pt-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-4 lg:pb-20">
+          <div>
+            <h1 className="display text-[clamp(3rem,7.2vw,7.6rem)] text-ink" aria-label="Apps and websites that grow businesses">
+              {[["Apps &", ""], ["websites", ""], ["that", "text-outline"], ["grow", ""], ["businesses.", "hl"]].map(
+                ([w, c], i) => (
+                  <React.Fragment key={i}>
+                    <span className="split-line" aria-hidden>
+                      <span className={`hero-word split-word ${c === "hl" ? "" : c}`}>
+                        {c === "hl" ? (
+                          <span className="relative isolate">
+                            <span className="absolute inset-x-[-0.06em] bottom-[0.08em] top-[0.18em] -z-10 bg-lime" />
+                            {w}
+                          </span>
+                        ) : (
+                          w
+                        )}
+                      </span>
+                    </span>
+                    {i === 1 || i === 3 ? <br /> : " "}
+                  </React.Fragment>
+                )
+              )}
+            </h1>
+
+            <div className="mt-10 grid gap-8 md:grid-cols-[auto_1fr] md:items-end">
+              <div className="hidden md:block" data-hero-fade>
+                <RotatingBadge />
+              </div>
+              <div>
+                <p className="max-w-xl text-lg leading-relaxed text-ink-soft md:text-xl" data-hero-fade>
+                  I&apos;m <strong className="font-semibold text-ink">Siddharth Jain</strong> — I design, build and
+                  launch mobile apps, SaaS platforms and business websites. From idea to Play Store, App Store
+                  and the web.
+                </p>
+                <div className="mt-8 flex flex-wrap items-center gap-3" data-hero-fade>
+                  <Magnetic>
+                    <a
+                      href="#contact"
+                      className="group inline-flex items-center gap-3 rounded-full bg-ink py-2 pl-6 pr-2 text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-lime hover:text-ink"
+                    >
+                      Start a project
+                      <span className="grid h-10 w-10 place-items-center rounded-full bg-lime text-ink transition-transform duration-500 group-hover:rotate-45 group-hover:bg-ink group-hover:text-lime">
+                        <FiArrowUpRight className="h-5 w-5" />
+                      </span>
+                    </a>
+                  </Magnetic>
+                  <a
+                    href="#work"
+                    className="rounded-full border border-ink/15 px-6 py-4 text-sm font-semibold uppercase tracking-wider text-ink transition-colors hover:border-ink"
+                  >
+                    See all work ({projects.length})
+                  </a>
+                </div>
+                <div className="mt-8 flex items-center gap-4" data-hero-fade>
+                  <div className="flex -space-x-3">
+                    {icons.map((p) => (
+                      <Image key={p.id} src={p.icon!} alt="" width={40} height={40} className="h-10 w-10 rounded-xl bg-white ring-[3px] ring-white" />
+                    ))}
+                  </div>
+                  <p className="text-sm leading-tight text-muted">
+                    <strong className="block text-ink">{playStoreApps.length} apps on Google Play</strong>
+                    built & published by me
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-          <CodeBlock />
+
+          <div className="relative" data-hero-fade>
+            <HeroScene />
+          </div>
         </div>
       </div>
     </section>

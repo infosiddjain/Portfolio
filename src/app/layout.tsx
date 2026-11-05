@@ -1,52 +1,53 @@
 import "./globals.css";
-import { Montaga, Poppins } from "next/font/google";
+import type { Metadata } from "next";
+import { Inter, Inter_Tight } from "next/font/google";
 import { Toaster } from "@/components/Toaster";
 
-const montaga = Montaga({
+const inter = Inter({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-montaga",
+  variable: "--font-inter",
+  display: "swap",
 });
 
-const poppins = Poppins({
+const tight = Inter_Tight({
   subsets: ["latin"],
-  weight: ["400", "600"],
-  variable: "--font-poppins",
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-tight",
+  display: "swap",
 });
 
-export const metadata = {
-  title: "Siddharth Jain Portfolio",
-  description:
-    "Explore Siddharth Jain's professional portfolio — including skills, projects, education, and certifications.",
+const SITE_URL = "https://portfolio-five-brown-mafnjkhjpf.vercel.app/";
+const TITLE = "Siddharth Jain — React Native & Next.js Developer for Hire";
+const DESCRIPTION =
+  "Freelance React Native & Next.js developer. I design, build and launch mobile apps, web platforms and business websites — 10 apps live on Google Play and 25+ live websites.";
+
+export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
   keywords: [
     "Siddharth Jain",
-    "portfolio",
-    "web developer",
-    "full-stack developer",
-    "projects",
-    "skills",
-    "resume",
+    "React Native developer",
+    "Next.js developer",
+    "freelance app developer India",
+    "mobile app development",
+    "website development",
+    "hire developer",
   ],
-  authors: [
-    {
-      name: "Siddharth Jain",
-      url: "https://portfolio-five-brown-mafnjkhjpf.vercel.app/",
-    },
-  ],
+  authors: [{ name: "Siddharth Jain", url: SITE_URL }],
   creator: "Siddharth Jain",
-  metadataBase: new URL("https://portfolio-five-brown-mafnjkhjpf.vercel.app/"),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: "Siddharth Jain Portfolio",
-    description: "Explore Siddharth Jain's projects, skills, and achievements.",
-    url: "https://portfolio-five-brown-mafnjkhjpf.vercel.app/",
-    siteName: "Siddharth Jain Portfolio",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    siteName: "Siddharth Jain",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Siddharth Jain Portfolio",
-    description: "Explore Siddharth Jain's skills, projects, resume, and more.",
+    title: TITLE,
+    description: DESCRIPTION,
     creator: "@infosiddjain",
   },
   icons: {
@@ -63,7 +64,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montaga.variable} ${poppins.variable} antialiased`}>
+      <body className={`${inter.variable} ${tight.variable}`}>
         {children}
         <Toaster />
       </body>

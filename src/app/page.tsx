@@ -1,54 +1,46 @@
-import { CinematicLayer } from "@/components/CinematicLayer";
-import { Reveal } from "@/components/Reveal";
 import { AboutSection } from "@/components/AboutSection";
-import { BlogsSection } from "@/components/BlogsSection";
-import { CertificatesSection } from "@/components/Certificates";
+import { AppsShowcase } from "@/components/AppsShowcase";
 import { ContactSection } from "@/components/ContactSection";
-import { EducationSection } from "@/components/EducationSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
+import { MarqueeBand } from "@/components/MarqueeBand";
+import { Cursor } from "@/components/motion/Cursor";
+import { MotionProvider } from "@/components/motion/MotionProvider";
+import { Preloader } from "@/components/motion/Preloader";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { ProcessSection } from "@/components/ProcessSection";
 import { ProjectsSection } from "@/components/ProjectsSection";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
+import { ServicesSection } from "@/components/ServicesSection";
 import { SkillsSection } from "@/components/SkillsSection";
+import { StatsSection } from "@/components/StatsSection";
+import { WorkStack } from "@/components/WorkStack";
 
 export default function Home() {
   return (
-    <div className="text-black text-base not-italic normal-nums font-normal accent-auto box-border block tracking-[normal] leading-6 list-outside list-disc text-start indent-[0px] normal-case visible border-separate font-inter">
-      <div className="box-border"></div>
-      <main className="relative text-white box-border max-w-none min-h-[1000px] mx-auto px-6 md:max-w-[1216px] md:px-12">
-        <CinematicLayer />
-        <Header />
-        <div className="box-border">
-          <HeroSection />
-          <section id="about">
-            <Reveal><AboutSection /></Reveal>
-          </section>
-
-          <section id="experience">
-            <Reveal><ExperienceSection /></Reveal>
-          </section>
-
-          <section id="skills">
-            <Reveal><SkillsSection /></Reveal>
-          </section>
-          <section id="projects">
-            <ProjectsSection />
-          </section>
-          <section id="education">
-            <Reveal><EducationSection /></Reveal>
-          </section>
-          <Reveal><CertificatesSection /></Reveal>
-          <Reveal><BlogsSection /></Reveal>
-          <section id="contact">
-            <Reveal><ContactSection /></Reveal>
-          </section>
-        </div>
-        <ScrollToTopButton />
+    <MotionProvider>
+      <Preloader />
+      <Cursor />
+      <ScrollProgress />
+      <Header />
+      <main>
+        <HeroSection />
+        <MarqueeBand />
+        <WorkStack />
+        <AppsShowcase />
+        <ProjectsSection />
+        <StatsSection />
+        <ServicesSection />
+        <SkillsSection />
+        <ProcessSection />
+        <ExperienceSection />
+        <AboutSection />
+        <ContactSection />
       </main>
       <Footer />
-      <div className="absolute box-border block"></div>
-    </div>
+      <ScrollToTopButton />
+    </MotionProvider>
   );
 }

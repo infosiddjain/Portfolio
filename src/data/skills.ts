@@ -4,106 +4,49 @@ export interface Skill {
   readonly iconSrc: string;
 }
 
-export const skills: Skill[] = [
+export interface SkillGroup {
+  readonly title: string;
+  readonly skills: readonly Skill[];
+}
+
+const dev = (name: string) =>
+  `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${name}/${name}-original.svg`;
+
+export const skillGroups: readonly SkillGroup[] = [
   {
-    id: "react",
-    name: "React",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/react.512a3a7e.svg",
+    title: "Mobile",
+    skills: [
+      { id: "reactnative", name: "React Native", iconSrc: dev("react") },
+      { id: "redux", name: "Redux", iconSrc: dev("redux") },
+      { id: "typescript", name: "TypeScript", iconSrc: dev("typescript") },
+      { id: "android", name: "Android / Play Console", iconSrc: dev("android") },
+    ],
   },
   {
-    id: "reactnative",
-    name: "React Native",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+    title: "Web",
+    skills: [
+      { id: "nextjs", name: "Next.js", iconSrc: dev("nextjs") },
+      { id: "react", name: "React", iconSrc: dev("react") },
+      { id: "tailwind", name: "Tailwind CSS", iconSrc: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" },
+      { id: "javascript", name: "JavaScript", iconSrc: dev("javascript") },
+    ],
   },
   {
-    id: "nextjs",
-    name: "Next.js",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+    title: "Backend",
+    skills: [
+      { id: "nodejs", name: "Node.js", iconSrc: dev("nodejs") },
+      { id: "express", name: "Express", iconSrc: "https://cdn.simpleicons.org/express/0b1324" },
+      { id: "mongodb", name: "MongoDB", iconSrc: dev("mongodb") },
+      { id: "restapi", name: "REST APIs", iconSrc: "https://cdn.simpleicons.org/swagger/85EA2D" },
+    ],
   },
   {
-    id: "redux",
-    name: "Redux",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg",
+    title: "Design & Tools",
+    skills: [
+      { id: "figma", name: "Figma", iconSrc: dev("figma") },
+      { id: "github", name: "GitHub", iconSrc: "https://cdn.simpleicons.org/github/0b1324" },
+      { id: "gitlab", name: "GitLab", iconSrc: dev("gitlab") },
+      { id: "jira", name: "Jira", iconSrc: dev("jira") },
+    ],
   },
-  {
-    id: "restapi",
-    name: "REST API",
-    iconSrc: "https://cdn.simpleicons.org/swagger/85EA2D",
-  },
-  {
-    id: "tailwind",
-    name: "Tailwind CSS",
-    iconSrc:
-      "https://c.animaapp.com/mek409lvoDLlSz/assets/tailwind.c0bbaf6f.svg",
-  },
-  {
-    id: "typescript",
-    name: "TypeScript",
-    iconSrc:
-      "https://c.animaapp.com/mek409lvoDLlSz/assets/typescript.97711300.svg",
-  },
-  {
-    id: "javascript",
-    name: "JavaScript",
-    iconSrc:
-      "https://c.animaapp.com/mek409lvoDLlSz/assets/javascript.b472cbc1.svg",
-  },
-  {
-    id: "figma",
-    name: "Figma",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/figma.00471f51.svg",
-  },
-  {
-    id: "nodejs",
-    name: "Node.js",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-  },
-  {
-    id: "express",
-    name: "Express",
-    iconSrc: "https://cdn.simpleicons.org/express/ffffff",
-  },
-  {
-    id: "mongodb",
-    name: "MongoDB",
-    iconSrc:
-      "https://c.animaapp.com/mek409lvoDLlSz/assets/mongoDB.d8d2b67f.svg",
-  },
-  {
-    id: "github",
-    name: "GitHub",
-    iconSrc: "https://cdn.simpleicons.org/github/ffffff",
-  },
-  {
-    id: "gitlab",
-    name: "GitLab",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg",
-  },
-  {
-    id: "jira",
-    name: "Jira",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg",
-  },
-  {
-    id: "npm",
-    name: "NPM",
-    iconSrc:
-      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg",
-  },
-  {
-    id: "html5",
-    name: "HTML5",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/html.ed6aaa50.svg",
-  },
-  {
-    id: "css",
-    name: "CSS",
-    iconSrc: "https://c.animaapp.com/mek409lvoDLlSz/assets/css.e5e99f36.svg",
-  },
-] as const;
+];
