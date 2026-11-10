@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { FiArrowUpRight, FiCheck } from "react-icons/fi";
+import { playStoreApps } from "@/data/projects";
 import { Split } from "./motion/Split";
 
 // `from`: starting price shown as a chip, e.g. "₹2L" — leave "" to hide it.
@@ -18,7 +19,7 @@ const services: {
     tag: "React Native · Android & iOS",
     timeline: "MVP in 6–8 weeks",
     from: "₹2L",
-    text: "Cross-platform apps designed, built and published to Google Play and the App Store — the same way I ship my own 10 live apps.",
+    text: `Cross-platform apps designed, built and published to Google Play and the App Store — the same way I ship my own ${playStoreApps.length} live apps.`,
     points: ["Store listing, review & policy compliance", "Push notifications, offline mode, deep links", "Payments, auth, analytics & crash reporting"],
   },
   {

@@ -431,11 +431,14 @@ export const projects: readonly Project[] = [
       "Swipe to match, striped, wrapped and colour-bomb specials, and a boss every tenth level. Offline, no sign-up, no ads.",
     category: "product",
     kind: "game",
-    status: "coming-soon",
     role: "Game Developer",
     tools: ["React Native", "Next.js", "TypeScript"],
-    links: { web: "https://cheap-candy-game-web.vercel.app/" },
+    links: {
+      web: "https://cheap-candy-game-web.vercel.app/",
+      playStore: "https://play.google.com/store/apps/details?id=com.cheapcandy",
+    },
     image: "/projects/cheap-candy.jpg",
+    icon: "/projects/icons/cheap-candy.png",
   },
 
   // ───────────── My products — web platforms & tools ─────────────
