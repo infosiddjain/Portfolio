@@ -1,17 +1,11 @@
 {
-  "name": "Siddharth Jain PortFolio",
+  "name": "Siddharth Jain — React Native & Next.js Developer",
   "short_name": "Siddharth Jain",
+  "description": "Portfolio of Siddharth Jain (infosiddjain) — mobile apps, SaaS and business websites.",
+  "start_url": "/",
   "icons": [
-    {
-      "src": "/public/android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/public/android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
   ],
   "theme_color": "#ffffff",
   "background_color": "#ffffff",

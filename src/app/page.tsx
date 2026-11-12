@@ -15,10 +15,12 @@ import { SkillsSection } from "@/components/SkillsSection";
 import { StatsSection } from "@/components/StatsSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { WorkStack } from "@/components/WorkStack";
+import { homeJsonLd, jsonLdScript } from "@/lib/site";
 
 export default function Home() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(homeJsonLd())} />
       <Preloader />
       <Header />
       <main>

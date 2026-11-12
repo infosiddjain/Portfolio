@@ -5,6 +5,7 @@ import { Toaster } from "@/components/Toaster";
 import { Cursor } from "@/components/motion/Cursor";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { DESCRIPTION, SITE_NAME, SITE_URL, TITLE } from "@/lib/site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,33 +20,40 @@ const tight = Inter_Tight({
   display: "swap",
 });
 
-// Set NEXT_PUBLIC_SITE_URL (e.g. https://siddharthjain.dev) once the custom domain is live.
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://portfolio-five-brown-mafnjkhjpf.vercel.app/";
-const TITLE = "Siddharth Jain — React Native & Next.js Developer for Hire";
-const DESCRIPTION =
-  "Freelance React Native & Next.js developer. I design, build and launch mobile apps, SaaS platforms and business websites — 12 apps live on Google Play.";
-
 export const metadata: Metadata = {
-  title: TITLE,
+  metadataBase: new URL(SITE_URL),
+  title: { default: TITLE, template: "%s · Siddharth Jain" },
   description: DESCRIPTION,
+  applicationName: SITE_NAME,
   keywords: [
     "Siddharth Jain",
+    "infosiddjain",
+    "Siddharth Jain developer",
+    "Siddharth Jain portfolio",
     "React Native developer",
     "Next.js developer",
-    "freelance app developer India",
-    "mobile app development",
+    "freelance React Native developer India",
+    "freelance app developer Delhi NCR",
+    "hire mobile app developer",
+    "health app developer",
+    "sports-tech app developer",
     "website development",
-    "hire developer",
   ],
   authors: [{ name: "Siddharth Jain", url: SITE_URL }],
   creator: "Siddharth Jain",
-  metadataBase: new URL(SITE_URL),
+  publisher: "Siddharth Jain",
+  alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+  },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    url: SITE_URL,
-    siteName: "Siddharth Jain",
-    locale: "en_US",
+    url: "/",
+    siteName: SITE_NAME,
+    locale: "en_IN",
     type: "website",
   },
   twitter: {
@@ -55,10 +63,15 @@ export const metadata: Metadata = {
     creator: "@infosiddjain",
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
     apple: "/apple-touch-icon.png",
   },
+  manifest: "/site.webmanifest",
+  category: "technology",
 };
 
 export default function RootLayout({

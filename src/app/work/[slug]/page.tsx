@@ -11,6 +11,7 @@ import { Split } from "@/components/motion/Split";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 import { AppScreen, Phone } from "@/components/three/Phone";
 import { caseStudySlugs, getCaseStudy } from "@/data/caseStudies";
+import { SITE_URL, absoluteUrl, jsonLdScript } from "@/lib/site";
 
 type Params = { slug: string };
 
@@ -22,11 +23,16 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { slug } = await params;
   const data = getCaseStudy(slug);
   if (!data) return {};
-  const title = `${data.project.name} — Case study · Siddharth Jain`;
+  const p = data.project;
+  const title = `${p.name} — ${p.category === "client" ? "Client case study" : "Case study"}`;
+  const description = `${p.tagline} ${data.study.challenge}`.slice(0, 158).replace(/\s+\S*$/, "") + "…";
+  const images = p.image ? [{ url: p.image, alt: `${p.name} — built by Siddharth Jain` }] : undefined;
   return {
     title,
-    description: `${data.project.tagline} ${data.study.challenge}`.slice(0, 160),
-    openGraph: { title, description: data.project.tagline, images: data.project.image ? [data.project.image] : undefined },
+    description,
+    alternates: { canonical: `/work/${slug}` },
+    openGraph: { type: "article", title, description, url: `/work/${slug}`, images },
+    twitter: { card: "summary_large_image", title, description, images: p.image ? [p.image] : undefined },
   };
 }
 
@@ -46,8 +52,34 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
     { label: "Stack", value: p.tools.join(" · ") },
   ];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": p.links.playStore || p.links.appStore ? "SoftwareApplication" : "CreativeWork",
+        name: p.name,
+        description: p.tagline,
+        url: p.links.web ?? p.links.playStore ?? p.links.appStore ?? absoluteUrl(`/work/${p.id}`),
+        image: p.image ? absoluteUrl(p.image) : undefined,
+        ...(p.links.playStore || p.links.appStore
+          ? { applicationCategory: p.kind === "game" ? "GameApplication" : "MobileApplication", operatingSystem: [p.links.playStore && "Android", p.links.appStore && "iOS"].filter(Boolean).join(", ") }
+          : {}),
+        creator: { "@type": "Person", "@id": `${SITE_URL}/#person`, name: "Siddharth Jain" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+          { "@type": "ListItem", position: 2, name: "Work", item: absoluteUrl("/#work") },
+          { "@type": "ListItem", position: 3, name: p.name, item: absoluteUrl(`/work/${p.id}`) },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(jsonLd)} />
       <Header />
       <main>
         {/* ───── Intro ───── */}
