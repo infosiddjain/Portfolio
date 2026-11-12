@@ -23,7 +23,7 @@ const tight = Inter_Tight({
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://portfolio-five-brown-mafnjkhjpf.vercel.app/";
 const TITLE = "Siddharth Jain — React Native & Next.js Developer for Hire";
 const DESCRIPTION =
-  "Freelance React Native & Next.js developer. I design, build and launch mobile apps, SaaS platforms and business websites — 11 apps live on Google Play.";
+  "Freelance React Native & Next.js developer. I design, build and launch mobile apps, SaaS platforms and business websites — 12 apps live on Google Play.";
 
 export const metadata: Metadata = {
   title: TITLE,

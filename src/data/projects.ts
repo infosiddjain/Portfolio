@@ -497,11 +497,15 @@ export const projects: readonly Project[] = [
     description:
       "Track every expense, run separate budget dashboards and analyse spending — with strict on-device privacy, no ads and no trackers.",
     category: "product",
-    kind: "web",
+    kind: "app",
     role: "Product Engineer",
     tools: ["React Native", "Next.js", "TypeScript"],
-    links: { web: "https://expense-web-orpin.vercel.app/" },
+    links: {
+      web: "https://expense-web-orpin.vercel.app/",
+      playStore: "https://play.google.com/store/apps/details?id=com.expensetrackermanager",
+    },
     image: "/projects/expense.jpg",
+    icon: "/projects/icons/expense.png",
   },
   {
     id: "math-concepts",
