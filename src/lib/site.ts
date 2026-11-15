@@ -7,7 +7,7 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://portfolio-
 
 export const SITE_NAME = "Siddharth Jain (infosiddjain)";
 export const TITLE = "Siddharth Jain — React Native & Next.js Developer for Hire";
-export const DESCRIPTION = `Siddharth Jain (infosiddjain) — freelance React Native & Next.js developer from Delhi NCR, India. I build mobile apps, SaaS platforms and business websites, specialising in health, fitness & sports-tech. ${playStoreApps.length} apps live on Google Play.`;
+export const DESCRIPTION = `Siddharth Jain (infosiddjain) — freelance React Native & Next.js developer from Delhi NCR, India. I build mobile apps, web apps and business websites, specialising in health, fitness & sports-tech. ${playStoreApps.length} apps live on Google Play.`;
 
 export const absoluteUrl = (path = "/") => `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 
@@ -50,7 +50,7 @@ export function homeJsonLd() {
         areaServed: ["IN", "US", "Worldwide"],
         address: { "@type": "PostalAddress", addressLocality: "Hapur", addressRegion: "Uttar Pradesh", addressCountry: "IN" },
         founder: { "@id": `${SITE_URL}/#person` },
-        serviceType: ["Mobile app development", "Web app & SaaS development", "Business websites", "Game development", "App maintenance"],
+        serviceType: ["Mobile app development", "Web app development", "Business websites", "Game development", "App maintenance"],
       },
     ],
   };

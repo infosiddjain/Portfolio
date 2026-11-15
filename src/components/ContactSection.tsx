@@ -113,6 +113,7 @@ export function ContactSection() {
   const channels = [
     { icon: FaWhatsapp, label: "WhatsApp", value: "Chat now", href: CONTACT.whatsapp, ext: true },
     { icon: FiMail, label: "Email", value: CONTACT.email, href: `mailto:${CONTACT.email}`, ext: false },
+    { icon: FiMail, label: "Support", value: CONTACT.supportEmail, href: `mailto:${CONTACT.supportEmail}`, ext: false },
     { icon: FiPhone, label: "Phone", value: CONTACT.phone, href: CONTACT.phoneHref, ext: false },
     { icon: FaLinkedin, label: "LinkedIn", value: "in/infosiddjain", href: "https://www.linkedin.com/in/infosiddjain/", ext: true },
   ];

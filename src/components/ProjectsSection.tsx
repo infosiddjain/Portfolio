@@ -1,211 +1,367 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { FaGooglePlay } from "react-icons/fa";
 import { FiArrowUpRight } from "react-icons/fi";
-import { FEATURED_IDS, projects as allProjects, type Project } from "@/data/projects";
+import {
+  FEATURED_IDS,
+  projects as allProjects,
+  type Project,
+} from "@/data/projects";
 import { Split } from "./motion/Split";
-import { Tilt } from "./motion/Tilt";
-import { AppScreen, Phone } from "./three/Phone";
 
-type Filter = "all" | "client" | "app" | "game" | "web";
+// The archive skips the case studies already shown in "Selected work",
+// except these, which belong in the website catalog too.
+const ALSO_IN_ARCHIVE = ["gamerun"];
+const projects = allProjects.filter(
+  (p) =>
+    ALSO_IN_ARCHIVE.includes(p.id) ||
+    !(FEATURED_IDS as readonly string[]).includes(p.id),
+);
 
-const FILTERS: { id: Filter; label: string }[] = [
-  { id: "all", label: "All" },
-  { id: "client", label: "Client work" },
-  { id: "app", label: "Mobile apps" },
-  { id: "game", label: "Games" },
-  { id: "web", label: "Web & SaaS" },
+const STATUS_LABEL = { "coming-soon": "Coming soon", apk: "Beta" } as const;
+/** Rows shown at first, and how many more each "Show more" click adds. */
+const PAGE = 9;
+
+// Opens with a varied mix instead of a run of similar products.
+const PINNED = [
+  "gamerun",
+  "career-canvas",
+  "learn-refill",
+  "hot-job",
+  "signature-studio",
+  "timeatlas",
+  "cpukit",
+  "ludo-masti",
+  "divansh-transport",
+  "calculator-zip",
+  "puzzle-buzz",
+  "math-concepts",
+  "yt-pulse",
 ];
-
-// The archive skips the case studies already shown in "Selected work".
-const projects = allProjects.filter((p) => !(FEATURED_IDS as readonly string[]).includes(p.id));
-
-const KIND_LABEL = { app: "Mobile app", game: "Game", web: "Web platform" } as const;
-const STATUS_LABEL = { "coming-soon": "Coming soon", apk: "Beta", live: "Live" } as const;
-const INITIAL = 6;
-
-// Filters don't overlap: client work sits only under "Client work", so the
-// counts always add up to "All".
-const matches = (p: Project, f: Filter) =>
-  f === "all" || (f === "client" ? p.category === "client" : p.category === "product" && p.kind === f);
-
-// "All" opens with a varied mix instead of a run of similar apps.
-const PINNED = ["learn-refill", "hot-job", "divansh-transport", "cpukit", "timeatlas", "calculator-zip", "puzzle-buzz", "ludo-masti", "math-concepts"];
 const rank = (p: Project) => {
   const i = PINNED.indexOf(p.id);
   return i === -1 ? PINNED.length : i;
 };
 const ordered = [...projects].sort((a, b) => rank(a) - rank(b));
 
-function Card({ p, index }: { p: Project; index: number }) {
-  const href = p.links.web ?? p.links.playStore ?? p.links.appStore ?? "#";
-  const status = p.status ?? "live";
-  return (
-    <motion.article
-      layout
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.96 }}
-      transition={{ duration: 0.6, delay: (index % 3) * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      className="group"
+const hrefOf = (p: Project) =>
+  p.links.web ?? p.links.playStore ?? p.links.appStore ?? "#";
+const domain = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+};
+const num = (i: number) => String(i + 1).padStart(2, "0");
+const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
+
+function Shot({ p, sizes }: { p: Project; sizes: string }) {
+  return p.image ? (
+    <Image
+      src={p.image}
+      alt={`${p.name} website`}
+      fill
+      sizes={sizes}
+      className="object-cover object-top"
+    />
+  ) : (
+    <div
+      className="absolute inset-0 grid place-items-center"
+      style={{ background: `linear-gradient(140deg, ${p.accent}, #0a0a0a)` }}
     >
-      <Tilt max={7} className="overflow-hidden rounded-[1.6rem] bg-paper-2" data-cursor="View">
-        <a href={href} target="_blank" rel="noopener noreferrer" className="block" aria-label={`Open ${p.name}`}>
-          <div className="relative aspect-[4/3] overflow-hidden">
-            {p.image ? (
-              <Image
-                src={p.image}
-                alt={`${p.name} preview`}
-                fill
-                sizes="(min-width: 1024px) 440px, (min-width: 768px) 50vw, 100vw"
-                className="object-cover object-top transition-transform duration-[1.2s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.07]"
-              />
-            ) : (
-              <div className="absolute inset-0" style={{ background: `linear-gradient(150deg, ${p.accent}22, ${p.accent}55)` }}>
-                <div className="absolute left-1/2 top-[12%] w-[34%] -translate-x-1/2 transition-transform duration-700 group-hover:-translate-y-2">
-                  <Phone>
-                    <AppScreen app={p} compact />
-                  </Phone>
-                </div>
-              </div>
-            )}
-            {/* hover veil */}
-            <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            <span className="absolute bottom-4 right-4 grid h-12 w-12 translate-y-3 scale-75 place-items-center rounded-full bg-lime text-ink opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
-              <FiArrowUpRight className="h-5 w-5" />
+      <span className="display text-3xl text-white/80">{p.name}</span>
+    </div>
+  );
+}
+
+/** Desktop: the big "monitor" that previews whichever row is active. */
+function Preview({ p, index }: { p: Project; index: number }) {
+  const status = p.status && p.status !== "live" ? STATUS_LABEL[p.status] : null;
+  return (
+    <div className="flex flex-col gap-7">
+      <a
+        href={hrefOf(p)}
+        {...ext}
+        data-cursor="Visit"
+        aria-label={`Open ${p.name}`}
+        className="group relative block overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_50px_100px_-40px_rgba(0,0,0,0.9)]"
+      >
+        <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.06] px-4 py-2.5">
+          <span className="flex gap-1.5" aria-hidden>
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+          </span>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={p.id}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.25 }}
+              className="min-w-0 flex-1 truncate rounded-full bg-white/10 px-3 py-1 text-center text-[11px] text-white/70"
+            >
+              {domain(hrefOf(p))}
+            </motion.span>
+          </AnimatePresence>
+        </div>
+        <div className="relative aspect-[16/10] overflow-hidden bg-ink">
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={p.id}
+              initial={{ opacity: 0, scale: 1.06, filter: "blur(8px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0"
+            >
+              <Shot p={p} sizes="(min-width: 1024px) 720px, 100vw" />
+            </motion.div>
+          </AnimatePresence>
+          <span className="absolute bottom-4 right-4 grid h-14 w-14 place-items-center rounded-full bg-lime text-ink transition-transform duration-500 group-hover:rotate-45">
+            <FiArrowUpRight className="h-6 w-6" />
+          </span>
+          {status && (
+            <span className="absolute left-4 top-4 rounded-full bg-ink px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-lime">
+              {status}
             </span>
-            <div className="absolute left-4 top-4 flex gap-1.5">
-              <span className="rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink backdrop-blur">
-                {p.category === "client" ? "Client" : KIND_LABEL[p.kind]}
-              </span>
-              {status !== "live" && (
-                <span className="rounded-full bg-ink px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-lime">
-                  {STATUS_LABEL[status]}
-                </span>
-              )}
+          )}
+        </div>
+      </a>
+
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={p.id}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+          className="grid gap-5"
+        >
+          <div className="flex items-start gap-4">
+            {p.icon && (
+              <Image
+                src={p.icon}
+                alt=""
+                width={52}
+                height={52}
+                className="h-13 w-13 shrink-0 rounded-2xl ring-1 ring-white/10"
+              />
+            )}
+            <div className="min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-lime">
+                [{num(index)}] — {p.role}
+              </p>
+              <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-white/70">
+                {p.description}
+              </p>
             </div>
           </div>
-        </a>
-      </Tilt>
-
-      <div className="mt-5 flex items-start gap-4">
-        {p.icon && (
-          <Image src={p.icon} alt="" width={44} height={44} className="h-11 w-11 shrink-0 rounded-xl ring-1 ring-black/5" />
-        )}
-        <div className="min-w-0 flex-1">
-          <div className="flex items-baseline justify-between gap-3">
-            <h3 className="font-display text-2xl font-bold uppercase tracking-tight">{p.name}</h3>
-            <span className="text-xs text-muted">[{String(index + 1).padStart(2, "0")}]</span>
-          </div>
-          <p className="mt-1 text-[15px] leading-snug text-muted">{p.tagline}</p>
-          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-semibold uppercase tracking-wider">
-            {p.links.web && (
-              <a href={p.links.web} target="_blank" rel="noopener noreferrer" className="border-b border-ink pb-0.5 hover:border-lime hover:bg-lime">
-                Website ↗
-              </a>
-            )}
+          <div className="flex flex-wrap items-center gap-2">
+            {p.tools.map((t) => (
+              <span
+                key={t}
+                className="rounded-full border border-white/15 px-3 py-1 text-xs text-white/75"
+              >
+                {t}
+              </span>
+            ))}
             {p.links.playStore && (
-              <a href={p.links.playStore} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 border-b border-ink pb-0.5 hover:border-lime hover:bg-lime">
-                <FaGooglePlay className="h-2.5 w-2.5" /> Play
-              </a>
-            )}
-            {p.links.appStore && (
-              <a href={p.links.appStore} target="_blank" rel="noopener noreferrer" className="border-b border-ink pb-0.5 hover:border-lime hover:bg-lime">
-                App Store ↗
+              <a
+                href={p.links.playStore}
+                {...ext}
+                className="ml-auto inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-ink"
+              >
+                <FaGooglePlay className="h-3 w-3" /> Google Play
               </a>
             )}
           </div>
-        </div>
-      </div>
-    </motion.article>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function Row({
+  p,
+  index,
+  active,
+  onActivate,
+}: {
+  p: Project;
+  index: number;
+  active: boolean;
+  onActivate: () => void;
+}) {
+  const href = hrefOf(p);
+  return (
+    <li className="border-b border-white/10">
+      <a
+        href={href}
+        {...ext}
+        onMouseEnter={onActivate}
+        onFocus={onActivate}
+        className="group relative flex items-center gap-4 py-5 md:gap-6 lg:py-6"
+      >
+        {/* sliding highlight */}
+        <span
+          aria-hidden
+          className={`absolute inset-y-0 left-0 w-[3px] origin-top bg-lime transition-transform duration-500 ${
+            active ? "scale-y-100" : "scale-y-0"
+          }`}
+        />
+        <span
+          className={`w-9 shrink-0 pl-3 text-xs font-semibold tabular-nums transition-colors md:w-12 ${
+            active ? "text-lime" : "text-white/40"
+          }`}
+        >
+          {num(index)}
+        </span>
+
+        {/* thumbnail — phones & tablets only; desktop uses the big preview */}
+        <span className="relative aspect-[16/10] w-24 shrink-0 overflow-hidden rounded-lg ring-1 ring-white/10 sm:w-32 lg:hidden">
+          <Shot p={p} sizes="128px" />
+        </span>
+
+        <span className="min-w-0 flex-1">
+          <span
+            className={`display block break-words text-[clamp(1.35rem,3.2vw,2.6rem)] leading-[0.95] transition-all duration-500 ${
+              active ? "text-white lg:translate-x-2" : "text-white/55 group-hover:text-white"
+            }`}
+          >
+            {p.name}
+          </span>
+          <span className="mt-1.5 block truncate text-xs text-white/45 md:text-sm">
+            {domain(href)}
+          </span>
+        </span>
+
+        <span
+          className={`hidden h-10 w-10 shrink-0 place-items-center rounded-full border transition-all duration-500 sm:grid md:h-11 md:w-11 ${
+            active
+              ? "rotate-45 border-lime bg-lime text-ink"
+              : "border-white/20 text-white/70"
+          }`}
+        >
+          <FiArrowUpRight className="h-4 w-4" />
+        </span>
+      </a>
+    </li>
   );
 }
 
 export function ProjectsSection() {
-  const [filter, setFilter] = useState<Filter>("all");
-  const [expanded, setExpanded] = useState(false);
+  const [count, setCount] = useState(PAGE);
+  const [active, setActive] = useState(0);
+  const section = useRef<HTMLElement>(null);
+  const allShown = count >= ordered.length;
+  const shown = ordered.slice(0, count);
 
-  const counts = useMemo(
-    () => Object.fromEntries(FILTERS.map((f) => [f.id, projects.filter((p) => matches(p, f.id)).length])) as Record<Filter, number>,
-    []
-  );
-  // Grid height changes shift every scroll trigger below it.
+  // List height changes shift every scroll trigger below it.
   useEffect(() => {
     const id = setTimeout(() => ScrollTrigger.refresh(), 750);
     return () => clearTimeout(id);
-  }, [filter, expanded]);
+  }, [count]);
 
-  const visible = ordered.filter((p) => matches(p, filter));
-  const shown = expanded ? visible : visible.slice(0, INITIAL);
+  const toggle = () => {
+    if (allShown) {
+      setCount(PAGE);
+      setActive((a) => (a < PAGE ? a : 0));
+      section.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      setCount((c) => Math.min(c + PAGE, ordered.length));
+    }
+  };
 
   return (
-    <section id="products" className="relative mx-auto max-w-[1440px] px-5 py-24 md:px-10 md:py-32">
-      <div className="mb-12 grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-end">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted" data-reveal>
-            [ Archive — more apps, games & tools ]
-          </p>
-          <Split className="display mt-5 text-[clamp(3rem,7vw,7rem)]" text={"Also\n*shipped*"} />
-        </div>
-        <p className="max-w-md text-lg leading-relaxed text-muted lg:justify-self-end" data-reveal>
-          More products I&apos;ve designed, built and launched — utility apps, games, SaaS tools and
-          websites. Click any card to open it live.
-        </p>
-      </div>
+    <section
+      ref={section}
+      id="products"
+      className="relative mx-auto max-w-[1440px] px-3 py-16 sm:px-5 md:px-10 md:py-24"
+    >
+      <div className="relative overflow-clip rounded-[2rem] bg-ink px-5 py-14 text-white sm:px-8 md:px-12 md:py-20 lg:px-16">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-40 -top-40 h-[30rem] w-[30rem] rounded-full blur-3xl transition-colors duration-700"
+          style={{ background: `${shown[active]?.accent ?? "#c8f542"}33` }}
+        />
 
-      <div role="tablist" aria-label="Filter projects" className="mb-12 flex gap-2 overflow-x-auto border-b border-line pb-6 [scrollbar-width:none]">
-        {FILTERS.map((f) => {
-          const active = filter === f.id;
-          return (
-            <button
-              key={f.id}
-              type="button"
-              role="tab"
-              aria-selected={active}
-              onClick={() => {
-                setFilter(f.id);
-                setExpanded(false);
-              }}
-              className={`relative shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold uppercase tracking-wider transition-colors ${
-                active ? "text-ink" : "text-muted hover:text-ink"
-              }`}
+        <div className="relative mb-12 grid gap-8 md:mb-16 lg:grid-cols-[1.3fr_1fr] lg:items-end">
+          <div>
+            <p
+              className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60"
+              data-reveal
             >
-              {active && (
-                <motion.span layoutId="filter-pill" className="absolute inset-0 rounded-full bg-lime" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
-              )}
-              <span className="relative">
-                {f.label} <sup className="text-[10px]">{counts[f.id]}</sup>
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      <motion.div layout className="grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="popLayout">
-          {shown.map((p, i) => (
-            <Card key={p.id} p={p} index={i} />
-          ))}
-        </AnimatePresence>
-      </motion.div>
-
-      {visible.length > INITIAL && (
-        <div className="mt-16 flex justify-center">
-          <button
-            type="button"
-            onClick={() => setExpanded((e) => !e)}
-            className="group inline-flex items-center gap-3 rounded-full bg-ink py-2 pl-7 pr-2 text-sm font-semibold uppercase tracking-wider text-white transition-colors hover:bg-lime hover:text-ink"
+              [ Live index — {ordered.length} more products ]
+            </p>
+            {/* Invert the outlined word for the dark panel. */}
+            <div
+              style={
+                {
+                  "--outline-fill": "#0a0a0a",
+                  "--color-ink": "#ffffff",
+                } as React.CSSProperties
+              }
+            >
+              <Split
+                className="display mt-5 text-[clamp(3rem,7vw,7rem)]"
+                text={"Also\n*shipped*"}
+              />
+            </div>
+          </div>
+          <p
+            className="max-w-md text-lg leading-relaxed text-white/65 lg:justify-self-end"
+            data-reveal
           >
-            {expanded ? "Show less" : `Show all ${visible.length}`}
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-lime text-ink transition-transform group-hover:rotate-90 group-hover:bg-ink group-hover:text-lime">
-              {expanded ? "−" : "+"}
-            </span>
-          </button>
+            Apps, games, web tools and websites I&apos;ve designed, built and
+            launched. Hover a name to preview it — click to open it live.
+          </p>
         </div>
-      )}
+
+        <div className="relative grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+          <div className="hidden lg:block">
+            <div className="sticky top-28">
+              {shown[active] && <Preview p={shown[active]} index={active} />}
+            </div>
+          </div>
+
+          <div className="min-w-0">
+            <ul className="border-t border-white/10">
+              {shown.map((p, i) => (
+                <Row
+                  key={p.id}
+                  p={p}
+                  index={i}
+                  active={i === active}
+                  onActivate={() => setActive(i)}
+                />
+              ))}
+            </ul>
+
+            {ordered.length > PAGE && (
+              <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">
+                  Showing {Math.min(count, ordered.length)} of {ordered.length}
+                </p>
+                <button
+                  type="button"
+                  onClick={toggle}
+                  className="group inline-flex items-center gap-3 rounded-full bg-lime py-2 pl-7 pr-2 text-sm font-semibold uppercase tracking-wider text-ink transition-colors hover:bg-white"
+                >
+                  {allShown ? "Show less" : "Show more"}
+                  <span className="grid h-10 w-10 place-items-center rounded-full bg-ink text-lime transition-transform group-hover:rotate-90">
+                    {allShown ? "−" : "+"}
+                  </span>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

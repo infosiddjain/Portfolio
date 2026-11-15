@@ -122,7 +122,7 @@ const studies: Record<(typeof FEATURED_IDS)[number], Omit<CaseStudy, "slug">> = 
     outcome: "Live in the browser and on Google Play.",
   },
   "hub-form": {
-    engagement: "My own product — SaaS",
+    engagement: "My own product — web tool",
     challenge:
       "Every small website needs a contact form — and every form needs a backend, spam handling and somewhere to actually read the messages.",
     approach: [

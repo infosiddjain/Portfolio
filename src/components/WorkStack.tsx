@@ -1,36 +1,33 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaApple, FaGooglePlay } from "react-icons/fa";
 import { FiArrowUpRight } from "react-icons/fi";
 import { FEATURED_IDS, projects, type Project } from "@/data/projects";
-import { prefersReducedMotion } from "./motion/MotionProvider";
 import { Split } from "./motion/Split";
 import { Tilt } from "./motion/Tilt";
 import { AppScreen, Phone } from "./three/Phone";
 
-gsap.registerPlugin(ScrollTrigger);
-
 const featured = FEATURED_IDS.map((id) => projects.find((p) => p.id === id)!).filter(Boolean);
 
 const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, "");
+const num = (i: number) => String(i + 1).padStart(2, "0");
 
-function Links({ p, dark }: { p: Project; dark: boolean }) {
+function Links({ p }: { p: Project }) {
   const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
-  const ghost = `inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
-    dark ? "border-white/20 text-white hover:bg-white hover:text-ink" : "border-ink/15 text-ink hover:bg-ink hover:text-white"
-  }`;
+  const ghost =
+    "inline-flex items-center gap-2 rounded-full border border-ink/15 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-ink transition-colors hover:bg-ink hover:text-white";
   return (
     <div className="flex flex-wrap gap-2">
       <Link
         href={`/work/${p.id}`}
-        className="group inline-flex items-center gap-2 rounded-full bg-lime py-2.5 pl-4 pr-2.5 text-xs font-bold uppercase tracking-wider text-ink"
+        className="group inline-flex items-center gap-2 rounded-full bg-ink py-2.5 pl-5 pr-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-lime hover:text-ink"
       >
-        Case study
-        <FiArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+        Read case study
+        <span className="grid h-6 w-6 place-items-center rounded-full bg-lime text-ink transition-transform group-hover:rotate-45">
+          <FiArrowUpRight className="h-3.5 w-3.5" />
+        </span>
       </Link>
       {p.links.web && (
         <a href={p.links.web} {...ext} className={ghost}>
@@ -51,17 +48,33 @@ function Links({ p, dark }: { p: Project; dark: boolean }) {
   );
 }
 
-function Media({ p }: { p: Project }) {
-  const showPhone = Boolean(p.icon);
+/** The coloured "stage": brand-colour backdrop, giant index number, browser + phone. */
+function Stage({ p, index }: { p: Project; index: number }) {
+  const accent = p.accent ?? "#0a0a0a";
   return (
-    <div className="perspective relative h-full w-full sm:min-h-[460px]">
-      {p.image ? (
-        <Tilt
-          max={8}
-          data-cursor="View"
-          className="relative w-full overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_40px_80px_-30px_rgba(0,0,0,0.45)] sm:absolute sm:left-0 sm:top-[6%] sm:w-[88%]"
-        >
-          <Link href={`/work/${p.id}`} tabIndex={-1} aria-hidden>
+    <Link
+      href={`/work/${p.id}`}
+      data-cursor="Open"
+      aria-label={`${p.name} case study`}
+      className="group relative block overflow-hidden rounded-[2rem] p-5 sm:p-8 md:p-10"
+      style={{
+        background: `radial-gradient(120% 90% at 85% 10%, ${accent}, ${accent}cc 45%, #0a0a0a 120%)`,
+      }}
+    >
+      <div aria-hidden className="bg-grid pointer-events-none absolute inset-0 opacity-20 mix-blend-overlay" />
+      <span
+        aria-hidden
+        className="display pointer-events-none absolute -bottom-[0.18em] -left-[0.04em] select-none text-[clamp(8rem,22vw,20rem)] leading-none text-white/15"
+      >
+        {num(index)}
+      </span>
+
+      <div className="relative flex min-h-[260px] items-center sm:min-h-[380px] lg:min-h-[460px]">
+        {p.image ? (
+          <Tilt
+            max={6}
+            className="relative w-full overflow-hidden rounded-xl bg-white shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)] sm:w-[88%]"
+          >
             <div className="flex items-center gap-1.5 border-b border-black/5 bg-white px-3 py-2">
               <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
               <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
@@ -77,70 +90,95 @@ function Media({ p }: { p: Project }) {
                 src={p.image}
                 alt={`${p.name} website`}
                 fill
-                sizes="(min-width: 1024px) 640px, 100vw"
-                className="object-cover object-top transition-transform duration-[1.4s] ease-out group-hover/tilt:scale-105"
+                sizes="(min-width: 1024px) 720px, 100vw"
+                className="object-cover object-top transition-transform duration-[1.4s] ease-out group-hover:scale-105"
               />
             </div>
-          </Link>
-        </Tilt>
-      ) : (
-        <div
-          className="relative grid aspect-[16/10] w-full place-items-center overflow-hidden rounded-2xl sm:absolute sm:left-0 sm:top-[6%] sm:w-[88%]"
-          style={{ background: `radial-gradient(circle at 30% 30%, ${p.accent}55, ${p.accent}22 50%, transparent), linear-gradient(135deg, ${p.accent}22, #ffffff)` }}
-        >
-          <div className="bg-grid absolute inset-0 opacity-60" />
-          <p className="display relative text-[clamp(2.5rem,6vw,5rem)] opacity-15" style={{ color: p.accent }}>
-            {p.name}
-          </p>
-        </div>
+          </Tilt>
+        ) : (
+          // App-only project: big icon + name instead of a website shot.
+          <div className="flex w-full flex-col items-start gap-5 sm:w-[60%]">
+            {p.icon && (
+              <Image
+                src={p.icon}
+                alt=""
+                width={112}
+                height={112}
+                className="h-20 w-20 rounded-[24%] shadow-2xl ring-4 ring-white/20 sm:h-28 sm:w-28"
+              />
+            )}
+            <p className="display text-[clamp(2rem,4.5vw,3.6rem)] leading-[0.9] text-white">{p.name}</p>
+            <p className="max-w-xs text-sm text-white/75">{p.tagline}</p>
+          </div>
+        )}
+
+        {p.icon && (
+          <div
+            className={`absolute bottom-0 right-0 hidden max-w-[210px] sm:block ${p.image ? "w-[30%]" : "w-[34%] max-w-[230px]"}`}
+          >
+            <div
+              className="transition-transform duration-700 group-hover:-translate-y-2"
+              style={{ transform: "rotateY(-14deg) rotateZ(4deg)" }}
+            >
+              <Phone>
+                <AppScreen app={p} compact />
+              </Phone>
+            </div>
+          </div>
+        )}
+      </div>
+    </Link>
+  );
+}
+
+function Info({ p, index }: { p: Project; index: number }) {
+  return (
+    <div className="flex flex-col">
+      <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+        <span className="text-ink">({num(index)})</span>
+        <span className="h-px w-8 bg-ink/20" />
+        <span>{p.category === "client" ? `Client — ${p.client}` : "Own product"}</span>
+      </div>
+
+      <h3 className="display mt-5 text-[clamp(2.6rem,5.4vw,5.4rem)] leading-[0.9]">
+        <Link href={`/work/${p.id}`} className="transition-colors hover:text-electric">
+          {p.name}
+        </Link>
+      </h3>
+      <p className="mt-5 text-xl font-medium leading-snug text-ink md:text-2xl">{p.tagline}</p>
+      <p className="mt-4 max-w-lg leading-relaxed text-ink-soft">{p.description}</p>
+
+      {p.results && (
+        <dl className="mt-8 grid grid-cols-2 gap-6">
+          {p.results.map((r) => (
+            <div key={r.label} className="border-t-2 border-lime pt-4">
+              <dt className="font-display text-2xl font-bold tracking-tight md:text-3xl">{r.value}</dt>
+              <dd className="mt-1 text-sm leading-snug text-ink-soft">{r.label}</dd>
+            </div>
+          ))}
+        </dl>
       )}
 
-      {showPhone && (
-        <div className="absolute bottom-0 right-0 hidden w-[34%] max-w-[210px] sm:block" data-parallax="0.08">
-          <div style={{ transform: "rotateY(-18deg) rotateX(4deg) rotateZ(3deg)" }}>
-            <Phone>
-              <AppScreen app={p} compact />
-            </Phone>
-          </div>
-        </div>
-      )}
+      <p className="mt-8 text-sm text-ink-soft">
+        <span className="font-semibold uppercase tracking-[0.14em] text-ink">Role</span> — {p.role}
+        <span className="mx-2 text-ink/25">/</span>
+        {p.tools.join(" · ")}
+      </p>
+
+      <div className="mt-8">
+        <Links p={p} />
+      </div>
     </div>
   );
 }
 
 export function WorkStack() {
-  const root = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (prefersReducedMotion()) return;
-    const mm = gsap.matchMedia();
-    mm.add("(min-width: 1024px)", () => {
-      const cards = gsap.utils.toArray<HTMLElement>(".stack-card", root.current);
-      cards.forEach((card, i) => {
-        const next = cards[i + 1];
-        if (!next) return;
-        gsap.to(card.querySelector(".stack-inner"), {
-          scale: 0.9,
-          rotateX: -6,
-          ease: "none",
-          scrollTrigger: { trigger: next, start: "top bottom", end: "top 110px", scrub: true },
-        });
-        gsap.to(card.querySelector(".stack-shade"), {
-          opacity: 0.55,
-          ease: "none",
-          scrollTrigger: { trigger: next, start: "top bottom", end: "top 110px", scrub: true },
-        });
-      });
-    });
-    return () => mm.revert();
-  }, []);
-
   return (
     <section id="work" className="relative mx-auto max-w-[1440px] px-5 py-20 md:px-10 md:py-28">
-      <div className="mb-14 grid gap-8 md:mb-20 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+      <div className="mb-16 grid gap-8 md:mb-24 lg:grid-cols-[1.4fr_1fr] lg:items-end">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted" data-reveal>
-            [ Selected work — case studies ]
+            [ Selected work — {featured.length} case studies ]
           </p>
           <Split className="display mt-5 text-[clamp(3rem,8vw,8rem)]" text={"Selected\n*work*"} />
         </div>
@@ -150,75 +188,20 @@ export function WorkStack() {
         </p>
       </div>
 
-      <div ref={root} className="space-y-8 lg:space-y-0">
+      <div className="space-y-20 md:space-y-28 lg:space-y-36">
         {featured.map((p, i) => {
-          const dark = i % 2 === 0;
+          const flip = i % 2 === 1;
           return (
             <article
               key={p.id}
-              className="stack-card perspective lg:sticky lg:top-[96px] lg:h-[calc(100vh-120px)] lg:min-h-[620px] lg:pb-8"
-              style={{ zIndex: i + 1 }}
+              data-reveal
+              className="grid items-center gap-8 md:gap-10 lg:grid-cols-12 lg:gap-14"
             >
-              <div
-                className={`stack-inner relative h-full origin-top overflow-hidden rounded-[2rem] border ${
-                  dark ? "border-white/10 bg-ink text-white" : "border-line bg-paper-2 text-ink"
-                }`}
-              >
-                <div
-                  aria-hidden
-                  className="absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full blur-3xl"
-                  style={{ background: `${p.accent}${dark ? "40" : "30"}` }}
-                />
-                <div className="relative grid h-full gap-8 p-6 md:p-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:p-12 [@media(min-width:1024px)_and_(max-height:860px)]:py-9">
-                  <div className="flex flex-col">
-                    <div className={`flex items-center justify-between gap-4 text-xs font-semibold uppercase tracking-[0.18em] ${dark ? "text-white/65" : "text-ink-soft"}`}>
-                      <span>[{String(i + 1).padStart(2, "0")}]</span>
-                      <span>{p.category === "client" ? `Client — ${p.client}` : "Own product"}</span>
-                    </div>
-                    <h3 className="display mt-6 text-[clamp(2.6rem,min(6vw,9vh),6rem)]">
-                      <Link href={`/work/${p.id}`} className={`transition-colors ${dark ? "hover:text-lime" : "hover:text-electric"}`}>
-                        {p.name}
-                      </Link>
-                    </h3>
-                    <p className={`mt-4 text-xl font-medium leading-snug md:text-2xl ${dark ? "text-white/90" : "text-ink"}`}>
-                      {p.tagline}
-                    </p>
-                    {/* Sticky cards can't be taller than the screen — on short laptops the results carry the story. */}
-                    <p
-                      className={`mt-4 max-w-lg leading-relaxed ${dark ? "text-white/70" : "text-ink-soft"} ${
-                        p.results ? "[@media(min-width:1024px)_and_(max-height:860px)]:hidden" : ""
-                      }`}
-                    >
-                      {p.description}
-                    </p>
-                    {p.results && (
-                      <dl className={`mt-6 grid grid-cols-2 gap-4 border-y py-5 ${dark ? "border-white/10" : "border-ink/10"}`}>
-                        {p.results.map((r) => (
-                          <div key={r.label}>
-                            <dt className={`font-display text-2xl font-bold tracking-tight md:text-3xl ${dark ? "text-lime" : "text-ink"}`}>{r.value}</dt>
-                            <dd className={`mt-1 text-xs leading-snug ${dark ? "text-white/70" : "text-ink-soft"}`}>{r.label}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    )}
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {p.tools.map((t) => (
-                        <span
-                          key={t}
-                          className={`rounded-full border px-3 py-1 text-xs font-medium ${dark ? "border-white/15 text-white/80" : "border-ink/10 text-ink-soft"}`}
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="mt-auto pt-8">
-                      <p className={`mb-3 text-xs uppercase tracking-[0.18em] ${dark ? "text-white/65" : "text-ink-soft"}`}>Role — {p.role}</p>
-                      <Links p={p} dark={dark} />
-                    </div>
-                  </div>
-                  <Media p={p} />
-                </div>
-                <div aria-hidden className="stack-shade pointer-events-none absolute inset-0 bg-black opacity-0" />
+              <div className={`lg:col-span-7 ${flip ? "lg:order-2" : ""}`}>
+                <Stage p={p} index={i} />
+              </div>
+              <div className={`lg:col-span-5 ${flip ? "lg:order-1" : ""}`}>
+                <Info p={p} index={i} />
               </div>
             </article>
           );

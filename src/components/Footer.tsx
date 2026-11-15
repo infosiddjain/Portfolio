@@ -15,7 +15,7 @@ export function Footer() {
               Start a project ↗
             </a>
             <p className="mt-4 max-w-sm text-muted">
-              Freelance React Native & Next.js developer — mobile apps, SaaS platforms and business websites.
+              Freelance React Native & Next.js developer — mobile apps, web apps and business websites.
             </p>
           </div>
           <div>
@@ -34,7 +34,15 @@ export function Footer() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Connect</p>
             <ul className="mt-4 space-y-2 font-medium">
-              <li><a href={`mailto:${CONTACT.email}`} className="hover:bg-lime">{CONTACT.email}</a></li>
+              <li className="font-display text-lg font-bold uppercase tracking-tight">{CONTACT.name}</li>
+              <li>
+                <span className="block text-xs uppercase tracking-[0.16em] text-muted">Email</span>
+                <a href={`mailto:${CONTACT.email}`} className="hover:bg-lime">{CONTACT.email}</a>
+              </li>
+              <li>
+                <span className="block text-xs uppercase tracking-[0.16em] text-muted">Support</span>
+                <a href={`mailto:${CONTACT.supportEmail}`} className="hover:bg-lime">{CONTACT.supportEmail}</a>
+              </li>
               <li><a href={CONTACT.phoneHref} className="hover:bg-lime">{CONTACT.phone}</a></li>
               {socialLinks.map((s) => (
                 <li key={s.id}>
@@ -52,8 +60,8 @@ export function Footer() {
         </div>
       </div>
 
-      <p aria-hidden className="display select-none whitespace-nowrap px-3 text-center text-[12.4vw] leading-[0.8] text-ink">
-        Siddharth<span className="text-outline">Jain</span>
+      <p aria-hidden className="display select-none whitespace-nowrap px-3 text-center text-[11.2vw] leading-[0.8] text-ink">
+        Siddharth <span className="text-outline">Jain</span>
       </p>
     </footer>
   );

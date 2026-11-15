@@ -61,7 +61,7 @@ export function HeroSection() {
             <span className="pulse-dot h-2 w-2 rounded-full bg-success" /> Available for freelance & contract work
           </span>
           <span>[ React Native · Next.js · Node.js ]</span>
-          <span className="hidden md:block">Est. 2021 — {CONTACT.timezone}</span>
+          <span className="hidden xl:block">Est. 2021 — {CONTACT.timezone}</span>
         </div>
 
         <div className="grid items-center gap-6 pb-12 pt-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-4 lg:pb-20">
@@ -91,14 +91,11 @@ export function HeroSection() {
               )}
             </h1>
 
-            <div className="mt-10 grid gap-8 md:grid-cols-[auto_1fr] md:items-end">
-              <div className="hidden md:block" data-hero-fade>
-                <RotatingBadge />
-              </div>
+            <div className="mt-10 grid gap-8 md:grid-cols-[1fr_auto] md:items-start">
               <div>
                 <p className="max-w-xl text-lg leading-relaxed text-ink-soft md:text-xl" data-hero-fade>
                   I&apos;m <strong className="font-semibold text-ink">Siddharth Jain</strong> — I design, build and
-                  launch mobile apps, SaaS platforms and business websites. From idea to Play Store, App Store
+                  launch mobile apps, web apps and business websites. From idea to Play Store, App Store
                   and the web.
                 </p>
                 <div className="mt-8 flex flex-wrap items-center gap-3" data-hero-fade>
@@ -120,7 +117,7 @@ export function HeroSection() {
                     See selected work
                   </a>
                 </div>
-                <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5" data-hero-fade>
+                <div className="mt-8 flex flex-col gap-4" data-hero-fade>
                   <div className="flex items-center gap-4">
                   <div className="flex -space-x-3">
                     {icons.map((p) => (
@@ -132,7 +129,7 @@ export function HeroSection() {
                     built & published by me
                   </p>
                   </div>
-                  <a href="#work" className="group flex items-center gap-3 border-l border-line pl-6 sm:pl-8">
+                  <a href="#work" className="group flex items-center gap-4">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-ink font-display text-xs font-bold text-lime">
                       USA
                     </span>
@@ -142,6 +139,9 @@ export function HeroSection() {
                     </span>
                   </a>
                 </div>
+              </div>
+              <div className="hidden md:block lg:hidden 2xl:block" data-hero-fade>
+                <RotatingBadge />
               </div>
             </div>
           </div>

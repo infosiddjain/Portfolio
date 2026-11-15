@@ -1,7 +1,7 @@
 import React from "react";
 import { MarqueeVelocity } from "./motion/MarqueeVelocity";
 
-const ITEMS = ["Mobile Apps", "Web Platforms", "SaaS Tools", "Business Websites", "Games", "Dashboards", "UI / UX"];
+const ITEMS = ["Mobile Apps", "Web Platforms", "Web Tools", "Business Websites", "Games", "Dashboards", "UI / UX"];
 
 /** Two counter-scrolling bands of huge type — one solid, one outlined, slightly rotated. */
 export function MarqueeBand() {

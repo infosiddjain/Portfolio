@@ -23,11 +23,11 @@ const services: {
     points: ["Store listing, review & policy compliance", "Push notifications, offline mode, deep links", "Payments, auth, analytics & crash reporting"],
   },
   {
-    title: "Web Apps & SaaS",
+    title: "Web Apps & Dashboards",
     tag: "Next.js · Node.js · MongoDB",
     timeline: "3–5 weeks",
     from: "₹80k",
-    text: "Dashboards, admin panels, portals and SaaS products — fast, secure and built to scale with your users.",
+    text: "Dashboards, admin panels, portals and web tools — fast, secure and built to scale with your users.",
     points: ["Role-based dashboards & admin panels", "REST APIs & third-party integrations", "Auth, billing & multi-tenant setups"],
   },
   {
@@ -83,9 +83,9 @@ export function ServicesSection() {
                 type="button"
                 onClick={() => setOpen(active ? -1 : i)}
                 aria-expanded={active}
-                className="relative flex w-full items-center gap-4 overflow-hidden py-7 text-left md:gap-10 md:py-9"
+                className="relative flex w-full items-center gap-4 overflow-hidden rounded-2xl px-4 py-7 text-left md:gap-10 md:px-8 md:py-9"
               >
-                <span className={`absolute inset-0 origin-bottom bg-lime transition-transform duration-500 ease-out ${active ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"}`} />
+                <span className={`absolute inset-0 origin-bottom rounded-2xl bg-lime transition-transform duration-500 ease-out ${active ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"}`} />
                 <span className="relative w-14 shrink-0 text-sm font-semibold text-muted md:w-20">( {String(i + 1).padStart(2, "0")} )</span>
                 <span className="display relative flex-1 text-[clamp(1.9rem,4.6vw,4.4rem)] transition-transform duration-500 group-hover:translate-x-3">
                   {s.title}
@@ -113,10 +113,10 @@ export function ServicesSection() {
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="grid gap-8 pb-10 md:grid-cols-2 lg:grid-cols-[5rem_1fr_1fr_auto] lg:gap-10">
+                    <div className="grid gap-8 px-4 pb-12 pt-8 md:grid-cols-2 md:px-8 md:pt-10 lg:grid-cols-[5rem_1fr_1fr_auto] lg:gap-10">
                       <span className="hidden lg:block" />
                       <p className="max-w-lg text-lg leading-relaxed text-ink-soft">{s.text}</p>
-                      <ul className="space-y-3">
+                      <ul className="space-y-4">
                         {s.points.map((p) => (
                           <li key={p} className="flex gap-3 text-[15px] text-ink">
                             <FiCheck className="mt-1 h-4 w-4 shrink-0 text-success" /> {p}
@@ -126,7 +126,8 @@ export function ServicesSection() {
                       <div className="flex flex-col items-start gap-4 md:col-span-2 md:flex-row md:items-center lg:col-span-1 lg:flex-col lg:items-end">
                         <span className="rounded-full bg-ink px-4 py-2 text-xs font-semibold uppercase tracking-wider text-lime">{s.timeline}</span>
                         {s.from && (
-                          <span className="rounded-full bg-lime px-4 py-2 text-xs font-bold uppercase tracking-wider text-ink">From {s.from}</span>
+                          // The header row already shows the price from sm up.
+                          <span className="rounded-full bg-lime px-4 py-2 text-xs font-bold uppercase tracking-wider text-ink sm:hidden">From {s.from}</span>
                         )}
                         <a href="#contact" className="border-b border-ink text-sm font-semibold uppercase tracking-wider hover:bg-lime">
                           Get started ↗
