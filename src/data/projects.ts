@@ -525,11 +525,15 @@ export const projects: readonly Project[] = [
     description:
       "An interactive time scrubber, group-meeting overlap finder, daylight map and seven custom themes — everything calculated offline.",
     category: "product",
-    kind: "web",
-    role: "Product Engineer",
-    tools: ["React", "TypeScript", "Tailwind CSS"],
-    links: { web: "https://timeatlas-web.vercel.app/" },
+    kind: "app",
+    role: "Founder · Mobile",
+    tools: ["React Native", "Next.js", "TypeScript"],
+    links: {
+      web: "https://timeatlas-web.vercel.app/",
+      playStore: "https://play.google.com/store/apps/details?id=com.timeatlas",
+    },
     image: "/projects/timeatlas.jpg",
+    icon: "/projects/icons/timeatlas.png",
   },
   {
     id: "expense",

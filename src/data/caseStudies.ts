@@ -14,11 +14,17 @@ export interface CaseStudy {
   readonly period?: string;
   readonly engagement: string;
   readonly challenge: string;
-  readonly approach: readonly { readonly title: string; readonly text: string }[];
+  readonly approach: readonly {
+    readonly title: string;
+    readonly text: string;
+  }[];
   readonly outcome: string;
 }
 
-const studies: Record<(typeof FEATURED_IDS)[number], Omit<CaseStudy, "slug">> = {
+const studies: Record<
+  (typeof FEATURED_IDS)[number],
+  Omit<CaseStudy, "slug">
+> = {
   gamerun: {
     engagement: "Client project — GameRun Inc.",
     challenge:
@@ -99,7 +105,8 @@ const studies: Record<(typeof FEATURED_IDS)[number], Omit<CaseStudy, "slug">> = 
         text: "Next.js and Tailwind CSS keep pages light, with a gallery and trust content that load quickly on mobile data.",
       },
     ],
-    outcome: "Live with WhatsApp and HubSpot enquiry flows for customers across Delhi NCR.",
+    outcome:
+      "Live with WhatsApp and HubSpot enquiry flows for customers across Delhi NCR.",
   },
   snakepad: {
     engagement: "My own product — designed, built and published",
@@ -145,7 +152,9 @@ const studies: Record<(typeof FEATURED_IDS)[number], Omit<CaseStudy, "slug">> = 
 
 export const caseStudySlugs = FEATURED_IDS as readonly string[];
 
-export function getCaseStudy(slug: string): { study: CaseStudy; project: Project; next: Project } | null {
+export function getCaseStudy(
+  slug: string,
+): { study: CaseStudy; project: Project; next: Project } | null {
   const data = studies[slug as keyof typeof studies];
   const project = projects.find((p) => p.id === slug);
   if (!data || !project) return null;
